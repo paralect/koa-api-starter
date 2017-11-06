@@ -1,3 +1,8 @@
+## v1.4.0 (2017-11-06)
+
+* Update dependencies
+* Update tests
+
 ## v1.3.0 (2017-10-18)
 
 * Update dependencies
