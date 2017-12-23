@@ -1,3 +1,7 @@
+## v1.5.0 (2017-12-23)
+
+* Add resource for work with entity `user`.
+
 ## v1.4.0 (2017-11-06)
 
 * Update dependencies
@@ -24,7 +28,7 @@
 ## v1.1.0 (2017-09-28)
 
 * Add validation of the schema in the validator using [Joi](https://github.com/hapijs/joi).
-* Add tests for all requests in the endpoint `/acccount`
+* Add tests for all requests in the endpoint `/account`
 
 **Bug fixes**
 
