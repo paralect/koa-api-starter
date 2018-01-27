@@ -1,3 +1,7 @@
+## v1.5.1 (2018-01-27)
+
+* Update npm dependencies
+
 ## v1.5.0 (2017-12-23)
 
 * Add resource for work with entity `user`.
