@@ -1,3 +1,7 @@
+## v1.5.3 (2018-02-14)
+
+* Fix usage of the logger
+
 ## v1.5.2 (2018-02-02)
 
 * Update npm dependencies
