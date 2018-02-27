@@ -16,4 +16,6 @@ services:
     ports:
       - "3001:3001"
     depends_on:
-        - mongo
+      - mongo
+    links:
+      - mongo
