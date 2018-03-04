@@ -1,6 +1,6 @@
 pipeline:
   run-api-starter-tests:
-    image: node:8.2
+    image: node:8.9.4
     commands:
       - ./bin/run.sh
     when:
@@ -9,5 +9,5 @@ pipeline:
 
 services:
   mongo:
-    image: mongo:3.4
+    image: mongo:3.6.3
 branches: [ master, "*:master" ]
