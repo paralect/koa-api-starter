@@ -1,3 +1,9 @@
+## v1.6.0 (2018-03-17)
+
+* Update mongoDB version
+* Update Mode.js version
+* Update npm dependencies
+
 ## v1.5.3 (2018-02-14)
 
 * Fix usage of the logger
