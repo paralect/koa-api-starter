@@ -1,0 +1,45 @@
+{
+  "projectName": "koa-api-starter",
+  "projectOwner": "paralect",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "ezhivitsa",
+      "name": "Evgeny Zhivitsa",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6461311?v=4",
+      "profile": "https://github.com/ezhivitsa",
+      "contributions": [
+        "code",
+        "doc",
+        "ideas",
+        "review",
+        "test"
+      ]
+    },
+    {
+      "login": "anorsich",
+      "name": "Andrew Orsich",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/681396?v=4",
+      "profile": "http://paralect.com",
+      "contributions": [
+        "doc",
+        "ideas",
+        "review"
+      ]
+    },
+    {
+      "login": "IharKrasnik",
+      "name": "Ihar",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/2302873?v=4",
+      "profile": "https://github.com/IharKrasnik",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    }
+  ]
+}
