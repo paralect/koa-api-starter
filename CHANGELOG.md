@@ -1,3 +1,8 @@
+## v1.6.1 (2018-05-13)
+
+* Update README
+* Update npm dependencies
+
 ## v1.6.0 (2018-03-17)
 
 * Update mongoDB version
