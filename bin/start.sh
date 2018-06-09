@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-compose up --detach --build
+docker-compose up -d --build
