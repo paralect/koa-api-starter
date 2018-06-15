@@ -1,8 +1,10 @@
-version: '3.3'  
+version: '3.6'  
 services:  
   mongo:
     command: mongod
     image: mongo:3.6.3
+    networks:
+      - ship
     ports:
       - "27017:27017" # map port to none standard port, to avoid conflicts with locally installed mongodb. 
     volumes:
@@ -11,11 +13,13 @@ services:
     build:
       context: "./"
       dockerfile: Dockerfile.dev
+    networks:
+      - ship
     volumes:
       - "./src:/app/src"
     ports:
       - "3001:3001"
-    depends_on:
-      - mongo
-    links:
-      - mongo
+
+networks:
+  ship:
+    name: ship_network
