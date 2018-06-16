@@ -2,7 +2,7 @@
 
 [![Stack](https://raw.githubusercontent.com/paralect/stack/master/stack-component-template/stack.png)](https://github.com/paralect/stack)
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Build Status](http://product-stack-ci.paralect.com/api/badges/paralect/koa-api-starter/status.svg)](http://product-stack-ci.paralect.com/paralect/koa-api-starter)
@@ -29,26 +29,33 @@ Out of the box support following features:
 9. JWT based authentication.
 10. Tests for endpoints.
 
-### Starting api
+## Start
 
-To start the project just run: `npm run development`. This command will start application on port `3001` and will automatically restart whenever you change any file in `./src` directory.
+In order to start server in the docker container you can use bash file `./bin/start.sh`:
+```bash
+$ ./bin/start.sh
+```
+
+To start the project not in the docker container just run: `npm run development`. This command will start the application on port `3001` and will automatically restart whenever you change any file in `./src` directory.
 
 ### Explanations of the files structure
 
 We try to keep things as simple as possible, so you can focus on building product instead of learning concepts.
 
 There are two main directories within project:
+
 1. [src/config](./src/config) - consist of configuration for the [environment](./src/config/index.js), [koa server](./src/config/koa.js) and [API routes](./src/config/routes).
-2. [src/config/routes](./src/config/routes) - consist of [public](./src/config/routes/public.js) (don't require jwt token) and [authenticated](./src/config/routes/authenticated.js) (require jwt token) routes and [middlewares](./src/config/routes/middlewares).
-  - [middlewares](./src/config/routes/middlewares) - koa middlewares which we use on every request (for example, get current user data from the database)
+2. [src/config/routes](./src/config/routes) - consist of [public](./src/config/routes/public.js) (don't require jwt token) and [authenticated](./src/config/routes/authenticated.js) (require jwt token) routes and [middlewares](./src/config/routes/middlewares).    
+    - [middlewares](./src/config/routes/middlewares) - koa middlewares which we use on every request (for example, get current user data from the database)
+
 3. [src/resources](./src/resources) - REST api resources and everything related to the resource:
-  - [database service](./src/resources/user/user.service.js) - resource service to work with database (MongoDB or other database)
-  - [database schema](./src/resources/user/user.schema.js) - database schema for the resource entity.
-  - [validators](./src/resources/account/validators/signup.validator.js) - request validation logic.
-  - [controllers](./src/resources/account/account.controller.js) - the central place for the request handling and data manipulation.
-  - [builders](./src/resource/user/user.builder.js) - creating database documents for testing.
-  - [factory](./src/resource/user/user.factory.js) - predefined types of database documents for testing.
-  - [tests](./src/resource/user/user.spec.js) - mocha tests for the endpoint.
+    - [database service](./src/resources/user/user.service.js) - resource service to work with database (MongoDB or other database)
+    - [database schema](./src/resources/user/user.schema.js) - database schema for the resource entity.
+    - [validators](./src/resources/account/validators/signup.validator.js) - request validation logic. You can use this validators inside of the validation middleware ([example in ./src/resources/account/public.js](./src/resources/account/public.js)) or you can use this validators inside of the controller ([example in ./src/resources/user/user.controller.js](./src/resources/user/user.controller.js))
+    - [controllers](./src/resources/account/account.controller.js) - the central place for the request handling and data manipulation.
+    - [builders](./src/resource/user/user.builder.js) - creating database documents for testing.
+    - [factory](./src/resource/user/user.factory.js) - predefined types of database documents for testing.
+    - [tests](./src/resource/user/user.spec.js) - mocha tests for the endpoint.
 
 All other files, that does not fit that structure should be placed straight in the `src` folder. We can always introduce more folders as we need them. Currently root folder consist following:
 
@@ -80,8 +87,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/6461311?v=4" width="100px;"/><br /><sub><b>Evgeny Zhivitsa</b></sub>](https://github.com/ezhivitsa)<br />[💻](https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa "Code") [📖](https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa "Documentation") [🤔](#ideas-ezhivitsa "Ideas, Planning, & Feedback") [👀](#review-ezhivitsa "Reviewed Pull Requests") [⚠️](https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa "Tests") | [<img src="https://avatars3.githubusercontent.com/u/681396?v=4" width="100px;"/><br /><sub><b>Andrew Orsich</b></sub>](http://paralect.com)<br />[📖](https://github.com/paralect/koa-api-starter/commits?author=anorsich "Documentation") [🤔](#ideas-anorsich "Ideas, Planning, & Feedback") [👀](#review-anorsich "Reviewed Pull Requests") | [<img src="https://avatars3.githubusercontent.com/u/2302873?v=4" width="100px;"/><br /><sub><b>Ihar</b></sub>](https://github.com/IharKrasnik)<br />[💻](https://github.com/paralect/koa-api-starter/commits?author=IharKrasnik "Code") [🤔](#ideas-IharKrasnik "Ideas, Planning, & Feedback") |
-| :---: | :---: | :---: |
+| [<img src="https://avatars2.githubusercontent.com/u/6461311?v=4" width="100px;"/><br /><sub><b>Evgeny Zhivitsa</b></sub>](https://github.com/ezhivitsa)<br />[💻](https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa "Code") [📖](https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa "Documentation") [🤔](#ideas-ezhivitsa "Ideas, Planning, & Feedback") [👀](#review-ezhivitsa "Reviewed Pull Requests") [⚠️](https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa "Tests") | [<img src="https://avatars3.githubusercontent.com/u/681396?v=4" width="100px;"/><br /><sub><b>Andrew Orsich</b></sub>](http://paralect.com)<br />[📖](https://github.com/paralect/koa-api-starter/commits?author=anorsich "Documentation") [🤔](#ideas-anorsich "Ideas, Planning, & Feedback") [👀](#review-anorsich "Reviewed Pull Requests") | [<img src="https://avatars3.githubusercontent.com/u/2302873?v=4" width="100px;"/><br /><sub><b>Ihar</b></sub>](https://github.com/IharKrasnik)<br />[💻](https://github.com/paralect/koa-api-starter/commits?author=IharKrasnik "Code") [🤔](#ideas-IharKrasnik "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/14125982?v=4" width="100px;"/><br /><sub><b>KuhArt</b></sub>](https://github.com/KuhArt)<br />[💻](https://github.com/paralect/koa-api-starter/commits?author=KuhArt "Code") |
+| :---: | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!

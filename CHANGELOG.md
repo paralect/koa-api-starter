@@ -1,3 +1,9 @@
+## v2.0.0 (2018-06-16)
+
+* Change approach for using validators
+* Add start script
+* Update npm dependencies
+
 ## v1.6.1 (2018-05-13)
 
 * Update README
