@@ -14,6 +14,7 @@
   "scripts": {
     "build": "run-s build:**",
     "build:email": "mjml ./src/assets/emails/*.mjml -o ./src/assets/emails/dist/",
+    "prestart": "npm run build",
     "start": "node src/app.js",
     "test": "run-s test:**",
     "test:eslint": "eslint ./src",
