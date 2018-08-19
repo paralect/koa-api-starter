@@ -1,3 +1,7 @@
+## v2.1.0 (2018-08-19)
+
+* Add ability to send signum and forgot password emails
+
 ## v2.0.0 (2018-06-16)
 
 * Change approach for using validators
