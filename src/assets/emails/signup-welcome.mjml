@@ -26,7 +26,7 @@
 
         <mj-button
           mj-class="btn"
-          href="{{apiUrl}}/account/verifyEmail/{{signupToken}}"
+          href="{{mailLinkUrl}}"
         >
           Verify Your Email
         </mj-button>

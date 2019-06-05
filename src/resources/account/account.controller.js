@@ -5,7 +5,7 @@ const emailService = require('email.service');
 const securityUtil = require('security.util');
 const config = require('config');
 
-const createUserAccount = async (userData) => {
+const createUserAccount = async (userData, applicationId) => {
   const salt = await securityUtil.generateSalt();
 
   const [hash, signupToken] = await Promise.all([
@@ -23,7 +23,14 @@ const createUserAccount = async (userData) => {
     signupToken,
   });
 
-  await emailService.sendSignupWelcome({ email: user.email, signupToken });
+  let mailLinkUrl = null;
+  if (applicationId) {
+    mailLinkUrl = `${config.apiUrl}/account/verifyEmail/${signupToken}?applicationId=${applicationId}`;
+  } else {
+    mailLinkUrl = `${config.apiUrl}/account/verifyEmail/${signupToken}`;
+  }
+
+  await emailService.sendSignupWelcome({ email: user.email, mailLinkUrl });
 
   return user;
 };
@@ -33,8 +40,9 @@ const createUserAccount = async (userData) => {
  * create auth token for user to login
  */
 exports.signup = async (ctx) => {
+  const { applicationId } = ctx.state;
   const userData = ctx.validatedRequest.value;
-  const user = await createUserAccount(userData);
+  const user = await createUserAccount(userData, applicationId);
 
   const response = {};
   if (config.isDev) {
@@ -48,15 +56,22 @@ exports.signup = async (ctx) => {
  * sets `emailVerified` to true if token is valid
  */
 exports.verifyEmail = async (ctx, next) => {
+  const { applicationId } = ctx.query;
   const data = ctx.validatedRequest.value;
   const user = await userService.markEmailAsVerified(data.userId);
 
-  const token = authService.createAuthToken({
-    userId: user._id,
-  });
-  const loginUrl = `${config.webUrl}?token=${token}`;
+  let redirectUrl = null;
+  if (applicationId) {
+    redirectUrl = `${applicationId}://signin`;
+  } else {
+    const token = authService.createAuthToken({
+      userId: user._id,
+    });
 
-  ctx.redirect(`${loginUrl}&emailVerification=true`);
+    redirectUrl = `${config.webUrl}?token=${token}&emailVerification=true`;
+  }
+
+  ctx.redirect(redirectUrl);
 };
 
 /**
@@ -79,6 +94,7 @@ exports.signin = async (ctx, next) => {
  * `forgotPasswordToken` field. If user not found, returns validator's error
  */
 exports.forgotPassword = async (ctx, next) => {
+  const { applicationId } = ctx.state;
   const data = ctx.validatedRequest.value;
   const user = await userService.findOne({ email: data.email });
 
@@ -89,13 +105,28 @@ exports.forgotPassword = async (ctx, next) => {
     await userService.updateResetPasswordToken(user._id, resetPasswordToken);
   }
 
+  let mailLinkUrl = null;
+  if (applicationId) {
+    mailLinkUrl = `${config.apiUrl}/account/redirect?to=${applicationId}://reset-password?token=${resetPasswordToken}`;
+  } else {
+    mailLinkUrl = `${config.landingUrl}/reset-password?token=${resetPasswordToken}`;
+  }
+
   await emailService.sendForgotPassword({
     email: user.email,
-    resetPasswordToken,
     firstName,
+    mailLinkUrl,
   });
 
   ctx.body = {};
+};
+
+/**
+ * Redirects to the url defined in "to" param
+ */
+exports.redirect = async (ctx, next) => {
+  const { to } = ctx.query;
+  ctx.redirect(to);
 };
 
 /**
@@ -111,11 +142,12 @@ exports.resetPassword = async (ctx, next) => {
 };
 
 exports.resendVerification = async (ctx, next) => {
+  const { applicationId } = ctx.state;
   const { email } = ctx.request.body;
   const user = await userService.findOne({ email });
 
   if (user) {
-    await emailService.sendSignupWelcome({ email, signupToken: user.signupToken });
+    await emailService.sendSignupWelcome({ email, signupToken: user.signupToken, applicationId });
   }
 
   ctx.body = {};

@@ -11,5 +11,6 @@ router.post('/signin', validate(validators.signin), controller.signin);
 router.post('/forgotPassword', validate(validators.forgotPassword), controller.forgotPassword);
 router.put('/resetPassword', validate(validators.resetPassword), controller.resetPassword);
 router.post('/resend', controller.resendVerification);
+router.get('/redirect', controller.redirect);
 
 module.exports = router.routes();

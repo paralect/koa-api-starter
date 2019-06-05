@@ -49,6 +49,25 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "arlovaalina",
+      "name": "arlovaalina",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/29101647?v=4",
+      "profile": "https://github.com/arlovaalina",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "SobakaSlava",
+      "name": "SobakaSlava",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/23057064?v=4",
+      "profile": "https://github.com/SobakaSlava",
+      "contributions": [
+        "code"
+      ]
     }
-  ]
+  ],
+  "repoType": "github"
 }
