@@ -3,8 +3,8 @@ const Joi = require('joi');
 const userSchema = {
   _id: Joi.string(),
   createdOn: Joi.date(),
-  firstName: Joi.string().allow(''),
-  lastName: Joi.string(),
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
   email: Joi.string().email({ minDomainAtoms: 2 }),
   passwordHash: Joi.string(),
   passwordSalt: Joi.string(),
