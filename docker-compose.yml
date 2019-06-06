@@ -1,12 +1,12 @@
-version: '3.6'  
-services:  
+version: '3.6'
+services:
   mongo:
     command: mongod
     image: mongo:3.6.3
     networks:
       - ship
     ports:
-      - "27017:27017" # map port to none standard port, to avoid conflicts with locally installed mongodb. 
+      - "27017:27017" # map port to none standard port, to avoid conflicts with locally installed mongodb.
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   api:
@@ -19,6 +19,8 @@ services:
       - "./src:/app/src"
     ports:
       - "3001:3001"
+    depends_on:
+      - "mongo"
 
 networks:
   ship:
