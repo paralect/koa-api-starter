@@ -1,6 +1,6 @@
 pipeline:
   run-api-starter-tests:
-    image: node:8.9.4
+    image: node:10.16.0
     commands:
       - ./bin/run.sh
     when:
