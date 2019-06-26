@@ -18,7 +18,7 @@ let base = {
     issuer: 'api',
   },
   mongo: {
-    connection: 'mongodb://localhost:27017/api',
+    connection: 'mongodb://root:rootPassword@localhost:27017/api?authSource=admin',
   },
   mailgun: {
     apiKey: 'key',
