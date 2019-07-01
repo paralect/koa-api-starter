@@ -8,7 +8,7 @@ let base = {
   env,
   port: process.env.PORT || 3001,
   isDev: env === 'development',
-  isTest: env === 'test',
+  isTest: env === 'test-local' || env === 'test-drone',
   landingUrl: 'http://localhost:3000',
   webUrl: 'http://localhost:3002',
   apiUrl: 'http://localhost:3001',
@@ -39,7 +39,7 @@ const loadLocalConfig = (name) => {
 };
 
 // local file can be used to customize any config values during development
-if (base.env === 'test') {
+if (base.env === 'test-local') {
   loadLocalConfig('test-local.js');
 } else {
   loadLocalConfig('local.js');
