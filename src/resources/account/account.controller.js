@@ -23,7 +23,9 @@ const createUserAccount = async (userData) => {
     signupToken,
   });
 
-  await emailService.sendSignupWelcome({ email: user.email, signupToken });
+  const verifyEmailUrl = `${config.apiUrl}/account/verifyEmail/${signupToken}`;
+
+  await emailService.sendSignupWelcome({ email: user.email, verifyEmailUrl });
 
   return user;
 };
@@ -89,9 +91,11 @@ exports.forgotPassword = async (ctx, next) => {
     await userService.updateResetPasswordToken(user._id, resetPasswordToken);
   }
 
+  const resetPasswordUrl = `${config.landingUrl}/reset-password?token=${resetPasswordToken}`;
+
   await emailService.sendForgotPassword({
     email: user.email,
-    resetPasswordToken,
+    resetPasswordUrl,
     firstName,
   });
 
