@@ -27,7 +27,7 @@
   "dependencies": {
     "@paralect/common-logger": "0.1.10",
     "@paralect/email-service": "0.1.0",
-    "@paralect/node-mongo": "1.0.0",
+    "@paralect/node-mongo": "1.1.0",
     "app-module-path": "2.2.0",
     "bcrypt": "3.0.6",
     "joi": "14.3.1",
