@@ -2,7 +2,10 @@ version: '3.6'
 services:
   mongo:
     command: mongod
-    image: mongo:3.6.3
+    image: mongo:4.0.10
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootPassword
     networks:
       - ship
     ports:
