@@ -1,3 +1,13 @@
+## v2.2.0 (2019-07-04)
+
+* Update dependencies
+* Adjust docker-compose to start api only when mongo is loaded
+* Adjust user schema and signup validators to allow signup and verifyEmail without name
+* Update node version to LTS
+* Add test docker-compose
+* Implement auth for mongo
+* Fix links in emails
+
 ## v2.1.0 (2018-08-19)
 
 * Add ability to send signum and forgot password emails
