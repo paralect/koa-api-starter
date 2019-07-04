@@ -9,5 +9,5 @@ pipeline:
 
 services:
   mongo:
-    image: mongo:3.6.3
+    image: mongo:4.0.10
 branches: [ master, "*:master" ]
