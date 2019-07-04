@@ -21,8 +21,13 @@ let base = {
     connection: 'mongodb://root:rootPassword@localhost:27017/api?authSource=admin',
   },
   mailgun: {
-    apiKey: 'key',
+    apiKey: 'apiKey',
     domain: 'domain',
+  },
+  google: {
+    clientId: 'clientId',
+    clientSecret: 'clientSecret',
+    redirectUri: 'redirectUri',
   },
 };
 
