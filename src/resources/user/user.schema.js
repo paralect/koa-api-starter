@@ -7,7 +7,6 @@ const userSchema = {
   lastName: Joi.string().required(),
   email: Joi.string().email({ minDomainAtoms: 2 }),
   passwordHash: Joi.string(),
-  passwordSalt: Joi.string(),
   signupToken: Joi.string(),
   resetPasswordToken: Joi.string()
     .allow(null)

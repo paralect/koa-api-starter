@@ -6,10 +6,8 @@ const securityUtil = require('security.util');
 const config = require('config');
 
 const createUserAccount = async (userData) => {
-  const salt = await securityUtil.generateSalt();
-
   const [hash, signupToken] = await Promise.all([
-    securityUtil.getHash(userData.password, salt),
+    securityUtil.getHash(userData.password),
     securityUtil.generateSecureToken(),
   ]);
 
@@ -17,7 +15,6 @@ const createUserAccount = async (userData) => {
     firstName: userData.firstName,
     lastName: userData.lastName,
     passwordHash: hash.toString(),
-    passwordSalt: salt.toString(),
     email: userData.email,
     isEmailVerified: false,
     signupToken,
