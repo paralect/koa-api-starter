@@ -24,7 +24,17 @@ services:
       - "3001:3001"
     depends_on:
       - "mongo"
-
+  scheduler:
+    command: npm run schedule-dev
+    build:
+      context: "./"
+      dockerfile: Dockerfile.dev
+    networks:
+      - ship
+    volumes:
+      - "./src:/app/src"
+    depends_on:
+      - mongo
 networks:
   ship:
     name: ship_network
