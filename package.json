@@ -1,6 +1,6 @@
 {
   "name": "koa-api-starter",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Koa api",
   "private": false,
   "main": "src/app.js",

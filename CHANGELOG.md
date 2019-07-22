@@ -1,3 +1,9 @@
+## v2.3.0 (2019-07-22)
+
+* Update dependencies
+* Remove salt
+* Add google authorization
+
 ## v2.2.0 (2019-07-04)
 
 * Update dependencies
