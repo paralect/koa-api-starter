@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const userService = require('./user.service');
+require('./user.handler');
 
 const userOmitFelds = ['passwordHash', 'signupToken', 'resetPasswordToken'];
 

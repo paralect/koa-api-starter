@@ -10,4 +10,6 @@ pipeline:
 services:
   mongo:
     image: mongo:4.0.10
+  redis:
+    image: redis:5.0.5
 branches: [ master, "*:master" ]

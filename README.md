@@ -28,6 +28,7 @@ Out of the box support following features:
 8. Production ready account API resource (singup, signin, forgot password, reset password functionality)
 9. JWT based authentication.
 10. Tests for endpoints.
+11. WebSocket configuration
 
 ## Prerequisites
 

@@ -18,6 +18,8 @@ process.on('unhandledRejection', (reason, p) => {
 const app = new Koa();
 require('./config/koa')(app);
 
+require('services/socketIo.service');
+
 app.listen(config.port, () => {
   logger.warn(`Api server listening on ${config.port}, in ${process.env.NODE_ENV} mode`);
 });
