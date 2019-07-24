@@ -16,7 +16,20 @@ Out of the box support following features:
 9. JWT based authentication.
 10. Tests for endpoints.
 
-### Starting api
+## Prerequisites
+
+#### Google authorization
+
+Fill data from [google](https://console.developers.google.com/apis/) in `src/config/environment/index.js`
+```
+google: {
+  clientId: 'clientId',
+  clientSecret: 'clientSecret',
+  redirectUri: 'redirectUri',
+}
+```
+
+## Start
 
 In order to start server in the docker container you can use bash file `./bin/start.sh`:
 ```bash
