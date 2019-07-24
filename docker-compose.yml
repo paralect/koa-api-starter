@@ -26,6 +26,8 @@ services:
       dockerfile: Dockerfile.dev
     networks:
       - ship
+    environment:
+      APP_ENV: development
     volumes:
       - "./src:/app/src"
     ports:

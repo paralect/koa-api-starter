@@ -4,7 +4,7 @@
 require('app-module-path').addPath(__dirname);
 global.logger = require('logger');
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.APP_ENV = process.env.APP_ENV || 'development';
 
 const { logger } = global;
 const config = require('config');
@@ -21,7 +21,7 @@ require('./config/koa')(app);
 require('services/socketIo.service');
 
 app.listen(config.port, () => {
-  logger.warn(`Api server listening on ${config.port}, in ${process.env.NODE_ENV} mode`);
+  logger.warn(`Api server listening on ${config.port}, in ${process.env.NODE_ENV} mode and ${process.env.APP_ENV} environment`);
 });
 
 module.exports = app;
