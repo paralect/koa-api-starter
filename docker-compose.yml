@@ -9,9 +9,17 @@ services:
     networks:
       - ship
     ports:
-      - "27017:27017" # map port to none standard port, to avoid conflicts with locally installed mongodb.
+      - "27017:27017"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  redis:
+    image: redis:5.0.5
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    networks:
+      - ship
+    ports:
+      - "6379:6379"
   api:
     build:
       context: "./"
@@ -22,8 +30,10 @@ services:
       - "./src:/app/src"
     ports:
       - "3001:3001"
+      - "8082:8082"
     depends_on:
       - "mongo"
+      - redis
   migrator:
     command: npm run migrate
     build:

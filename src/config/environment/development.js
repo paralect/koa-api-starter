@@ -5,4 +5,8 @@ module.exports = {
   jwt: {
     secret: 'the_secret',
   },
+  redis: {
+    host: 'redis',
+    port: 6379,
+  },
 };
