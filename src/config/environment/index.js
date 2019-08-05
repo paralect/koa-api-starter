@@ -24,6 +24,10 @@ let base = {
     apiKey: 'apiKey',
     domain: 'domain',
   },
+  redis: {
+    host: 'redis',
+    port: 6379,
+  },
   google: {
     clientId: 'clientId',
     clientSecret: 'clientSecret',
