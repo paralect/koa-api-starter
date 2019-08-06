@@ -1,15 +1,27 @@
-pipeline:
-  run-api-starter-tests:
+kind: pipeline
+name: default
+
+steps:
+  - name: run-api-starter-tests
     image: node:10.16.0
     commands:
       - ./bin/run.sh
     when:
-      status: [ failure, success ]
-      event: [ pull_request ]
+      status:
+        - failure
+        - success
+      event:
+        - pull_request
+      branch:
+        - master
+        - "*:master"
 
 services:
-  mongo:
+  - name: mongo
     image: mongo:4.0.10
-  redis:
+    ports:
+      - 27017
+  - name: redis
     image: redis:5.0.5
-branches: [ master, "*:master" ]
+    ports:
+      - 6379
