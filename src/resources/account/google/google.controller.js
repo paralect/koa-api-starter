@@ -53,8 +53,10 @@ exports.signinGoogleWithCode = async (ctx) => {
 
   ctx.assert(isValid, 404);
 
-  const user = await ensureAccountCreated(payload);
-  const token = authService.createAuthToken({ userId: user._id });
+  const { _id: userId } = await ensureAccountCreated(payload);
+  const token = authService.createAuthToken({ userId });
+
+  await userService.updateLastRequest(userId);
 
   return ctx.redirect(`${config.webUrl}?token=${token}`);
 };

@@ -15,6 +15,7 @@ const userSchema = {
   oauth: Joi.object().keys({
     google: Joi.boolean().default(false),
   }),
+  lastRequest: Joi.date(),
 };
 
 module.exports = obj => Joi.validate(obj, userSchema, { allowUnknown: true });

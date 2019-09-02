@@ -58,4 +58,15 @@ service.updateInfo = (_id, { email, firstName, lastName }) => {
   );
 };
 
+service.updateLastRequest = async (_id) => {
+  return service.atomic.update(
+    { _id },
+    {
+      $set: {
+        lastRequest: new Date(),
+      },
+    },
+  );
+};
+
 module.exports = service;
