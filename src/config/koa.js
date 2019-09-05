@@ -52,7 +52,7 @@ const routeErrorHandler = async (ctx, next) => {
 };
 
 module.exports = (app) => {
-  app.use(cors());
+  app.use(cors({ credentials: true }));
   app.use(helmet());
   app.use(bodyParser({ enableTypes: ['json', 'form', 'text'] }));
   app.use(requestLogger());

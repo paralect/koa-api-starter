@@ -1,8 +1,7 @@
-const userService = require('resources/user/user.service');
-const authService = require('auth.service');
-const googleService = require('resources/account/google/google.service.js');
-
 const config = require('config');
+const userService = require('resources/user/user.service');
+const googleService = require('resources/account/google/google.service.js');
+const authService = require('services/auth.service');
 
 const createUserAccount = async (userData) => {
   const user = await userService.create({
@@ -54,9 +53,10 @@ exports.signinGoogleWithCode = async (ctx) => {
   ctx.assert(isValid, 404);
 
   const { _id: userId } = await ensureAccountCreated(payload);
-  const token = authService.createAuthToken({ userId });
 
-  await userService.updateLastRequest(userId);
-
-  return ctx.redirect(`${config.webUrl}?token=${token}`);
+  await Promise.all([
+    userService.updateLastRequest(userId),
+    authService.setTokens(ctx, userId),
+  ]);
+  ctx.redirect(config.webUrl);
 };
