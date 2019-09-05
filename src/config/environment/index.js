@@ -12,13 +12,14 @@ let base = {
   landingUrl: 'http://localhost:3000',
   webUrl: 'http://localhost:3002',
   apiUrl: 'http://localhost:3001',
-  jwt: {
-    secret: 'jwt_secret',
-    audience: 'api',
-    issuer: 'api',
-  },
+  accessTokenExpiresIn: 3600 * 1000, // 1 hour
+  refreshTokenExpiresIn: 3600 * 1000 * 10, // 10 hours
   mongo: {
     connection: 'mongodb://root:rootPassword@localhost:27017/api?authSource=admin',
+  },
+  redis: {
+    host: 'redis',
+    port: 6379,
   },
   mailgun: {
     apiKey: 'apiKey',

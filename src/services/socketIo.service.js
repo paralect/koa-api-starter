@@ -1,22 +1,20 @@
 const io = require('socket.io')();
 const redis = require('socket.io-redis');
 const config = require('config');
-const { decodeToken } = require('auth.service');
+const tokenService = require('resources/token/token.service');
 
 io.adapter(redis({
   host: config.redis.host,
   port: config.redis.port,
 }));
 
-io.use((socket, next) => {
-  const { token } = socket.handshake.query;
-  const decodedToken = decodeToken(token);
+io.use(async (socket, next) => {
+  const { accessToken } = socket.handshake.query;
+  const userId = await tokenService.getUserIdByToken(accessToken);
 
-  if (decodedToken) {
+  if (userId) {
     // eslint-disable-next-line no-param-reassign
-    socket.handshake.data = {
-      userId: decodedToken._id,
-    };
+    socket.handshake.data = { userId };
 
     return next();
   }

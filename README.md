@@ -71,15 +71,18 @@ There are two main directories within project:
     - [factory](./src/resource/user/user.factory.js) - predefined types of database documents for testing.
     - [tests](./src/resource/user/user.spec.js) - mocha tests for the endpoint.
 
+4. [src/services](./src/services) - application services for various purposes. Not this directory contains the following services:
+    - [src/services/email.service.js](./src/services/email.service.js) - fake service for sending application emails.
+    - [src/services/socket.io.service.js](./src/services/socket.io.service.js) - service to work with sockets.
+    - [src/auth.service.js](./src/auth.service.js) - token based authentication helper
+
 All other files, that does not fit that structure should be placed straight in the `src` folder. We can always introduce more folders as we need them. Currently root folder consist following:
 
 1. [src/app.constants.js](./src/app.constants.js) - constant variables that are used in the application
 2. [src/app.js](./src/app.js) - starting point of the node.js application. It combine application configuration and start Koa http listener.
-3. [src/auth.service.js](./src/auth.service.js) - JWT based authentication helper. Consist logic of JWT token encryption/decryption. Can consist other authentication related functions.
-4. [src/db.js](./src/db.js) - handles connection to the MongoDB.
-5. [src/email.service.js](./src/email.service.js) - fake service for sending application emails.
-6. [src/logger.js](./src/logger.js) - application logger.
-7. [src/security.util.js](./src/security.util.js) - number of methods for generating secure tokens and comparing passwords with password hash.
+3. [src/db.js](./src/db.js) - handles connection to the MongoDB.
+4. [src/logger.js](./src/logger.js) - application logger.
+5. [src/security.util.js](./src/security.util.js) - number of methods for generating secure tokens and comparing passwords with password hash.
 
 ### List of improvements
 
