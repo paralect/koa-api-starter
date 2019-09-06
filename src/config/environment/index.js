@@ -9,31 +9,12 @@ let base = {
   port: process.env.PORT || 3001,
   isDev: env === 'development',
   isTest: env === 'test',
-  landingUrl: 'http://localhost:3000',
-  webUrl: 'http://localhost:3002',
-  apiUrl: 'http://localhost:3001',
   accessTokenExpiresIn: 3600 * 1000, // 1 hour
   refreshTokenExpiresIn: 3600 * 1000 * 10, // 10 hours
-  mongo: {
-    connection: 'mongodb://root:rootPassword@localhost:27017/api?authSource=admin',
-  },
-  redis: {
-    host: 'redis',
-    port: 6379,
-  },
-  mailgun: {
-    apiKey: 'apiKey',
-    domain: 'domain',
-  },
-  google: {
-    clientId: 'clientId',
-    clientSecret: 'clientSecret',
-    redirectUri: 'redirectUri',
-  },
   sessionTimeInMinutes: 30,
 };
 
-const envConfig = require(`./${env}.js`); // eslint-disable-line
+const envConfig = require(`./${env}.json`); // eslint-disable-line
 
 base = _.merge(base, envConfig || {});
 
