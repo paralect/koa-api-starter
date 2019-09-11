@@ -29,6 +29,7 @@ let base = {
     clientSecret: 'clientSecret',
     redirectUri: 'redirectUri',
   },
+  sessionTimeInMinutes: 30,
 };
 
 const envConfig = require(`./${env}.js`); // eslint-disable-line

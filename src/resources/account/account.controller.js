@@ -51,11 +51,11 @@ exports.signup = async (ctx) => {
  */
 exports.verifyEmail = async (ctx, next) => {
   const data = ctx.validatedRequest.value;
-  const user = await userService.markEmailAsVerified(data.userId);
+  const { _id: userId } = await userService.markEmailAsVerified(data.userId);
 
-  const token = authService.createAuthToken({
-    userId: user._id,
-  });
+  await userService.updateLastRequest(userId);
+
+  const token = authService.createAuthToken({ userId });
   const loginUrl = `${config.webUrl}?token=${token}`;
 
   ctx.redirect(`${loginUrl}&emailVerification=true`);
@@ -66,9 +66,10 @@ exports.verifyEmail = async (ctx, next) => {
  * Loads user by email and compare password hashes
  */
 exports.signin = async (ctx, next) => {
-  const signinData = ctx.validatedRequest.value;
+  const { userId } = ctx.validatedRequest.value;
+  const token = authService.createAuthToken({ userId });
 
-  const token = authService.createAuthToken({ userId: signinData.userId });
+  await userService.updateLastRequest(userId);
 
   ctx.body = {
     token,
