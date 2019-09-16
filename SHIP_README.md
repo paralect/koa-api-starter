@@ -13,9 +13,11 @@ Out of the box support following features:
 6. Code linting based on [paralect/eslint-config](https://github.com/paralect/eslint-config)
 7. Simplified request data validation and clean up based on [joi](https://github.com/hapijs/joi) and [koa-validate](https://www.npmjs.com/package/koa-validate)
 8. Production ready account API resource (singup, signin, forgot password, reset password functionality)
-9. JWT based authentication.
+9. Access token based authentication.
 10. Tests for endpoints.
-11. WebSocket configuration
+11. WebSocket server (socket.io)
+12. Database migrations
+13. Scheduler
 
 ## Prerequisites
 
@@ -46,7 +48,7 @@ We try to keep things as simple as possible, so you can focus on building produc
 There are two main directories within project:
 
 1. [src/config](./src/config) - consist of configuration for the [environment](./src/config/index.js), [koa server](./src/config/koa.js) and [API routes](./src/config/routes).
-2. [src/config/routes](./src/config/routes) - consist of [public](./src/config/routes/public.js) (don't require jwt token) and [authenticated](./src/config/routes/authenticated.js) (require jwt token) routes and [middlewares](./src/config/routes/middlewares).    
+2. [src/config/routes](./src/config/routes) - consist of [public](./src/config/routes/public.js) (don't require access token) and [authenticated](./src/config/routes/authenticated.js) (require access token) routes and [middlewares](./src/config/routes/middlewares).
     - [middlewares](./src/config/routes/middlewares) - koa middlewares which we use on every request (for example, get current user data from the database)
 
 3. [src/resources](./src/resources) - REST api resources and everything related to the resource:
@@ -62,7 +64,7 @@ All other files, that does not fit that structure should be placed straight in t
 
 1. [src/app.constants.js](./src/app.constants.js) - constant variables that are used in the application
 2. [src/app.js](./src/app.js) - starting point of the node.js application. It combine application configuration and start Koa http listener.
-3. [src/auth.service.js](./src/auth.service.js) - JWT based authentication helper. Consist logic of JWT token encryption/decryption. Can consist other authentication related functions.
+3. [src/auth.service.js](./src/auth.service.js) - authentication helper
 4. [src/db.js](./src/db.js) - handles connection to the MongoDB.
 5. [src/email.service.js](./src/email.service.js) - fake service for sending application emails.
 6. [src/logger.js](./src/logger.js) - application logger.
