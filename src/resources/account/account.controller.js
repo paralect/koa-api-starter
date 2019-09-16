@@ -67,12 +67,18 @@ exports.verifyEmail = async (ctx, next) => {
  * Loads user by email and compare password hashes
  */
 exports.signin = async (ctx, next) => {
-  const { userId } = ctx.validatedRequest.value;
+  const { user: { _id: userId }, shouldCompleteTwoFa } = ctx.validatedRequest.value;
 
-  await Promise.all([
-    userService.updateLastRequest(userId),
-    authService.setTokens(ctx, userId),
-  ]);
+  await userService.updateLastRequest(userId);
+
+  if (shouldCompleteTwoFa) {
+    ctx.body = { shouldCompleteTwoFa };
+
+    return;
+  }
+
+  await authService.setTokens(ctx, userId);
+
   ctx.body = { redirectUrl: config.webUrl };
 };
 

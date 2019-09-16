@@ -16,6 +16,10 @@ const userSchema = {
     google: Joi.boolean().default(false),
   }),
   lastRequest: Joi.date(),
+  twoFa: Joi.object().keys({
+    isEnabled: Joi.boolean().default(false),
+    secret: Joi.string(),
+  }).required(),
 };
 
 module.exports = obj => Joi.validate(obj, userSchema, { allowUnknown: true });

@@ -1,4 +1,5 @@
 const Joi = require('helpers/joi.adapter');
+const twoFaHelper = require('helpers/twoFa');
 
 const userService = require('resources/user/user.service');
 const securityUtil = require('security.util');
@@ -32,8 +33,10 @@ const schema = {
 };
 
 const validateFunc = async (signinData) => {
-  const user = await userService.findOne({ email: signinData.email });
   const errors = [];
+  let shouldCompleteTwoFa = false;
+  const user = await userService.findOne({ email: signinData.email });
+
   if (!user) {
     errors.push({ credentials: incorrectCredentials });
     return {
@@ -60,9 +63,25 @@ const validateFunc = async (signinData) => {
     };
   }
 
+  if (user.twoFa.isEnabled) {
+    if (signinData.twoFaCode) {
+      const isTwoFaCodeValid = twoFaHelper
+        .isTwoFaCodeValid(signinData.twoFaCode, user.twoFa.secret);
+
+      if (!isTwoFaCodeValid) {
+        errors.push({ twoFaCode: 'Two factor authentication code is incorrect' });
+
+        return { errors };
+      }
+    } else {
+      shouldCompleteTwoFa = true;
+    }
+  }
+
   return {
     value: {
-      userId: user._id,
+      user,
+      shouldCompleteTwoFa,
     },
     errors,
   };

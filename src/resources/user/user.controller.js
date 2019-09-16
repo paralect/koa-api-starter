@@ -1,8 +1,9 @@
 const _ = require('lodash');
+const twoFaHelper = require('helpers/twoFa');
 const userService = require('./user.service');
 require('./user.handler');
 
-const userOmitFelds = ['passwordHash', 'signupToken', 'resetPasswordToken'];
+const userOmitFelds = ['passwordHash', 'signupToken', 'resetPasswordToken', 'twoFa'];
 
 exports.getCurrent = async (ctx) => {
   const user = await userService.findById(ctx.state.user._id);
@@ -22,4 +23,34 @@ exports.updateCurrent = async (ctx) => {
   const user = await userService.updateInfo(ctx.state.user._id, userData);
 
   ctx.body = _.omit(user, userOmitFelds);
+};
+
+exports.getTwoFaState = async (ctx) => {
+  const { twoFa: { isEnabled: isTwoFaEnabled, secret: twoFaSecret }, email } = ctx.state.user;
+  const response = { isTwoFaEnabled };
+
+  if (isTwoFaEnabled) {
+    response.qrCode = await twoFaHelper.generateTwoFaQrCode(twoFaSecret, email);
+  }
+
+  ctx.body = response;
+};
+
+exports.switchTwoFaState = async (ctx) => {
+  const { twoFa: { isEnabled: isTwoFaEnabled }, _id: userId, email } = ctx.state.user;
+  const response = { isTwoFaEnabled: !isTwoFaEnabled };
+
+  if (isTwoFaEnabled) {
+    await userService.disableTwoFa(userId);
+  } else {
+    const userTwoFaSecret = twoFaHelper.generateTwoFaSecret();
+    const [qrCode] = await Promise.all([
+      twoFaHelper.generateTwoFaQrCode(userTwoFaSecret, email),
+      userService.enableTwoFa(userId, userTwoFaSecret),
+    ]);
+
+    response.qrCode = qrCode;
+  }
+
+  ctx.body = response;
 };
