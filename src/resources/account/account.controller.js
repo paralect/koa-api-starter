@@ -1,9 +1,9 @@
-const userService = require('resources/user/user.service');
-const authService = require('auth.service');
-const emailService = require('email.service');
-
-const securityUtil = require('security.util');
 const config = require('config');
+const securityUtil = require('security.util');
+const userService = require('resources/user/user.service');
+const tokenService = require('resources/token/token.service');
+const emailService = require('services/email.service');
+const authService = require('services/auth.service');
 
 const createUserAccount = async (userData) => {
   const [hash, signupToken] = await Promise.all([
@@ -39,26 +39,27 @@ exports.signup = async (ctx) => {
   const user = await createUserAccount(userData);
 
   const response = {};
+
   if (config.isDev) {
     response._signupToken = user.signupToken;
   }
+
   ctx.body = response;
 };
 
 /**
  * Verify user's email when user click a link from email
- * sets `emailVerified` to true if token is valid
  */
 exports.verifyEmail = async (ctx, next) => {
   const data = ctx.validatedRequest.value;
   const { _id: userId } = await userService.markEmailAsVerified(data.userId);
 
-  await userService.updateLastRequest(userId);
+  await Promise.all([
+    userService.updateLastRequest(userId),
+    authService.setTokens(ctx, userId),
+  ]);
 
-  const token = authService.createAuthToken({ userId });
-  const loginUrl = `${config.webUrl}?token=${token}`;
-
-  ctx.redirect(`${loginUrl}&emailVerification=true`);
+  ctx.redirect(config.webUrl);
 };
 
 /**
@@ -67,13 +68,12 @@ exports.verifyEmail = async (ctx, next) => {
  */
 exports.signin = async (ctx, next) => {
   const { userId } = ctx.validatedRequest.value;
-  const token = authService.createAuthToken({ userId });
 
-  await userService.updateLastRequest(userId);
-
-  ctx.body = {
-    token,
-  };
+  await Promise.all([
+    userService.updateLastRequest(userId),
+    authService.setTokens(ctx, userId),
+  ]);
+  ctx.body = { redirectUrl: config.webUrl };
 };
 
 /**
@@ -123,5 +123,29 @@ exports.resendVerification = async (ctx, next) => {
     await emailService.sendSignupWelcome({ email, signupToken: user.signupToken });
   }
 
+  ctx.body = {};
+};
+
+/**
+ * Allows to get updated access token and update refresh token
+ */
+exports.refreshToken = async (ctx, next) => {
+  const userId = await tokenService.getUserIdByToken(ctx.state.refreshToken);
+
+  if (!userId) {
+    ctx.status = 401;
+    ctx.body = {};
+    return;
+  }
+
+  await authService.setTokens(ctx, userId);
+  ctx.body = {};
+};
+
+/**
+ * Remove tokens for the user and logout
+ */
+exports.logout = async (ctx, next) => {
+  await authService.unsetTokens(ctx);
   ctx.body = {};
 };
