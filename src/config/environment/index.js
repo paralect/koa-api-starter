@@ -2,7 +2,7 @@ const _ = require('lodash');
 const path = require('path');
 const fs = require('fs');
 
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.APP_ENV || 'development';
 
 let base = {
   env,
