@@ -1,3 +1,4 @@
 .idea
 node_modules
-src/assets/emails/dist
+src/assets/emails/dist/*
+!src/assets/emails/dist/.gitkeep
