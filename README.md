@@ -2,7 +2,7 @@
 
 [![Stack](https://raw.githubusercontent.com/paralect/stack/master/stack-component-template/stack.png)](https://github.com/paralect/stack)
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Build Status](http://product-stack-ci.paralect.com/api/badges/paralect/koa-api-starter/status.svg)](http://product-stack-ci.paralect.com/paralect/koa-api-starter)
@@ -113,6 +113,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
     <td align="center"><a href="https://github.com/IharKrasnik"><img src="https://avatars3.githubusercontent.com/u/2302873?v=4" width="100px;" alt="Ihar"/><br /><sub><b>Ihar</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=IharKrasnik" title="Code">💻</a> <a href="#ideas-IharKrasnik" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/KuhArt"><img src="https://avatars3.githubusercontent.com/u/14125982?v=4" width="100px;" alt="KuhArt"/><br /><sub><b>KuhArt</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=KuhArt" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/NesterenkoNikita"><img src="https://avatars1.githubusercontent.com/u/12069883?v=4" width="100px;" alt="NesterenkoNikita"/><br /><sub><b>NesterenkoNikita</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=NesterenkoNikita" title="Code">💻</a> <a href="#review-NesterenkoNikita" title="Reviewed Pull Requests">👀</a> <a href="#ideas-NesterenkoNikita" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/SobakaSlava"><img src="https://avatars1.githubusercontent.com/u/23057064?v=4" width="100px;" alt="Nikita Solosnuk"/><br /><sub><b>Nikita Solosnuk</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=SobakaSlava" title="Code">💻</a> <a href="#review-SobakaSlava" title="Reviewed Pull Requests">👀</a> <a href="#ideas-SobakaSlava" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
