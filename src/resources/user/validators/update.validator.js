@@ -1,6 +1,8 @@
 const Joi = require('helpers/joi.adapter');
-
 const userService = require('resources/user/user.service');
+
+
+const emailInUseMessage = 'This email is already in use.';
 
 const schema = {
   firstName: Joi.string()
@@ -29,16 +31,18 @@ const schema = {
     }),
 };
 
-const validateFunc = async (data, pesistentData) => {
-  const userExist = await userService.exists({
-    _id: { $ne: pesistentData.state.user._id },
-    email: data.email,
-  });
+const validateFunc = async (data, persistentData) => {
   const errors = [];
 
-  if (userExist) {
-    errors.push({ email: 'This email is already in use.' });
-    return { errors };
+  const isEmailInUse = await userService.exists({
+    _id: { $ne: persistentData.state.user._id }, email: data.email,
+  });
+
+  if (isEmailInUse) {
+    errors.push({ email: emailInUseMessage });
+    return {
+      errors,
+    };
   }
 
   return {

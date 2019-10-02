@@ -7,11 +7,11 @@ const env = process.env.APP_ENV || 'development';
 let base = {
   env,
   port: process.env.PORT || 3001,
+  socketPort: process.env.SOCKET_PORT || 8082,
   isDev: env === 'development',
   isTest: env === 'test',
   accessTokenExpiresIn: 3600 * 1000, // 1 hour
   refreshTokenExpiresIn: 3600 * 1000 * 10, // 10 hours
-  sessionTimeInMinutes: 30,
 };
 
 const envConfig = require(`./${env}.json`); // eslint-disable-line

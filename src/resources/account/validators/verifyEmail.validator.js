@@ -1,6 +1,6 @@
 const Joi = require('helpers/joi.adapter');
-
 const userService = require('resources/user/user.service');
+
 
 const schema = {
   token: Joi.string().options({
@@ -11,8 +11,10 @@ const schema = {
 };
 
 const validateFunc = async (data) => {
-  const user = await userService.findOne({ signupToken: data.token });
   const errors = [];
+
+  const user = await userService.findOne({ signupToken: data.token });
+
   if (!user) {
     errors.push({ token: 'Token is invalid' });
     return {

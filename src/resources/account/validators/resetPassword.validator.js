@@ -1,6 +1,6 @@
 const Joi = require('helpers/joi.adapter');
-
 const userService = require('resources/user/user.service');
+
 
 const schema = {
   token: Joi.string(),
@@ -19,8 +19,9 @@ const schema = {
     }),
 };
 const validateFunc = async (data) => {
-  const user = await userService.findOne({ resetPasswordToken: data.token });
   const errors = [];
+
+  const user = await userService.findOne({ resetPasswordToken: data.token });
 
   if (!user) {
     errors.push({ token: 'Password reset link has expired or invalid' });

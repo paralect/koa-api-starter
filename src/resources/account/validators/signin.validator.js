@@ -1,7 +1,7 @@
 const Joi = require('helpers/joi.adapter');
-
 const userService = require('resources/user/user.service');
 const securityUtil = require('security.util');
+
 
 const incorrectCredentials = 'Incorrect email or password.';
 
@@ -32,8 +32,10 @@ const schema = {
 };
 
 const validateFunc = async (signinData) => {
-  const user = await userService.findOne({ email: signinData.email });
   const errors = [];
+
+  const user = await userService.findOne({ email: signinData.email });
+
   if (!user) {
     errors.push({ credentials: incorrectCredentials });
     return {

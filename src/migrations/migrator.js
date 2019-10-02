@@ -1,9 +1,12 @@
 require('moment-duration-format');
 const moment = require('moment');
+
+const logger = require('logger');
+
 const migrationLogService = require('./migrations-log/migration-log.service');
 const migrationService = require('./migration.service');
 
-const { logger } = global;
+
 const migrator = {};
 
 const run = async (migrations, curVersion) => {

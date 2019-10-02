@@ -4,8 +4,10 @@ const helmet = require('koa-helmet');
 const validate = require('koa-validate');
 const requestLogger = require('koa-logger');
 
-const { logger } = global;
+const logger = require('logger');
+
 const routes = require('./routes');
+
 
 const getArray = (obj) => {
   if (!obj) {

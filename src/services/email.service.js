@@ -7,8 +7,8 @@ const {
   landingUrl,
   apiUrl,
 } = require('config');
+const logger = require('logger');
 
-const { logger } = global;
 
 const mailService = new MailService({
   isSendEmail: !isTest,

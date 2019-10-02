@@ -1,7 +1,9 @@
 const io = require('socket.io')();
 const redis = require('socket.io-redis');
+
 const config = require('config');
 const tokenService = require('resources/token/token.service');
+
 
 io.adapter(redis({
   host: config.redis.host,
@@ -52,4 +54,4 @@ io.on('connection', (client) => {
   });
 });
 
-io.listen(8082);
+io.listen(config.socketPort);
