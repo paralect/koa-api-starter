@@ -2,7 +2,7 @@
 
 [![Stack](https://raw.githubusercontent.com/paralect/stack/master/stack-component-template/stack.png)](https://github.com/paralect/stack)
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Build Status](http://product-stack-ci.paralect.com/api/badges/paralect/koa-api-starter/status.svg)](http://product-stack-ci.paralect.com/paralect/koa-api-starter)
@@ -115,6 +115,9 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
     <td align="center"><a href="https://github.com/NesterenkoNikita"><img src="https://avatars1.githubusercontent.com/u/12069883?v=4" width="100px;" alt="NesterenkoNikita"/><br /><sub><b>NesterenkoNikita</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=NesterenkoNikita" title="Code">💻</a> <a href="#review-NesterenkoNikita" title="Reviewed Pull Requests">👀</a> <a href="#ideas-NesterenkoNikita" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/SobakaSlava"><img src="https://avatars1.githubusercontent.com/u/23057064?v=4" width="100px;" alt="Nikita Solosnuk"/><br /><sub><b>Nikita Solosnuk</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=SobakaSlava" title="Code">💻</a> <a href="#review-SobakaSlava" title="Reviewed Pull Requests">👀</a> <a href="#ideas-SobakaSlava" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/Mar1nka"><img src="https://avatars1.githubusercontent.com/u/25400321?v=4" width="100px;" alt="Mar1nka"/><br /><sub><b>Mar1nka</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=Mar1nka" title="Code">💻</a> <a href="#ideas-Mar1nka" title="Ideas, Planning, & Feedback">🤔</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/scherbenokk"><img src="https://avatars1.githubusercontent.com/u/11193538?v=4" width="100px;" alt="Kirill Scherbenok"/><br /><sub><b>Kirill Scherbenok</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=scherbenokk" title="Code">💻</a> <a href="#ideas-scherbenokk" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
