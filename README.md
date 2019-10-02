@@ -2,7 +2,7 @@
 
 [![Stack](https://raw.githubusercontent.com/paralect/stack/master/stack-component-template/stack.png)](https://github.com/paralect/stack)
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Build Status](http://product-stack-ci.paralect.com/api/badges/paralect/koa-api-starter/status.svg)](http://product-stack-ci.paralect.com/paralect/koa-api-starter)
@@ -106,8 +106,16 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/6461311?v=4" width="100px;"/><br /><sub><b>Evgeny Zhivitsa</b></sub>](https://github.com/ezhivitsa)<br />[💻](https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa "Code") [📖](https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa "Documentation") [🤔](#ideas-ezhivitsa "Ideas, Planning, & Feedback") [👀](#review-ezhivitsa "Reviewed Pull Requests") [⚠️](https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa "Tests") | [<img src="https://avatars3.githubusercontent.com/u/681396?v=4" width="100px;"/><br /><sub><b>Andrew Orsich</b></sub>](http://paralect.com)<br />[📖](https://github.com/paralect/koa-api-starter/commits?author=anorsich "Documentation") [🤔](#ideas-anorsich "Ideas, Planning, & Feedback") [👀](#review-anorsich "Reviewed Pull Requests") | [<img src="https://avatars3.githubusercontent.com/u/2302873?v=4" width="100px;"/><br /><sub><b>Ihar</b></sub>](https://github.com/IharKrasnik)<br />[💻](https://github.com/paralect/koa-api-starter/commits?author=IharKrasnik "Code") [🤔](#ideas-IharKrasnik "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/14125982?v=4" width="100px;"/><br /><sub><b>KuhArt</b></sub>](https://github.com/KuhArt)<br />[💻](https://github.com/paralect/koa-api-starter/commits?author=KuhArt "Code") |
-| :---: | :---: | :---: | :---: |
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/ezhivitsa"><img src="https://avatars2.githubusercontent.com/u/6461311?v=4" width="100px;" alt="Evgeny Zhivitsa"/><br /><sub><b>Evgeny Zhivitsa</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa" title="Code">💻</a> <a href="https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa" title="Documentation">📖</a> <a href="#ideas-ezhivitsa" title="Ideas, Planning, & Feedback">🤔</a> <a href="#review-ezhivitsa" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/paralect/koa-api-starter/commits?author=ezhivitsa" title="Tests">⚠️</a></td>
+    <td align="center"><a href="http://paralect.com"><img src="https://avatars3.githubusercontent.com/u/681396?v=4" width="100px;" alt="Andrew Orsich"/><br /><sub><b>Andrew Orsich</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=anorsich" title="Documentation">📖</a> <a href="#ideas-anorsich" title="Ideas, Planning, & Feedback">🤔</a> <a href="#review-anorsich" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/IharKrasnik"><img src="https://avatars3.githubusercontent.com/u/2302873?v=4" width="100px;" alt="Ihar"/><br /><sub><b>Ihar</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=IharKrasnik" title="Code">💻</a> <a href="#ideas-IharKrasnik" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/KuhArt"><img src="https://avatars3.githubusercontent.com/u/14125982?v=4" width="100px;" alt="KuhArt"/><br /><sub><b>KuhArt</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=KuhArt" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/NesterenkoNikita"><img src="https://avatars1.githubusercontent.com/u/12069883?v=4" width="100px;" alt="NesterenkoNikita"/><br /><sub><b>NesterenkoNikita</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=NesterenkoNikita" title="Code">💻</a> <a href="#review-NesterenkoNikita" title="Reviewed Pull Requests">👀</a> <a href="#ideas-NesterenkoNikita" title="Ideas, Planning, & Feedback">🤔</a></td>
+  </tr>
+</table>
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
