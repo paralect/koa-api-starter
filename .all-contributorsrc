@@ -60,6 +60,17 @@
         "review",
         "ideas"
       ]
+    },
+    {
+      "login": "SobakaSlava",
+      "name": "Nikita Solosnuk",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/23057064?v=4",
+      "profile": "https://github.com/SobakaSlava",
+      "contributions": [
+        "code",
+        "review",
+        "ideas"
+      ]
     }
   ],
   "repoType": "github",
