@@ -35,7 +35,8 @@ const validateFunc = async (data, persistentData) => {
   const errors = [];
 
   const isEmailInUse = await userService.exists({
-    _id: { $ne: persistentData.state.user._id }, email: data.email,
+    _id: { $ne: persistentData.state.user._id },
+    email: data.email,
   });
 
   if (isEmailInUse) {

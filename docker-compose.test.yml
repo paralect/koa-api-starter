@@ -1,8 +1,8 @@
 version: '3.6'
 services:
   mongo-test:
-    command: mongod
-    image: mongo:4.0.10
+    image: mongo:4.2
+    command: "--replSet rs-test --bind_ip_all"
     networks:
       - ship_test
     ports:

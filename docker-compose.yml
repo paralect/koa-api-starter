@@ -1,8 +1,8 @@
 version: '3.6'
 services:
   mongo:
-    command: mongod
-    image: mongo:4.0.10
+    image: mongo:4.2
+    command: "--replSet rs --bind_ip_all"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootPassword

@@ -1,6 +1,6 @@
 {
   "mongo": {
-    "connection": "mongodb://mongo-test:27017/api-test"
+    "connection": "mongodb://mongo-test:27017/api-test?replicaSet=rs-test"
   },
   "redis": {
     "host": "redis-test",

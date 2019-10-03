@@ -9,11 +9,11 @@ const defineRoutes = (app) => {
   app.use(extractTokens);
   app.use(tryToAttachUser);
 
-  publicRoutes.mount(app);
+  publicRoutes(app);
 
   app.use(auth);
 
-  authenticatedRoutes.mount(app);
+  authenticatedRoutes(app);
 };
 
 module.exports = defineRoutes;

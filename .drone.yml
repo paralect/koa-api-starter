@@ -3,9 +3,9 @@ name: default
 
 steps:
   - name: run-api-starter-tests
-    image: node:10.16.0
+    image: docker/compose:1.24.1
     commands:
-      - ./bin/run.sh
+      - ./bin/test.sh
     when:
       status:
         - failure
@@ -15,13 +15,3 @@ steps:
       branch:
         - master
         - "*:master"
-
-services:
-  - name: mongo
-    image: mongo:4.0.10
-    ports:
-      - 27017
-  - name: redis
-    image: redis:5.0.5
-    ports:
-      - 6379
