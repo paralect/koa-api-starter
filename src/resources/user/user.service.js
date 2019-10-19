@@ -1,4 +1,4 @@
-const { streamable } = require('node-mongo');
+const { streamable } = require('@paralect/node-mongo');
 
 const db = require('db');
 const constants = require('app.constants');
