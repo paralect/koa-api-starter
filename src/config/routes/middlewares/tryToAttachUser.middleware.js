@@ -1,6 +1,7 @@
 const userService = require('resources/user/user.service');
 const tokenService = require('resources/token/token.service');
 
+
 const tryToAttachUser = async (ctx, next) => {
   if (!ctx.state.accessToken) {
     return next();
@@ -12,7 +13,7 @@ const tryToAttachUser = async (ctx, next) => {
     return next();
   }
 
-  ctx.state.user = await userService.findById(userId);
+  ctx.state.user = await userService.findOne(userId);
   return next();
 };
 

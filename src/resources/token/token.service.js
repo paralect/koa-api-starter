@@ -1,13 +1,16 @@
 const _ = require('lodash');
+
 const db = require('db');
 const securityUtil = require('security.util');
 const config = require('config');
 const { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH, TOKEN_TYPES } = require('app.constants');
+
 const schema = require('./token.schema');
+
 
 const service = db.createService(DATABASE_DOCUMENTS.TOKENS, schema);
 
-service.ensureIndex({ expireAt: 1 }, { expireAfterSeconds: 0 });
+service.createIndex({ expireAt: 1 }, { expireAfterSeconds: 0 });
 
 const createToken = async (userId, type, expireAt) => {
   const value = await securityUtil.generateSecureToken(TOKEN_SECURITY_LENGTH);

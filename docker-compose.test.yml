@@ -1,23 +1,40 @@
 version: '3.6'
 services:
-  mongo:
-    command: mongod
-    image: mongo:4.0.10
+  mongo-test:
+    image: mongo:4.2
+    command: "--replSet rs-test --bind_ip_all"
     networks:
-      - ship
+      - ship_test
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  redis:
+  redis-test:
     image: redis:5.0.5
     command: ["redis-server", "--appendonly", "yes"]
     hostname: redis
     networks:
-      - ship
+      - ship_test
     ports:
-      - "6379:6379"
+      - "6380:6379"
+  api-test:
+    command: npm test
+    build:
+      context: "./"
+      dockerfile: Dockerfile
+    networks:
+      - ship_test
+    environment:
+      APP_ENV: test
+    volumes:
+      - "./src:/app/src"
+    ports:
+      - "4001:3001"
+      - "9082:8082"
+    depends_on:
+      - "mongo-test"
+      - "redis-test"
 
 networks:
-  ship:
-    name: ship_network
+  ship_test:
+    name: ship_test_network

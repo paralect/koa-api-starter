@@ -1,12 +1,12 @@
 {
   "mongo": {
-    "connection": "mongodb://mongo:27017/my_database"
+    "connection": "mongodb://mongo-test:27017/api-test?replicaSet=rs-test"
   },
   "redis": {
-    "host": "redis",
+    "host": "redis-test",
     "port": 6379
   },
-  "apiUrl": "http://localhost:3001",
+  "apiUrl": "http://localhost:4001",
   "webUrl": "http://localhost:3002",
   "landingUrl": "http://localhost:3000",
   "mailgun": {

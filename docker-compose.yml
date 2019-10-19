@@ -1,8 +1,8 @@
 version: '3.6'
 services:
   mongo:
-    command: mongod
-    image: mongo:4.0.10
+    image: mongo:4.2
+    command: "--replSet rs --bind_ip_all"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootPassword
@@ -35,7 +35,7 @@ services:
       - "8082:8082"
     depends_on:
       - "mongo"
-      - redis
+      - "redis"
   migrator:
     command: npm run migrate
     build:
@@ -46,7 +46,7 @@ services:
     volumes:
       - "./src:/app/src"
     depends_on:
-      - mongo
+      - "mongo"
   scheduler:
     command: npm run schedule-dev
     build:
@@ -57,7 +57,7 @@ services:
     volumes:
       - "./src:/app/src"
     depends_on:
-      - mongo
+      - "mongo"
 networks:
   ship:
     name: ship_network

@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+
+const logger = require('logger');
 const config = require('config');
 
-const { logger } = global;
 
 exports.createAuthToken = ({ userId }) => {
   const payload = {

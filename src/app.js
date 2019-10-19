@@ -2,13 +2,13 @@
 // for example: require('lib/mongo/idGenerator')
 // all options can be found here: https://gist.github.com/branneman/8048520
 require('app-module-path').addPath(__dirname);
-global.logger = require('logger');
+const Koa = require('koa');
 
 process.env.APP_ENV = process.env.APP_ENV || 'development';
 
-const { logger } = global;
 const config = require('config');
-const Koa = require('koa');
+const logger = require('logger');
+
 
 process.on('unhandledRejection', (reason, p) => {
   logger.error('Possibly Unhandled Rejection at: Promise ', p, ' reason: ', reason);

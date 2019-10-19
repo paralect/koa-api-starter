@@ -1,6 +1,6 @@
 const Joi = require('helpers/joi.adapter');
-
 const userService = require('resources/user/user.service');
+
 
 const schema = {
   firstName: Joi.string()
@@ -51,9 +51,11 @@ const schema = {
 };
 
 const validateFunc = async (data) => {
-  const userExists = await userService.exists({ email: data.email });
   const errors = [];
-  if (userExists) {
+
+  const isUserExist = await userService.exists({ email: data.email });
+
+  if (isUserExist) {
     errors.push({ email: 'User with this email is already registered.' });
     return {
       errors,

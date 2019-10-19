@@ -1,21 +1,51 @@
-const Joi = require('joi');
-
 const userSchema = {
-  _id: Joi.string(),
-  createdOn: Joi.date(),
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
-  email: Joi.string().email({ minDomainAtoms: 2 }),
-  passwordHash: Joi.string(),
-  signupToken: Joi.string(),
-  resetPasswordToken: Joi.string()
-    .allow(null)
-    .default(null),
-  isEmailVerified: Joi.boolean().default(false),
-  oauth: Joi.object().keys({
-    google: Joi.boolean().default(false),
-  }),
-  lastRequest: Joi.date(),
+  $jsonSchema: {
+    required: ['firstName', 'lastName', 'email'],
+    properties: {
+      _id: {
+        bsonType: 'string',
+      },
+      createdOn: {
+        bsonType: 'date',
+      },
+      updatedOn: {
+        bsonType: 'date',
+      },
+      firstName: {
+        bsonType: 'string',
+      },
+      lastName: {
+        bsonType: 'string',
+      },
+      email: {
+        bsonType: 'string',
+        pattern: '^.+@.+\\..+$',
+      },
+      passwordHash: {
+        bsonType: 'string',
+      },
+      signupToken: {
+        bsonType: 'string',
+      },
+      resetPasswordToken: {
+        bsonType: 'string',
+      },
+      isEmailVerified: {
+        bsonType: 'bool',
+      },
+      oauth: {
+        bsonType: 'object',
+        properties: {
+          google: {
+            bsonType: 'bool',
+          },
+        },
+      },
+      lastRequest: {
+        bsonType: 'date',
+      },
+    },
+  },
 };
 
-module.exports = obj => Joi.validate(obj, userSchema, { allowUnknown: true });
+module.exports = userSchema;

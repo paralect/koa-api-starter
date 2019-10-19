@@ -1,5 +1,7 @@
 const db = require('db');
+
 const schema = require('./migration-log.schema.js');
+
 
 const service = db.createService('__migrationLog', schema);
 
@@ -16,7 +18,7 @@ service.startMigrationLog = (_id, startTime, migrationVersion) => {
   }, { upsert: true });
 };
 
-service.failMigrationLog = (_id, finishTime, err) => service.atomic.update({ _id }, {
+service.failMigrationLog = (_id, finishTime, err) => service.update({ _id }, {
   $set: {
     finishTime,
     status: 'failed',
@@ -25,7 +27,7 @@ service.failMigrationLog = (_id, finishTime, err) => service.atomic.update({ _id
   },
 });
 
-service.finishMigrationLog = (_id, finishTime, duration) => service.atomic.update({ _id }, {
+service.finishMigrationLog = (_id, finishTime, duration) => service.update({ _id }, {
   $set: {
     finishTime,
     status: 'completed',

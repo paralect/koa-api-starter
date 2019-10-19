@@ -1,14 +1,16 @@
-const db = require('db');
+const { streamable } = require('node-mongo');
 
+const db = require('db');
 const constants = require('app.constants');
 const securityUtil = require('security.util');
 
 const schema = require('./user.schema');
 
-const service = db.createService(constants.DATABASE_DOCUMENTS.USERS, schema);
+
+const service = streamable(db.createService(constants.DATABASE_DOCUMENTS.USERS, schema));
 
 service.markEmailAsVerified = (_id) => {
-  return service.update(
+  return service.updateWithFunction(
     {
       _id,
     },
@@ -33,7 +35,7 @@ service.updateResetPasswordToken = (_id, token) => {
 service.updatePassword = async (_id, newPassword) => {
   const hash = await securityUtil.getHash(newPassword);
 
-  return service.update(
+  return service.updateWithFunction(
     {
       _id,
     },
@@ -45,7 +47,7 @@ service.updatePassword = async (_id, newPassword) => {
 };
 
 service.updateInfo = (_id, { email, firstName, lastName }) => {
-  return service.update(
+  return service.updateWithFunction(
     {
       _id,
     },
@@ -59,7 +61,7 @@ service.updateInfo = (_id, { email, firstName, lastName }) => {
 };
 
 service.updateLastRequest = async (_id) => {
-  return service.atomic.update(
+  return service.update(
     { _id },
     {
       $set: {

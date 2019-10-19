@@ -1,18 +1,36 @@
-const Joi = require('joi');
-
 const schema = {
-  _id: Joi.string(),
-  companyId: Joi.string()
-    .required(),
-  startTime: Joi.date()
-    .required(),
-  finishTime: Joi.date(),
-  status: Joi.string()
-    .required(),
-  error: Joi.string(),
-  errorStack: Joi.string(),
-  duration: Joi.string(),
-  migrationVersion: Joi.number(),
+  $jsonSchema: {
+    required: ['companyId', 'startTime', 'finishTime', 'status'],
+    properties: {
+      _id: {
+        type: 'string',
+      },
+      companyId: {
+        type: 'string',
+      },
+      startTime: {
+        bsonType: 'date',
+      },
+      finishTime: {
+        bsonType: 'date',
+      },
+      status: {
+        type: 'string',
+      },
+      error: {
+        type: 'string',
+      },
+      errorStack: {
+        type: 'string',
+      },
+      duration: {
+        type: 'string',
+      },
+      migrationVersion: {
+        type: 'number',
+      },
+    },
+  },
 };
 
-module.exports = obj => Joi.validate(obj, schema, { allowUnknown: false });
+module.exports = schema;

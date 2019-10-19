@@ -1,7 +1,8 @@
-const config = require('config');
 const { OAuth2Client } = require('google-auth-library');
 
-const { logger } = global;
+const config = require('config');
+const logger = require('logger');
+
 
 const client = new OAuth2Client(
   config.google.clientId,

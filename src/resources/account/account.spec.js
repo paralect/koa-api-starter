@@ -3,10 +3,10 @@ const supertest = require('supertest');
 
 const db = require('db');
 const constants = require('app.constants');
-
 const userFactory = require('resources/user/user.factory');
 
 const server = require('../../app');
+
 
 const request = supertest.agent(server.listen());
 
