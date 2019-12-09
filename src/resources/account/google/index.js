@@ -1,7 +1,8 @@
 const config = require('config');
 const userService = require('resources/user/user.service');
-const googleService = require('resources/account/google/google.service.js');
+const googleService = require('services/google.service.js');
 const authService = require('services/auth.service');
+
 
 const createUserAccount = async (userData) => {
   const user = await userService.create({
@@ -17,7 +18,7 @@ const createUserAccount = async (userData) => {
   return user;
 };
 
-exports.getOAuthUrl = async (ctx) => {
+const getOAuthUrl = async (ctx) => {
   ctx.redirect(googleService.oAuthURL);
 };
 
@@ -46,7 +47,7 @@ const ensureAccountCreated = async (payload) => {
   return createUserAccount(payload);
 };
 
-exports.signinGoogleWithCode = async (ctx) => {
+const signinGoogleWithCode = async (ctx) => {
   const { code } = ctx.request.query;
   const { isValid, payload } = await googleService.exchangeCodeForToken(code);
 
@@ -59,4 +60,10 @@ exports.signinGoogleWithCode = async (ctx) => {
     authService.setTokens(ctx, userId),
   ]);
   ctx.redirect(config.webUrl);
+};
+
+
+module.exports.register = (router) => {
+  router.get('/signin/google/auth', getOAuthUrl);
+  router.get('/signin/google', signinGoogleWithCode);
 };
