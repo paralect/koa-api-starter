@@ -27,6 +27,17 @@
     "schedule-dev": "nodemon --watch ./src ./src/scheduler ./src/scheduler.js",
     "schedule": "node ./src/scheduler.js"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "git add"
+    ]
+  },
   "dependencies": {
     "@paralect/common-logger": "0.1.10",
     "@paralect/email-service": "0.2.0",
@@ -63,6 +74,8 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.14.2",
     "faker": "4.1.0",
+    "husky": "4.0.0-beta.5",
+    "lint-staged": "9.5.0",
     "mjml": "4.4.0-beta.2",
     "mocha": "6.1.4",
     "npm-run-all": "4.1.5",
