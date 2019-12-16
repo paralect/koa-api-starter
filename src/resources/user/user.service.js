@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { streamable } = require('@paralect/node-mongo');
 
 const db = require('db');
@@ -69,6 +70,12 @@ service.updateLastRequest = async (_id) => {
       },
     },
   );
+};
+
+const userOmitFelds = ['passwordHash', 'signupToken', 'resetPasswordToken'];
+
+service.getPublic = (user) => {
+  return _.omit(user, userOmitFelds);
 };
 
 module.exports = service;
