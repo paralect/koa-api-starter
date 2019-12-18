@@ -1,5 +1,4 @@
 const Joi = require('helpers/joi.adapter');
-const userService = require('resources/user/user.service');
 
 
 const schema = {
@@ -7,6 +6,7 @@ const schema = {
     .email({ minDomainAtoms: 2 })
     .trim()
     .lowercase()
+    .required()
     .options({
       language: {
         any: { empty: '!!Email is required' },
@@ -17,15 +17,6 @@ const schema = {
 
 const validateFunc = async (data) => {
   const errors = [];
-
-  const isUserExist = await userService.exists({ email: data.email });
-
-  if (!isUserExist) {
-    errors.push({
-      email: `Couldn't find account associated with ${data.email}. Please try again`,
-    });
-    return { errors };
-  }
 
   return {
     value: data,

@@ -1,4 +1,7 @@
-exports.signin = (request, user, password = 'qwerty') => {
+const { USER } = require('./constants');
+
+
+exports.signin = (request, user, password = USER.DEFAULT_PASSWORD) => {
   return new Promise((resolve, reject) => {
     request
       .post('/account/signin')
@@ -12,7 +15,7 @@ exports.signin = (request, user, password = 'qwerty') => {
           return;
         }
 
-        resolve(res.body.token);
+        resolve();
       });
   });
 };

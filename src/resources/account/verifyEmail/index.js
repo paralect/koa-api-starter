@@ -22,6 +22,5 @@ const handler = async (ctx, next) => {
 };
 
 module.exports.register = (router) => {
-  router.post('/signup', validate(validator), handler);
   router.get('/verifyEmail/:token', validate(validator), handler);
 };

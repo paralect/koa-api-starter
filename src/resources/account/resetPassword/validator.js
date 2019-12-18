@@ -3,11 +3,13 @@ const userService = require('resources/user/user.service');
 
 
 const schema = {
-  token: Joi.string(),
+  token: Joi.string()
+    .required(),
   password: Joi.string()
     .trim()
     .min(6)
     .max(20)
+    .required()
     .options({
       language: {
         string: {
