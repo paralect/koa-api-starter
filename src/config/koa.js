@@ -36,7 +36,7 @@ const routeErrorHandler = async (ctx, next) => {
       const errors = getArray(ctx.errors);
 
       const { message } = err;
-      const messages = Object.keys(err).map(key => ({ [key]: err[key] }));
+      const messages = Object.keys(err).map((key) => ({ [key]: err[key] }));
 
       if (!ctx.body) {
         if (errors.length + messages.length) {

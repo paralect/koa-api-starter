@@ -10,7 +10,7 @@ const validator = require('./validator');
  * Sign in user
  * Loads user by email and compare password hashes
  */
-const handler = async (ctx, next) => {
+const handler = async (ctx) => {
   const { userId } = ctx.validatedRequest.value;
 
   await Promise.all([

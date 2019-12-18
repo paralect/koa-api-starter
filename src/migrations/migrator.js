@@ -10,7 +10,7 @@ const migrationService = require('./migration.service');
 const migrator = {};
 
 const run = async (migrations, curVersion) => {
-  const newMigrations = migrations.filter(migration => migration.version > curVersion)
+  const newMigrations = migrations.filter((migration) => migration.version > curVersion)
     .sort((a, b) => a.version - b.version);
 
   if (!newMigrations.length) {

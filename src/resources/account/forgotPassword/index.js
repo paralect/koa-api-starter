@@ -12,7 +12,7 @@ const validator = require('./validator');
  * If user is found by email - sends forgot password email and update
  * `forgotPasswordToken` field. If user not found, returns validator's error
  */
-const handler = async (ctx, next) => {
+const handler = async (ctx) => {
   const data = ctx.validatedRequest.value;
   const user = await userService.findOne({ email: data.email });
 

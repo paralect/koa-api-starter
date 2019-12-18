@@ -5,7 +5,7 @@ const authService = require('services/auth.service');
 /**
  * Allows to get updated access token and update refresh token
  */
-const handler = async (ctx, next) => {
+const handler = async (ctx) => {
   const userId = await tokenService.getUserIdByToken(ctx.state.refreshToken);
 
   if (!userId) {

@@ -41,7 +41,7 @@ service.getMigrations = () => {
   });
 };
 
-service.setNewMigrationVersion = version => service.findOneAndUpdate({ _id }, {
+service.setNewMigrationVersion = (version) => service.findOneAndUpdate({ _id }, {
   $set: {
     version,
   },

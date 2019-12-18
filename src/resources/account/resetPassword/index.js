@@ -7,7 +7,7 @@ const validator = require('./validator');
 /**
  * Updates user password, used in combination with forgotPassword
  */
-const handler = async (ctx, next) => {
+const handler = async (ctx) => {
   const { userId, password } = ctx.validatedRequest.value;
 
   await userService.updatePassword(userId, password);

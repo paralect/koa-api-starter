@@ -1,12 +1,18 @@
 module.exports = {
-  "extends": "@paralect/eslint-config",
+  "extends": "airbnb-base",
+  "env": {
+    "mocha": true,
+    "node": true,
+  },
   "rules": {
+    "arrow-body-style": 0,
+    "linebreak-style": 0,
+    "no-underscore-dangle": 0,
     "import/no-extraneous-dependencies": ["error", {
       "devDependencies": [
-        "**/tests/**",
         "**/*.spec.js",
         "**/*.builder.js",
-        "**/*.factory.js",
+        "./src/tests/**",
       ],
     }],
   },
@@ -15,9 +21,9 @@ module.exports = {
       "node": {
         "moduleDirectory": [
           "src",
-          "node_modules"
+          "node_modules",
         ],
       },
-    }
-  }
+    },
+  },
 };

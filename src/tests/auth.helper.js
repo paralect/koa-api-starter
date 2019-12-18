@@ -9,7 +9,7 @@ exports.signin = (request, user, password = USER.DEFAULT_PASSWORD) => {
         email: user.email,
         password,
       })
-      .end((err, res) => {
+      .end((err) => {
         if (err) {
           reject(err);
           return;

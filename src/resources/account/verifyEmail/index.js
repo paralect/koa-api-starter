@@ -9,7 +9,7 @@ const validator = require('./validator');
 /**
  * Verify user's email when user click a link from email
  */
-const handler = async (ctx, next) => {
+const handler = async (ctx) => {
   const data = ctx.validatedRequest.value;
   const { _id: userId } = await userService.markEmailAsVerified(data.userId);
 
