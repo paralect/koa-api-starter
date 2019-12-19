@@ -199,6 +199,16 @@ describe('/account', () => {
     });
   });
 
+  it('should return an error that the email address is incorrect', (done) => {
+    testsHelper.test(done, async () => {
+      const response = await request.post('/account/resend')
+        .send({ email: 'not@email' })
+        .expect(400);
+
+      response.body.should.be.deep.equal({ errors: [ERRORS.INCORRECT_EMAIL] });
+    });
+  });
+
   it('should successfully refresh token', (done) => {
     testsHelper.test(done, async () => {
       const response = await request
