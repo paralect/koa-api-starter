@@ -12,24 +12,26 @@ const validator = require('./validator');
  * If user is found by email - sends forgot password email and update
  * `forgotPasswordToken` field. If user not found, returns validator's error
  */
-const handler = async (ctx, next) => {
+const handler = async (ctx) => {
   const data = ctx.validatedRequest.value;
   const user = await userService.findOne({ email: data.email });
 
-  let { resetPasswordToken } = user;
-  const { firstName } = user;
-  if (!resetPasswordToken) {
-    resetPasswordToken = await securityUtil.generateSecureToken();
-    await userService.updateResetPasswordToken(user._id, resetPasswordToken);
+  if (user) {
+    let { resetPasswordToken } = user;
+    const { firstName } = user;
+    if (!resetPasswordToken) {
+      resetPasswordToken = await securityUtil.generateSecureToken();
+      await userService.updateResetPasswordToken(user._id, resetPasswordToken);
+    }
+
+    const resetPasswordUrl = `${config.landingUrl}/reset-password?token=${resetPasswordToken}`;
+
+    await emailService.sendForgotPassword({
+      email: user.email,
+      resetPasswordUrl,
+      firstName,
+    });
   }
-
-  const resetPasswordUrl = `${config.landingUrl}/reset-password?token=${resetPasswordToken}`;
-
-  await emailService.sendForgotPassword({
-    email: user.email,
-    resetPasswordUrl,
-    firstName,
-  });
 
   ctx.body = {};
 };

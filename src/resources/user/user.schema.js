@@ -1,6 +1,6 @@
 const userSchema = {
   $jsonSchema: {
-    required: ['firstName', 'lastName', 'email'],
+    required: ['firstName', 'lastName', 'email', 'oauth', 'isEmailVerified'],
     properties: {
       _id: {
         bsonType: 'string',
@@ -35,6 +35,7 @@ const userSchema = {
       },
       oauth: {
         bsonType: 'object',
+        required: ['google'],
         properties: {
           google: {
             bsonType: 'bool',

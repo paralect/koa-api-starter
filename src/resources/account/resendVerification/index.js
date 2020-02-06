@@ -1,9 +1,12 @@
-const userService = require('resources/user/user.service');
 const emailService = require('services/email.service');
+const validate = require('middlewares/validate');
+const userService = require('resources/user/user.service');
+
+const validator = require('./validator');
 
 
-const handler = async (ctx, next) => {
-  const { email } = ctx.request.body;
+const handler = async (ctx) => {
+  const { email } = ctx.validatedRequest.value;
   const user = await userService.findOne({ email });
 
   if (user) {
@@ -14,5 +17,5 @@ const handler = async (ctx, next) => {
 };
 
 module.exports.register = (router) => {
-  router.post('/resend', handler);
+  router.post('/resend', validate(validator), handler);
 };

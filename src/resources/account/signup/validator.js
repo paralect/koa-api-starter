@@ -5,6 +5,7 @@ const userService = require('resources/user/user.service');
 const schema = {
   firstName: Joi.string()
     .trim()
+    .required()
     .options({
       language: {
         any: {
@@ -16,6 +17,7 @@ const schema = {
     .required(),
   lastName: Joi.string()
     .trim()
+    .required()
     .options({
       language: {
         any: {
@@ -29,6 +31,7 @@ const schema = {
     .email({ minDomainAtoms: 2 })
     .trim()
     .lowercase()
+    .required()
     .options({
       language: {
         string: { email: '!!Please enter a valid email address' },
@@ -39,6 +42,7 @@ const schema = {
     .trim()
     .min(6)
     .max(40)
+    .required()
     .options({
       language: {
         string: {

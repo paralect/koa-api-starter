@@ -10,6 +10,7 @@ const schema = {
     .email({ minDomainAtoms: 2 })
     .trim()
     .lowercase()
+    .required()
     .options({
       language: {
         string: { email: '!!Please enter a valid email address' },
@@ -18,8 +19,7 @@ const schema = {
     }),
   password: Joi.string()
     .trim()
-    .min(6)
-    .max(40)
+    .required()
     .options({
       language: {
         string: {

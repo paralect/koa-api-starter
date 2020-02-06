@@ -13,7 +13,9 @@ const tryToAttachUser = async (ctx, next) => {
     return next();
   }
 
-  ctx.state.user = await userService.findOne(userId);
+  ctx.state.user = await userService.findOneAndUpdate({ _id: userId }, {
+    $set: { lastRequest: new Date() },
+  });
   return next();
 };
 

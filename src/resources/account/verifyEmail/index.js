@@ -9,7 +9,7 @@ const validator = require('./validator');
 /**
  * Verify user's email when user click a link from email
  */
-const handler = async (ctx, next) => {
+const handler = async (ctx) => {
   const data = ctx.validatedRequest.value;
   const { _id: userId } = await userService.markEmailAsVerified(data.userId);
 
@@ -22,6 +22,5 @@ const handler = async (ctx, next) => {
 };
 
 module.exports.register = (router) => {
-  router.post('/signup', validate(validator), handler);
   router.get('/verifyEmail/:token', validate(validator), handler);
 };

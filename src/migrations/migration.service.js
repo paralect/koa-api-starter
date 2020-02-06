@@ -32,7 +32,8 @@ service.getMigrations = () => {
   return getMigrationNames().then((names) => {
     migrations = names.map((name) => {
       const migrationPath = path.join(migrationsPath, name);
-      return require(migrationPath); // eslint-disable-line
+      // eslint-disable-next-line import/no-dynamic-require, global-require
+      return require(migrationPath);
     });
 
     return migrations;
@@ -41,7 +42,7 @@ service.getMigrations = () => {
   });
 };
 
-service.setNewMigrationVersion = version => service.findOneAndUpdate({ _id }, {
+service.setNewMigrationVersion = (version) => service.findOneAndUpdate({ _id }, {
   $set: {
     version,
   },

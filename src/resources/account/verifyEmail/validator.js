@@ -3,11 +3,13 @@ const userService = require('resources/user/user.service');
 
 
 const schema = {
-  token: Joi.string().options({
-    language: {
-      any: { empty: '!!Token is required' },
-    },
-  }),
+  token: Joi.string()
+    .required()
+    .options({
+      language: {
+        any: { empty: '!!Token is required' },
+      },
+    }),
 };
 
 const validateFunc = async (data) => {

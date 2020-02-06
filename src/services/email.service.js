@@ -13,7 +13,7 @@ const logger = require('logger');
 const mailService = new MailService({
   isSendEmail: !isTest,
   mailgun,
-  templatesDir: join(__dirname, './assets/emails/dist'), // absolute path to templates directory
+  templatesDir: join(__dirname, '../assets/emails/dist'), // absolute path to templates directory
 });
 
 const _sendEmail = async (template, emailData, data = {}) => {
