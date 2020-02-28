@@ -1,30 +1,25 @@
 const { join } = require('path');
 const MailService = require('@paralect/email-service');
 
-const {
-  mailgun,
-  isTest,
-  landingUrl,
-  apiUrl,
-} = require('config');
+const config = require('config');
 const logger = require('logger');
 
 
 const mailService = new MailService({
-  isSendEmail: !isTest,
-  mailgun,
-  templatesDir: join(__dirname, '../assets/emails/dist'), // absolute path to templates directory
+  isSendEmail: !config.isTest,
+  mailgun: config.mailgun,
+  templatesDir: join(__dirname, './assets/emails/dist'), // absolute path to templates directory
 });
 
-const _sendEmail = async (template, emailData, data = {}) => {
+const sendEmail = async (template, { to, subject }, data = {}) => {
   try {
     await mailService.send(
       template,
       data,
       {
         from: 'Excited User <me@samples.mailgun.org>',
-        to: emailData.to,
-        subject: emailData.subject,
+        to,
+        subject,
       },
     );
     logger.debug(`Sending email [${template}]. The data is: ${JSON.stringify(data)}`);
@@ -33,31 +28,29 @@ const _sendEmail = async (template, emailData, data = {}) => {
   }
 };
 
-exports.sendSignupWelcome = (data) => {
-  _sendEmail(
+exports.sendSignupWelcome = ({ email, signupToken }) => {
+  return sendEmail(
     'signup-welcome.html',
     {
-      subject: 'Signup',
-      to: data.email,
+      subject: 'Sign Up',
+      to: email,
     },
     {
-      ...data,
-      landingUrl,
-      apiUrl,
+      verifyEmailUrl: `${config.apiUrl}/account/verifyEmail/${signupToken}`,
     },
   );
 };
 
-exports.sendForgotPassword = (data) => {
-  _sendEmail(
+exports.sendForgotPassword = ({ email, firstName, resetPasswordToken }) => {
+  return sendEmail(
     'forgot-password.html',
     {
       subject: 'Forgot Password',
-      to: data.email,
+      to: email,
     },
     {
-      ...data,
-      landingUrl,
+      firstName,
+      resetPasswordUrl: `${config.webUrl}/reset?token=${resetPasswordToken}`,
     },
   );
 };

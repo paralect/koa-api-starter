@@ -181,7 +181,7 @@ describe('/account', () => {
         .expect(200);
 
       const updated = await userService.findOne({ _id: user._id });
-      updated.resetPasswordToken.should.be.equal('');
+      updated.should.not.have.property('resetPasswordToken');
       updated.passwordHash.should.not.be.equal(user.passwordHash);
 
       response.body.should.be.deep.equal({});

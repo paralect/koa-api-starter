@@ -1,3 +1,4 @@
+const securityUtil = require('security.util');
 const validate = require('middlewares/validate');
 const userService = require('resources/user/user.service');
 
@@ -10,8 +11,18 @@ const validator = require('./validator');
 const handler = async (ctx) => {
   const { userId, password } = ctx.validatedRequest.value;
 
-  await userService.updatePassword(userId, password);
-  await userService.updateResetPasswordToken(userId, '');
+  const passwordHash = await securityUtil.getHash(password);
+  await userService.update(
+    { _id: userId },
+    {
+      $set: {
+        passwordHash,
+      },
+      $unset: {
+        resetPasswordToken: 1,
+      },
+    },
+  );
 
   ctx.body = {};
 };

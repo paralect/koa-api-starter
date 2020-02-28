@@ -5,16 +5,18 @@ const validator = require('./validator');
 
 
 const handler = async (ctx) => {
+  let { user } = ctx.state;
+
   const userData = ctx.validatedRequest.value;
 
-  let user;
-  if (Object.keys(userData).length) {
-    user = await userService.findOneAndUpdate({ _id: ctx.state.user._id }, {
-      $set: { ...userData },
-    });
+  if (Object.keys(userData).length > 0) {
+    user = await userService.findOneAndUpdate(
+      { _id: user._id },
+      { $set: userData },
+    );
   }
 
-  ctx.body = userService.getPublic(user || ctx.state.user);
+  ctx.body = userService.getPublic(user);
 };
 
 module.exports.register = (router) => {

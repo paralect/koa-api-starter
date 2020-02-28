@@ -1,4 +1,3 @@
-const config = require('config');
 const validate = require('middlewares/validate');
 const authService = require('services/auth.service');
 const userService = require('resources/user/user.service');
@@ -17,7 +16,7 @@ const handler = async (ctx) => {
     userService.updateLastRequest(userId),
     authService.setTokens(ctx, userId),
   ]);
-  ctx.body = { redirectUrl: config.webUrl };
+  ctx.body = userService.getPublic(ctx.state.user);
 };
 
 module.exports.register = (router) => {
