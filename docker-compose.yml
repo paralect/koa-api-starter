@@ -3,9 +3,6 @@ services:
   mongo:
     image: mongo:4.2
     command: "--replSet rs --bind_ip_all"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=rootPassword
     networks:
       - ship
     ports:

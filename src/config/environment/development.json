@@ -1,6 +1,6 @@
 {
   "mongo": {
-    "connection": "mongodb://root:rootPassword@mongo:27017/api-development?authSource=admin&replicaSet=rs"
+    "connection": "mongodb://mongo:27017/api-development?replicaSet=rs"
   },
   "jwt": {
     "secret": "the_secret"
