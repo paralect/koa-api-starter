@@ -1,6 +1,6 @@
 {
   "mongo": {
-    "connection": "mongodb://mongo:27017/api-development?replicaSet=rs"
+    "connection": "mongodb://mongo:27017/api-development?replicaSet=ship-rs"
   },
   "jwt": {
     "secret": "the_secret"

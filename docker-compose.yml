@@ -1,8 +1,9 @@
 version: '3.6'
 services:
   mongo:
+    container_name: ship-mongo
     image: mongo:4.2
-    command: "--replSet rs --bind_ip_all"
+    command: "--replSet ship-rs --bind_ip_all"
     networks:
       - ship
     ports:
@@ -10,6 +11,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   redis:
+    container_name: ship-redis
     image: redis:5.0.5
     command: ["redis-server", "--appendonly", "yes"]
     hostname: redis
@@ -18,6 +20,7 @@ services:
     ports:
       - "6379:6379"
   api:
+    container_name: ship-api
     build:
       context: "./"
       dockerfile: Dockerfile.dev
@@ -34,6 +37,7 @@ services:
       - "mongo"
       - "redis"
   migrator:
+    container_name: ship-migrator
     command: npm run migrate
     build:
       context: "./"
@@ -45,6 +49,7 @@ services:
     depends_on:
       - "mongo"
   scheduler:
+    container_name: ship-scheduler
     command: npm run schedule-dev
     build:
       context: "./"
@@ -57,4 +62,4 @@ services:
       - "mongo"
 networks:
   ship:
-    name: ship_network
+    name: ship-network
