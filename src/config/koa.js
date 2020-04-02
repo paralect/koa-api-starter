@@ -1,4 +1,4 @@
-const cors = require('kcors');
+const cors = require('@koa/cors');
 const bodyParser = require('koa-bodyparser');
 const helmet = require('koa-helmet');
 const validate = require('koa-validate');
