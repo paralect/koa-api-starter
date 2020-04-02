@@ -1,11 +1,8 @@
 const schema = {
   $jsonSchema: {
-    required: ['companyId', 'startTime', 'finishTime', 'status'],
+    required: ['startTime', 'status', 'migrationVersion'],
     properties: {
       _id: {
-        type: 'string',
-      },
-      companyId: {
         type: 'string',
       },
       startTime: {
