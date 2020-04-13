@@ -1,0 +1,4 @@
+FROM mongo:4.2
+ADD ./replicate-test.js /replicate-test.js
+ADD ./setup-test.sh /setup-test.sh
+CMD ["/setup-test.sh"]

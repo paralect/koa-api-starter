@@ -46,7 +46,7 @@ describe('/users', async () => {
       const response = await verifiedUserRequest.get('/users/current')
         .expect(200);
 
-      const autoUpdatedFields = ['lastRequest'];
+      const autoUpdatedFields = ['lastRequest', 'updatedOn'];
       updated = autoUpdatedFields.reduce((acc, field) => ({
         ...acc,
         [field]: response.body[field],

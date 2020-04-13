@@ -1,63 +1,76 @@
 version: '3.6'
 services:
   mongo:
+    container_name: ship-mongo
     image: mongo:4.2
-    command: "--replSet rs --bind_ip_all"
+    command: --replSet ship-rs --bind_ip_all
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=rootPassword
+      - MONGO_INITDB_ROOT_PASSWORD=root
     networks:
       - ship
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  mongo-replicator:
+    container_name: ship-mongo-replicator
+    build: ./mongo-replicator
+    networks:
+      - ship
+    depends_on:
+      - mongo
   redis:
+    container_name: ship-redis
     image: redis:5.0.5
-    command: ["redis-server", "--appendonly", "yes"]
+    command: redis-server --appendonly yes
     hostname: redis
     networks:
       - ship
     ports:
-      - "6379:6379"
+      - 6379:6379
   api:
+    container_name: ship-api
     build:
-      context: "./"
+      context: .
       dockerfile: Dockerfile.dev
     networks:
       - ship
     environment:
       APP_ENV: development
     volumes:
-      - "./src:/app/src"
+      - ./src:/app/src
     ports:
-      - "3001:3001"
-      - "8082:8082"
+      - 3001:3001
+      - 8082:8082
     depends_on:
-      - "mongo"
-      - "redis"
+      - mongo-replicator
+      - redis
   migrator:
+    container_name: ship-migrator
     command: npm run migrate
     build:
-      context: "./"
+      context: .
       dockerfile: Dockerfile.dev
     networks:
       - ship
     volumes:
-      - "./src:/app/src"
+      - ./src:/app/src
     depends_on:
-      - "mongo"
+      - mongo-replicator
   scheduler:
+    container_name: ship-scheduler
     command: npm run schedule-dev
     build:
-      context: "./"
+      context: .
       dockerfile: Dockerfile.dev
     networks:
       - ship
     volumes:
-      - "./src:/app/src"
+      - ./src:/app/src
     depends_on:
-      - "mongo"
+      - mongo-replicator
+
 networks:
   ship:
-    name: ship_network
+    name: ship-network
