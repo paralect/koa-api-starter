@@ -16,6 +16,12 @@ services:
   mongo-replicator:
     container_name: ship-mongo-replicator
     build: ./mongo-replicator
+    environment:
+      - HOST=mongo
+      - PORT=27017
+      - USERNAME=root
+      - PASSWORD=root
+      - REPLICA_SET_NAME=ship-rs
     networks:
       - ship
     depends_on:
