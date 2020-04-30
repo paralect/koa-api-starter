@@ -10,10 +10,20 @@ const validator = require('./validator');
  * Verify user's email when user click a link from email
  */
 const handler = async (ctx) => {
-  const data = ctx.validatedRequest.value;
-  const { _id: userId } = await userService.markEmailAsVerified(data.userId);
+  const { userId } = ctx.validatedRequest.value;
 
   await Promise.all([
+    userService.update(
+      { _id: userId },
+      {
+        $set: {
+          isEmailVerified: true,
+        },
+        $unset: {
+          signupToken: 1,
+        },
+      },
+    ),
     userService.updateLastRequest(userId),
     authService.setTokens(ctx, userId),
   ]);

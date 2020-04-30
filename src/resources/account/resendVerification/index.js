@@ -10,7 +10,10 @@ const handler = async (ctx) => {
   const user = await userService.findOne({ email });
 
   if (user) {
-    await emailService.sendSignupWelcome({ email, signupToken: user.signupToken });
+    await emailService.sendSignupWelcome({
+      email,
+      signupToken: user.signupToken,
+    });
   }
 
   ctx.body = {};

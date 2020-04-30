@@ -1,21 +1,29 @@
+const authService = require('services/auth.service');
+
 const userService = require('resources/user/user.service');
 const tokenService = require('resources/token/token.service');
 
-
 const tryToAttachUser = async (ctx, next) => {
-  if (!ctx.state.accessToken) {
-    return next();
+  let userId;
+
+  if (ctx.state.accessToken) {
+    userId = await tokenService.getUserIdByToken(ctx.state.accessToken);
   }
 
-  const userId = await tokenService.getUserIdByToken(ctx.state.accessToken);
-
-  if (!userId) {
-    return next();
+  if (!userId && ctx.state.refreshToken) {
+    userId = await tokenService.getUserIdByToken(ctx.state.refreshToken);
+    if (userId) await authService.setTokens(ctx, userId);
   }
 
-  ctx.state.user = await userService.findOneAndUpdate({ _id: userId }, {
-    $set: { lastRequest: new Date() },
-  });
+  if (userId) {
+    ctx.state.user = await userService.findOneAndUpdate(
+      { _id: userId },
+      {
+        $set: { lastRequest: new Date() },
+      },
+    );
+  }
+
   return next();
 };
 

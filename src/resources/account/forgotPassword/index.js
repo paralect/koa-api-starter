@@ -1,4 +1,3 @@
-const config = require('config');
 const validate = require('middlewares/validate');
 const securityUtil = require('security.util');
 const userService = require('resources/user/user.service');
@@ -18,18 +17,23 @@ const handler = async (ctx) => {
 
   if (user) {
     let { resetPasswordToken } = user;
-    const { firstName } = user;
+
     if (!resetPasswordToken) {
       resetPasswordToken = await securityUtil.generateSecureToken();
-      await userService.updateResetPasswordToken(user._id, resetPasswordToken);
+      await userService.update(
+        { _id: user._id },
+        {
+          $set: {
+            resetPasswordToken,
+          },
+        },
+      );
     }
-
-    const resetPasswordUrl = `${config.landingUrl}/reset-password?token=${resetPasswordToken}`;
 
     await emailService.sendForgotPassword({
       email: user.email,
-      resetPasswordUrl,
-      firstName,
+      firstName: user.firstName,
+      resetPasswordToken,
     });
   }
 

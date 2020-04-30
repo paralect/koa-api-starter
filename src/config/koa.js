@@ -3,6 +3,7 @@ const bodyParser = require('koa-bodyparser');
 const helmet = require('koa-helmet');
 const validate = require('koa-validate');
 const requestLogger = require('koa-logger');
+const qs = require('koa-qs');
 
 const logger = require('logger');
 
@@ -56,6 +57,7 @@ const routeErrorHandler = async (ctx, next) => {
 module.exports = (app) => {
   app.use(cors({ credentials: true }));
   app.use(helmet());
+  qs(app);
   app.use(bodyParser({ enableTypes: ['json', 'form', 'text'] }));
   app.use(requestLogger());
 
