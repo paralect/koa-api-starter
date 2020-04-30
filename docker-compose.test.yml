@@ -12,9 +12,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
   mongo-replicator-test:
     container_name: ship-test-mongo-replicator
-    build:
-      context: ./mongo-replicator
-      dockerfile: Dockerfile.test
+    build: ./mongo-replicator
+    environment:
+      - HOST=mongo-test
+      - PORT=27017
+      - REPLICA_SET_NAME=ship-test-rs
+      - IMMORTAL=true
     networks:
       - ship-test
     depends_on:

@@ -1,19 +1,27 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+set -e
 
-if [ -f /replicated.txt ]; then
-  echo "Mongo is already replicated"
-else
-  echo "Setting up mongo replication"
+command="rs.initiate({ _id: '$REPLICA_SET_NAME', members: [{ _id: 0, host: '$HOST:$PORT' }]})"
 
-  # Wait for few seconds until the mongo server is up
-  sleep 5
+for i in $(seq 1 20); do
+  if [[ $i -eq 20 ]]; then
+    echo "Replication failed"
+    exit 1
+  fi
 
-  mongo mongo:27017 --authenticationDatabase "admin" -u "root" -p "root" replicate.js
+  echo "Replication attempt"
 
-  # Wait for few seconds until the replication is complete
-  sleep 5
+  if [[ $USERNAME ]]; then
+    mongo $HOST:$PORT --authenticationDatabase "admin" -u $USERNAME -p $PASSWORD --quiet --eval "$command" && break
+  else
+    mongo $HOST:$PORT --quiet --eval "$command" && break
+  fi
 
-  touch /replicated.txt
+  sleep 2
+done
 
-  echo "Replication done"
-fi
+echo "Replication done"
+
+[[ $IMMORTAL ]] && while true; do sleep 1; done
+
+exit 0
