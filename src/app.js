@@ -19,9 +19,17 @@ const app = new Koa();
 require('./config/koa')(app);
 
 require('services/socketIo.service');
+const db = require('db');
 
-app.listen(config.port, () => {
-  logger.warn(`Api server listening on ${config.port}, in ${process.env.NODE_ENV} mode and ${process.env.APP_ENV} environment`);
-});
+function launchApp() {
+  app.listen(config.port, () => {
+    logger.warn(`Api server listening on ${config.port}, in ${process.env.NODE_ENV} mode and ${process.env.APP_ENV} environment`);
+  });
+}
+
+// Add here all pre-launch conditions
+Promise.all([
+  db.waitForConnection
+]).then(launchApp);
 
 module.exports = app;
