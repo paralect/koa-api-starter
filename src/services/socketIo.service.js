@@ -12,11 +12,11 @@ io.adapter(redis({
 
 io.use(async (socket, next) => {
   const { accessToken } = socket.handshake.query;
-  const userId = await tokenService.getUserIdByToken(accessToken);
+  const userData = await tokenService.getUserDataByToken(accessToken);
 
-  if (userId) {
+  if (userData) {
     // eslint-disable-next-line no-param-reassign
-    socket.handshake.data = { userId };
+    socket.handshake.data = { userId: userData.userId, isShadow: userData.isShadow };
 
     return next();
   }
