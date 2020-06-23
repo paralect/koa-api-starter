@@ -3,6 +3,7 @@ const redis = require('socket.io-redis');
 
 const config = require('config');
 const tokenService = require('resources/token/token.service');
+const { COOKIES } = require('app.constants');
 
 
 io.adapter(redis({
@@ -10,13 +11,27 @@ io.adapter(redis({
   port: config.redis.port,
 }));
 
-io.use(async (socket, next) => {
-  const { accessToken } = socket.handshake.query;
-  const userId = await tokenService.getUserIdByToken(accessToken);
+const getCookie = (cookieString, name) => {
+  const value = `; ${cookieString}`;
+  const parts = value.split(`; ${name}=`);
 
-  if (userId) {
+  if (parts.length === 2) {
+    return parts
+      .pop()
+      .split(';')
+      .shift();
+  }
+
+  return null;
+};
+
+io.use(async (socket, next) => {
+  const accessToken = getCookie(socket.handshake.headers.cookie, COOKIES.ACCESS_TOKEN);
+  const userData = await tokenService.getUserDataByToken(accessToken);
+
+  if (userData) {
     // eslint-disable-next-line no-param-reassign
-    socket.handshake.data = { userId };
+    socket.handshake.data = { userId: userData.userId, isShadow: userData.isShadow };
 
     return next();
   }

@@ -10,7 +10,6 @@ require('./signin').register(router);
 require('./forgotPassword').register(router);
 require('./resetPassword').register(router);
 require('./resendVerification').register(router);
-require('./refreshToken').register(router);
 
 require('./google').register(router);
 

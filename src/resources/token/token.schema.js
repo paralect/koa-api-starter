@@ -3,7 +3,7 @@ const { TOKEN_TYPES } = require('app.constants');
 
 const tokenSchema = {
   $jsonSchema: {
-    required: ['type', 'value', 'expireAt', 'userId'],
+    required: ['type', 'value', 'userId'],
     properties: {
       _id: {
         type: 'string',
@@ -15,16 +15,16 @@ const tokenSchema = {
         bsonType: 'date',
       },
       type: {
-        enum: [TOKEN_TYPES.REFRESH, TOKEN_TYPES.ACCESS],
+        enum: [TOKEN_TYPES.ACCESS],
       },
       value: {
         type: 'string',
       },
-      expireAt: {
-        bsonType: 'date',
-      },
       userId: {
         type: 'string',
+      },
+      isShadow: {
+        bsonType: 'bool',
       },
     },
   },
