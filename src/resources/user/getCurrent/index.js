@@ -2,7 +2,9 @@ const userService = require('resources/user/user.service');
 
 
 const handler = async (ctx) => {
-  ctx.body = userService.getPublic(ctx.state.user);
+  ctx.body = {
+    user: userService.getPublic(ctx.state.user),
+  };
 };
 
 module.exports.register = (router) => {

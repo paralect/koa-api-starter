@@ -16,7 +16,9 @@ const handler = async (ctx) => {
     userService.updateLastRequest(userId),
     authService.setTokens(ctx, userId),
   ]);
-  ctx.body = userService.getPublic(ctx.state.user);
+  ctx.body = {
+    user: userService.getPublic(ctx.state.user),
+  };
 };
 
 module.exports.register = (router) => {

@@ -16,7 +16,9 @@ const handler = async (ctx) => {
     );
   }
 
-  ctx.body = userService.getPublic(user);
+  ctx.body = {
+    user: userService.getPublic(user),
+  };
 };
 
 module.exports.register = (router) => {
