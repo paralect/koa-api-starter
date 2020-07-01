@@ -5,11 +5,11 @@ const router = new Router();
 
 require('./signup').register(router);
 require('./logout').register(router);
-require('./verifyEmail').register(router);
+require('./verify-email').register(router);
 require('./signin').register(router);
-require('./forgotPassword').register(router);
-require('./resetPassword').register(router);
-require('./resendVerification').register(router);
+require('./forgot-password').register(router);
+require('./reset-password').register(router);
+require('./resend-verification').register(router);
 
 require('./google').register(router);
 

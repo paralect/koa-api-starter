@@ -1,0 +1,64 @@
+const Joi = require('@hapi/joi');
+
+const validate = require('middlewares/validate');
+const userService = require('resources/user/user.service');
+
+const schema = Joi.object({
+  firstName: Joi.string()
+    .trim()
+    .messages({
+      'string.empty': 'First name is required',
+    }),
+  lastName: Joi.string()
+    .trim()
+    .messages({
+      'string.empty': 'Last name is required',
+    }),
+  email: Joi.string()
+    .email()
+    .trim()
+    .lowercase()
+    .messages({
+      'string.empty': 'Email is required',
+      'string.email': 'Please enter a valid email address',
+    }),
+});
+
+async function validator(ctx, next) {
+  const { email } = ctx.validatedData;
+
+  const taken = await userService.exists({
+    _id: { $ne: ctx.state.user._id },
+    email,
+  });
+
+  if (taken) {
+    ctx.body = {
+      errors: {
+        email: ['This email is already in use'],
+      },
+    };
+    ctx.throw(400);
+  }
+
+  await next();
+}
+
+async function handler(ctx) {
+  let { user } = ctx.state;
+
+  const data = ctx.validatedData;
+
+  if (Object.keys(data).length > 0) {
+    user = await userService.findOneAndUpdate(
+      { _id: user._id },
+      { $set: data },
+    );
+  }
+
+  ctx.body = userService.getPublic(user);
+}
+
+module.exports.register = (router) => {
+  router.put('/current', validate(schema), validator, handler);
+};

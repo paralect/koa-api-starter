@@ -5,7 +5,7 @@ require('./user.handler');
 
 const router = new Router();
 
-require('./getCurrent').register(router);
-require('./updateCurrent').register(router);
+require('./get-current').register(router);
+require('./update-current').register(router);
 
 module.exports = router.routes();

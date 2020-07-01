@@ -36,7 +36,7 @@ exports.sendSignupWelcome = ({ email, signupToken }) => {
       to: email,
     },
     {
-      verifyEmailUrl: `${config.apiUrl}/account/verifyEmail/${signupToken}`,
+      verifyEmailUrl: `${config.apiUrl}/account/verify-email?token=${signupToken}`,
     },
   );
 };
