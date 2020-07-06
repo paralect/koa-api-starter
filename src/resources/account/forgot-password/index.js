@@ -1,19 +1,25 @@
+const Joi = require('@hapi/joi');
+
 const validate = require('middlewares/validate');
 const securityUtil = require('security.util');
 const userService = require('resources/user/user.service');
 const emailService = require('services/email.service');
 
-const validator = require('./validator');
+const schema = Joi.object({
+  email: Joi.string()
+    .email()
+    .trim()
+    .lowercase()
+    .required()
+    .messages({
+      'any.required': 'Email is required',
+      'string.empty': 'Email is required',
+      'string.email': 'Please enter a valid email address',
+    }),
+});
 
-
-/**
- * Send forgot password email with a unique link to set new password
- * If user is found by email - sends forgot password email and update
- * `forgotPasswordToken` field. If user not found, returns validator's error
- */
-const handler = async (ctx) => {
-  const data = ctx.validatedRequest.value;
-  const user = await userService.findOne({ email: data.email });
+async function handler(ctx) {
+  const user = await userService.findOne({ email: ctx.validatedData.email });
 
   if (user) {
     let { resetPasswordToken } = user;
@@ -38,8 +44,8 @@ const handler = async (ctx) => {
   }
 
   ctx.body = {};
-};
+}
 
 module.exports.register = (router) => {
-  router.post('/forgotPassword', validate(validator), handler);
+  router.post('/forgot-password', validate(schema), handler);
 };

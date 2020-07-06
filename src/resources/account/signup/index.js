@@ -1,3 +1,5 @@
+const Joi = require('@hapi/joi');
+
 const validate = require('middlewares/validate');
 const securityUtil = require('security.util');
 const userService = require('resources/user/user.service');
@@ -5,25 +7,74 @@ const emailService = require('services/email.service');
 
 const config = require('config');
 
-const validator = require('./validator');
+const schema = Joi.object({
+  firstName: Joi.string()
+    .trim()
+    .required()
+    .messages({
+      'any.required': 'First name is required',
+      'string.empty': 'First name is required',
+    }),
+  lastName: Joi.string()
+    .trim()
+    .required()
+    .messages({
+      'any.required': 'Last name is required',
+      'string.empty': 'Last name is required',
+    }),
+  email: Joi.string()
+    .email()
+    .trim()
+    .lowercase()
+    .required()
+    .messages({
+      'any.required': 'Email is required',
+      'string.empty': 'Email is required',
+      'string.email': 'Please enter a valid email address',
+    }),
+  password: Joi.string()
+    .trim()
+    .min(6)
+    .max(50)
+    .required()
+    .messages({
+      'any.required': 'Password is required',
+      'string.empty': 'Password is required',
+      'string.min': 'Password must be 6-50 characters',
+      'string.max': 'Password must be 6-50 characters',
+    }),
+});
 
-/**
- * Create user, company, default app, send signup confirmation email and
- * create auth token for user to login
- */
-const handler = async (ctx) => {
-  const userData = ctx.validatedRequest.value;
+async function validator(ctx, next) {
+  const { email } = ctx.validatedData;
+
+  const isUserExists = await userService.exists({ email });
+
+  if (isUserExists) {
+    ctx.body = {
+      errors: {
+        email: ['User with this email is already registered'],
+      },
+    };
+    ctx.throw(400);
+  }
+
+  await next();
+}
+
+async function handler(ctx) {
+  const data = ctx.validatedData;
 
   const [hash, signupToken] = await Promise.all([
-    securityUtil.getHash(userData.password),
+    securityUtil.getHash(data.password),
     securityUtil.generateSecureToken(),
   ]);
 
   const user = await userService.create({
-    firstName: userData.firstName,
-    lastName: userData.lastName,
+    firstName: data.firstName,
+    lastName: data.lastName,
+    email: data.email,
     passwordHash: hash.toString(),
-    email: userData.email,
     isEmailVerified: false,
     signupToken,
     oauth: {
@@ -39,8 +90,8 @@ const handler = async (ctx) => {
   ctx.body = {
     signupToken: config.isDev ? signupToken : undefined,
   };
-};
+}
 
 module.exports.register = (router) => {
-  router.post('/signup', validate(validator), handler);
+  router.post('/signup', validate(schema), validator, handler);
 };

@@ -72,7 +72,7 @@ describe('/users', async () => {
         .send({ email: newUser.email })
         .expect(400);
 
-      response.body.should.be.deep.equal({ errors: [ERRORS.EMAIL_IN_USE] });
+      response.body.should.be.deep.equal({ errors: ERRORS.EMAIL_IN_USE });
     });
   });
 

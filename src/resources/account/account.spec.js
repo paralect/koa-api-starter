@@ -32,7 +32,7 @@ describe('/account', () => {
     newUserData = {
       firstName: 'Ivan',
       lastName: 'Balalaikin',
-      email: 'test@test.test',
+      email: 'test@test.com',
       password: 'qwerty',
     };
   });
@@ -61,22 +61,22 @@ describe('/account', () => {
         })
         .expect(400);
 
-      response.body.should.be.deep.equal({ errors: [ERRORS.USER_REGISTRED] });
+      response.body.should.be.deep.equal({ errors: ERRORS.USER_REGISTRED });
     });
   });
 
   it('should return an error that token is invalid', (done) => {
     testsHelper.test(done, async () => {
-      const response = await request.get('/account/verifyEmail/111')
+      const response = await request.get('/account/verify-email?token=token')
         .expect(400);
 
-      response.body.should.be.deep.equal({ errors: [ERRORS.INVALID_TOKEN] });
+      response.body.should.be.deep.equal({ errors: ERRORS.INVALID_TOKEN });
     });
   });
 
   it('should successfully verify email', (done) => {
     testsHelper.test(done, async () => {
-      const response = await request.get(`/account/verifyEmail/${user.signupToken}`)
+      const response = await request.get(`/account/verify-email?token=${user.signupToken}`)
         .expect(302);
 
       const updated = await userService.findOne({ _id: user._id });
@@ -90,12 +90,12 @@ describe('/account', () => {
     testsHelper.test(done, async () => {
       const response = await request.post('/account/signin')
         .send({
-          email: 'test@test.com1',
+          email: 'test@test.com',
           password: 'incorrect_password',
         })
         .expect(400);
 
-      response.body.should.be.deep.equal({ errors: [ERRORS.INCORRECT_CREDENTIALS] });
+      response.body.should.be.deep.equal({ errors: ERRORS.INCORRECT_CREDENTIALS });
     });
   });
 
@@ -108,7 +108,7 @@ describe('/account', () => {
         })
         .expect(400);
 
-      response.body.should.be.deep.equal({ errors: [ERRORS.VIRIFY_EMAIL_TO_SIGNIN] });
+      response.body.should.be.deep.equal({ errors: ERRORS.VIRIFY_EMAIL_TO_SIGNIN });
     });
   });
 
@@ -121,23 +121,23 @@ describe('/account', () => {
         })
         .expect(400);
 
-      response.body.should.be.deep.equal({ errors: [ERRORS.INCORRECT_CREDENTIALS] });
+      response.body.should.be.deep.equal({ errors: ERRORS.INCORRECT_CREDENTIALS });
     });
   });
 
   it('should return an error that the email address is incorrect', (done) => {
     testsHelper.test(done, async () => {
-      const response = await request.post('/account/forgotPassword')
+      const response = await request.post('/account/forgot-password')
         .send({ email: 'not@email' })
         .expect(400);
 
-      response.body.should.be.deep.equal({ errors: [ERRORS.INCORRECT_EMAIL] });
+      response.body.should.be.deep.equal({ errors: ERRORS.INCORRECT_EMAIL });
     });
   });
 
   it('should successfully send forgot password link', (done) => {
     testsHelper.test(done, async () => {
-      const response = await request.post('/account/forgotPassword')
+      const response = await request.post('/account/forgot-password')
         .send({ email: newUserData.email })
         .expect(200);
 
@@ -150,8 +150,8 @@ describe('/account', () => {
 
   it('should return 200 if forgot password email is not registered', (done) => {
     testsHelper.test(done, async () => {
-      const response = await request.post('/account/forgotPassword')
-        .send({ email: 'not@registered.user' })
+      const response = await request.post('/account/forgot-password')
+        .send({ email: 'not@registered.com' })
         .expect(200);
 
       response.body.should.be.deep.equal({});
@@ -160,20 +160,20 @@ describe('/account', () => {
 
   it('should return an error that reset password token is invalid', (done) => {
     testsHelper.test(done, async () => {
-      const response = await request.put('/account/resetPassword')
+      const response = await request.put('/account/reset-password')
         .send({
           password: 'new_password',
           token: 'invalid_token',
         })
         .expect(400);
 
-      response.body.should.be.deep.equal({ errors: [ERRORS.INVALID_RESET_TOKEN] });
+      response.body.should.be.deep.equal({ errors: ERRORS.INVALID_RESET_TOKEN });
     });
   });
 
   it('should successfully reset old password', (done) => {
     testsHelper.test(done, async () => {
-      const response = await request.put('/account/resetPassword')
+      const response = await request.put('/account/reset-password')
         .send({
           password: 'new_password',
           token: user.resetPasswordToken,
@@ -205,17 +205,7 @@ describe('/account', () => {
         .send({ email: 'not@email' })
         .expect(400);
 
-      response.body.should.be.deep.equal({ errors: [ERRORS.INCORRECT_EMAIL] });
-    });
-  });
-
-  it('should successfully refresh token', (done) => {
-    testsHelper.test(done, async () => {
-      const response = await request
-        .post('/account/refresh-token')
-        .expect(200);
-
-      response.body.should.be.deep.equal({});
+      response.body.should.be.deep.equal({ errors: ERRORS.INCORRECT_EMAIL });
     });
   });
 
@@ -224,16 +214,6 @@ describe('/account', () => {
       const response = await request
         .post('/account/logout')
         .expect(200);
-
-      response.body.should.be.deep.equal({});
-    });
-  });
-
-  it('should fail refresh token', (done) => {
-    testsHelper.test(done, async () => {
-      const response = await request
-        .post('/account/refresh-token')
-        .expect(401);
 
       response.body.should.be.deep.equal({});
     });
