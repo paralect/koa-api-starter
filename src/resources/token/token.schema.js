@@ -1,33 +1,18 @@
+const Joi = require('joi');
 const { TOKEN_TYPES } = require('app.constants');
 
-
 const tokenSchema = {
-  $jsonSchema: {
-    required: ['type', 'value', 'userId'],
-    properties: {
-      _id: {
-        type: 'string',
-      },
-      createdOn: {
-        bsonType: 'date',
-      },
-      updatedOn: {
-        bsonType: 'date',
-      },
-      type: {
-        enum: [TOKEN_TYPES.ACCESS],
-      },
-      value: {
-        type: 'string',
-      },
-      userId: {
-        type: 'string',
-      },
-      isShadow: {
-        bsonType: 'bool',
-      },
-    },
-  },
+  _id: Joi.string(),
+  createdOn: Joi.date(),
+  updatedOn: Joi.date(),
+  type: Joi.string()
+    .only(TOKEN_TYPES.ACCESS)
+    .required(),
+  value: Joi.string()
+    .required(),
+  userId: Joi.string()
+    .required(),
+  isShadow: Joi.boolean(),
 };
 
-module.exports = tokenSchema;
+module.exports = (obj) => Joi.validate(obj, tokenSchema, { allowUnknown: false });

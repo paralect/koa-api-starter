@@ -27,12 +27,12 @@ const schema = Joi.object({
 async function validator(ctx, next) {
   const { email } = ctx.validatedData;
 
-  const taken = await userService.exists({
+  const isEmailInUse = await userService.exists({
     _id: { $ne: ctx.state.user._id },
     email,
   });
 
-  if (taken) {
+  if (isEmailInUse) {
     ctx.body = {
       errors: {
         email: ['This email is already in use'],
@@ -50,9 +50,9 @@ async function handler(ctx) {
   const data = ctx.validatedData;
 
   if (Object.keys(data).length > 0) {
-    user = await userService.findOneAndUpdate(
+    user = await userService.update(
       { _id: user._id },
-      { $set: data },
+      (old) => ({ ...old, ...data }),
     );
   }
 

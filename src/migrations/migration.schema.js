@@ -1,21 +1,11 @@
+const Joi = require('joi');
+
 const schema = {
-  $jsonSchema: {
-    required: ['version'],
-    properties: {
-      _id: {
-        type: 'string',
-      },
-      createdOn: {
-        bsonType: 'date',
-      },
-      updatedOn: {
-        bsonType: 'date',
-      },
-      version: {
-        type: 'number',
-      },
-    },
-  },
+  _id: Joi.string(),
+  createdOn: Joi.date(),
+  updatedOn: Joi.date(),
+  version: Joi.number()
+    .required(),
 };
 
-module.exports = schema;
+module.exports = (obj) => Joi.validate(obj, schema, { allowUnknown: false });

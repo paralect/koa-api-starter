@@ -27,15 +27,9 @@ const ensureAccountCreated = async (payload) => {
 
   if (user) {
     if (!user.oauth.google) {
-      const userChanged = await userService.findOneAndUpdate(
+      const userChanged = await userService.update(
         { _id: user._id },
-        {
-          $set: {
-            oauth: {
-              google: true,
-            },
-          },
-        },
+        (old) => ({ ...old, oauth: { google: true } }),
       );
 
       return userChanged;
