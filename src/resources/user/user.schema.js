@@ -1,6 +1,6 @@
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 
-const userSchema = {
+const schema = Joi.object({
   _id: Joi.string(),
   createdOn: Joi.date(),
   updatedOn: Joi.date(),
@@ -9,7 +9,7 @@ const userSchema = {
   lastName: Joi.string()
     .required(),
   email: Joi.string()
-    .email({ minDomainAtoms: 2 })
+    .email()
     .required(),
   passwordHash: Joi.string()
     .allow(null),
@@ -25,6 +25,6 @@ const userSchema = {
     })
     .required(),
   lastRequest: Joi.date(),
-};
+});
 
-module.exports = (obj) => Joi.validate(obj, userSchema, { allowUnknown: false });
+module.exports = (obj) => schema.validate(obj, { allowUnknown: false });

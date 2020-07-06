@@ -1,18 +1,19 @@
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
+
 const { TOKEN_TYPES } = require('app.constants');
 
-const tokenSchema = {
+const schema = Joi.object({
   _id: Joi.string(),
   createdOn: Joi.date(),
   updatedOn: Joi.date(),
   type: Joi.string()
-    .only(TOKEN_TYPES.ACCESS)
+    .valid(TOKEN_TYPES.ACCESS)
     .required(),
   value: Joi.string()
     .required(),
   userId: Joi.string()
     .required(),
   isShadow: Joi.boolean(),
-};
+});
 
-module.exports = (obj) => Joi.validate(obj, tokenSchema, { allowUnknown: false });
+module.exports = (obj) => schema.validate(obj, { allowUnknown: false });
