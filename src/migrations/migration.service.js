@@ -1,9 +1,9 @@
 const db = require('db');
 const fs = require('fs');
 const path = require('path');
-const schema = require('./migration.schema');
+const validateSchema = require('./migration.schema');
 
-const service = db.createService('__migrationVersion', schema);
+const service = db.createService('__migrationVersion', { validateSchema });
 const migrationsPath = path.join(__dirname, 'migrations');
 const _id = 'migration_version';
 
@@ -42,7 +42,7 @@ service.getMigrations = () => {
   });
 };
 
-service.setNewMigrationVersion = (version) => service.findOneAndUpdate({ _id }, {
+service.setNewMigrationVersion = (version) => service.atomic.findOneAndUpdate({ _id }, {
   $set: {
     version,
   },

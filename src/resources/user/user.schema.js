@@ -1,52 +1,30 @@
-const userSchema = {
-  $jsonSchema: {
-    required: ['firstName', 'lastName', 'email', 'oauth', 'isEmailVerified'],
-    properties: {
-      _id: {
-        bsonType: 'string',
-      },
-      createdOn: {
-        bsonType: 'date',
-      },
-      updatedOn: {
-        bsonType: 'date',
-      },
-      firstName: {
-        bsonType: 'string',
-      },
-      lastName: {
-        bsonType: 'string',
-      },
-      email: {
-        bsonType: 'string',
-        pattern: '^.+@.+\\..+$',
-      },
-      passwordHash: {
-        bsonType: 'string',
-      },
-      signupToken: {
-        bsonType: 'string',
-      },
-      resetPasswordToken: {
-        bsonType: 'string',
-      },
-      isEmailVerified: {
-        bsonType: 'bool',
-      },
-      oauth: {
-        bsonType: 'object',
-        required: ['google'],
-        properties: {
-          google: {
-            bsonType: 'bool',
-          },
-        },
-      },
-      lastRequest: {
-        bsonType: 'date',
-      },
-    },
-  },
-};
+const Joi = require('@hapi/joi');
 
-module.exports = userSchema;
+const schema = Joi.object({
+  _id: Joi.string(),
+  createdOn: Joi.date(),
+  updatedOn: Joi.date(),
+  firstName: Joi.string()
+    .required(),
+  lastName: Joi.string()
+    .required(),
+  email: Joi.string()
+    .email()
+    .required(),
+  passwordHash: Joi.string()
+    .allow(null),
+  signupToken: Joi.string()
+    .allow(null),
+  resetPasswordToken: Joi.string()
+    .allow(null),
+  isEmailVerified: Joi.boolean()
+    .default(false),
+  oauth: Joi.object()
+    .keys({
+      google: Joi.boolean().default(false),
+    })
+    .required(),
+  lastRequest: Joi.date(),
+});
+
+module.exports = (obj) => schema.validate(obj, { allowUnknown: false });

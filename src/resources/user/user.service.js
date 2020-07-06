@@ -1,23 +1,20 @@
 const _ = require('lodash');
-const { streamable } = require('@paralect/node-mongo');
 
 const db = require('db');
 const constants = require('app.constants');
 
-const schema = require('./user.schema');
+const validateSchema = require('./user.schema');
 
 
-const service = streamable(db.createService(constants.DATABASE_DOCUMENTS.USERS, schema));
+const service = db.createService(constants.DATABASE_DOCUMENTS.USERS, { validateSchema });
 
 service.updateLastRequest = async (_id) => {
-  return service.update(
-    { _id },
-    {
-      $set: {
-        lastRequest: new Date(),
-      },
+  return service.atomic.update({ _id }, {
+    $set: {
+      lastRequest: new Date(),
+      updatedOn: new Date(),
     },
-  );
+  });
 };
 
 const privateFields = [

@@ -28,11 +28,7 @@ async function handler(ctx) {
       resetPasswordToken = await securityUtil.generateSecureToken();
       await userService.update(
         { _id: user._id },
-        {
-          $set: {
-            resetPasswordToken,
-          },
-        },
+        (old) => ({ ...old, resetPasswordToken }),
       );
     }
 

@@ -1,33 +1,19 @@
-const schema = {
-  $jsonSchema: {
-    required: ['startTime', 'status', 'migrationVersion'],
-    properties: {
-      _id: {
-        type: 'string',
-      },
-      startTime: {
-        bsonType: 'date',
-      },
-      finishTime: {
-        bsonType: 'date',
-      },
-      status: {
-        type: 'string',
-      },
-      error: {
-        type: 'string',
-      },
-      errorStack: {
-        type: 'string',
-      },
-      duration: {
-        type: 'string',
-      },
-      migrationVersion: {
-        type: 'number',
-      },
-    },
-  },
-};
+const Joi = require('@hapi/joi');
 
-module.exports = schema;
+const schema = Joi.object({
+  _id: Joi.string(),
+  createdOn: Joi.date(),
+  updatedOn: Joi.date(),
+  startTime: Joi.date()
+    .required(),
+  finishTime: Joi.date(),
+  status: Joi.string()
+    .required(),
+  error: Joi.string(),
+  errorStack: Joi.string(),
+  duration: Joi.string(),
+  migrationVersion: Joi.number()
+    .required(),
+});
+
+module.exports = (obj) => schema.validate(obj, { allowUnknown: false });

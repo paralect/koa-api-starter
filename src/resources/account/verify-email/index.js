@@ -37,14 +37,7 @@ async function handler(ctx) {
   await Promise.all([
     userService.update(
       { _id: userId },
-      {
-        $set: {
-          isEmailVerified: true,
-        },
-        $unset: {
-          signupToken: 1,
-        },
-      },
+      (old) => ({ ...old, isEmailVerified: true, signupToken: null }),
     ),
     userService.updateLastRequest(userId),
     authService.setTokens(ctx, userId),

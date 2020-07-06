@@ -6,9 +6,9 @@ const db = require('tests/db');
 const { USER, ERRORS } = require('tests/constants');
 const testsHelper = require('tests/tests.helper');
 const UserBuilder = require('resources/user/user.builder');
-const userSchema = require('resources/user/user.schema');
+const validateSchema = require('resources/user/user.schema');
 
-const userService = db.createService(USER.COLLECTION, userSchema);
+const userService = db.createService(USER.COLLECTION, { validateSchema });
 const app = server.listen();
 
 
@@ -181,7 +181,8 @@ describe('/account', () => {
         .expect(200);
 
       const updated = await userService.findOne({ _id: user._id });
-      updated.should.not.have.property('resetPasswordToken');
+      // https://stackoverflow.com/questions/18102152/should-js-cannot-read-property-should-of-null
+      (updated.resetPasswordToken === null).should.be.equal(true);
       updated.passwordHash.should.not.be.equal(user.passwordHash);
 
       response.body.should.be.deep.equal({});

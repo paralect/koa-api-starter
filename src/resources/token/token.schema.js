@@ -1,33 +1,19 @@
+const Joi = require('@hapi/joi');
+
 const { TOKEN_TYPES } = require('app.constants');
 
+const schema = Joi.object({
+  _id: Joi.string(),
+  createdOn: Joi.date(),
+  updatedOn: Joi.date(),
+  type: Joi.string()
+    .valid(TOKEN_TYPES.ACCESS)
+    .required(),
+  value: Joi.string()
+    .required(),
+  userId: Joi.string()
+    .required(),
+  isShadow: Joi.boolean(),
+});
 
-const tokenSchema = {
-  $jsonSchema: {
-    required: ['type', 'value', 'userId'],
-    properties: {
-      _id: {
-        type: 'string',
-      },
-      createdOn: {
-        bsonType: 'date',
-      },
-      updatedOn: {
-        bsonType: 'date',
-      },
-      type: {
-        enum: [TOKEN_TYPES.ACCESS],
-      },
-      value: {
-        type: 'string',
-      },
-      userId: {
-        type: 'string',
-      },
-      isShadow: {
-        bsonType: 'bool',
-      },
-    },
-  },
-};
-
-module.exports = tokenSchema;
+module.exports = (obj) => schema.validate(obj, { allowUnknown: false });

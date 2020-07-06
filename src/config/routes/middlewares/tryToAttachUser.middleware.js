@@ -9,9 +9,8 @@ const tryToAttachUser = async (ctx, next) => {
   }
 
   if (userData) {
-    ctx.state.user = await userService.findOneAndUpdate({ _id: userData.userId }, {
-      $set: { lastRequest: new Date() },
-    });
+    await userService.updateLastRequest(userData.userId);
+    ctx.state.user = await userService.findOne({ _id: userData.userId });
     ctx.state.isShadow = userData.isShadow;
   }
 
