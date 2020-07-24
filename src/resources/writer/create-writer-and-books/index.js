@@ -65,5 +65,5 @@ async function handler(ctx) {
 }
 
 module.exports.register = (router) => {
-  router.post('/create-writer', validate(schema), validator, handler);
+  router.post('/', validate(schema), validator, handler);
 };
