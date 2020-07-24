@@ -23,9 +23,9 @@ const schema = Joi.object({
 async function handler(ctx) {
   let writer  = ctx.request.body;
   await writerService.create(writer);
-  ctx.body = writerService.find();
+  ctx.body = await writerService.find({});
 }
 
 module.exports.register = (router) => {
-  router.post('/createuser', validate(schema), handler);
+  router.post('/createwriter', validate(schema), handler);
 };

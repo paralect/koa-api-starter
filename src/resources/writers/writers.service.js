@@ -13,5 +13,4 @@ const fields = [
   'books',
 ];
 
-
 module.exports = service;
