@@ -8,6 +8,7 @@ require('./get-writer').register(router);
 require('./update-writer').register(router);
 require('./delete-writer').register(router);
 require('./add-book').register(router);
-require('./delete-book').register(router);
+require('./update-books').register(router);
+require('./list-of-writers').register(router);
 
 module.exports = router.routes();
