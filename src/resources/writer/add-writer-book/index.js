@@ -12,7 +12,7 @@ const schema = Joi.object({
 
 async function validator(ctx, next) {
   const isWriterExists = await writerService.exists({
-    _id: Number(ctx.params.id)
+    _id: +ctx.params.id
   });
 
   if (!isWriterExists) {
@@ -29,7 +29,7 @@ async function validator(ctx, next) {
 
 async function handler(ctx) {
   const data = ctx.validatedData;
-  ctx.body = await writerService.update({ _id: Number(ctx.params.id) }, (doc) => {
+  ctx.body = await writerService.update({ _id: +ctx.params.id }, (doc) => {
     console.log(data);
     doc.books.push(data);
     return doc;

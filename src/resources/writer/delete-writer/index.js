@@ -4,7 +4,7 @@ const writerService = require('resources/writer/writer.service');
 
 async function validator(ctx, next) {
   const isWriterExists = await writerService.exists({
-    _id: Number(ctx.params.id)
+    _id: +ctx.params.id
   });
 
   if (!isWriterExists) {
@@ -20,7 +20,7 @@ async function validator(ctx, next) {
 }
 
 async function handler(ctx) {
-  ctx.body = await writerService.remove({ _id: Number(ctx.params.id) });
+  ctx.body = await writerService.remove({ _id: +ctx.params.id });
 }
 
 module.exports.register = (router) => {

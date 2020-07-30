@@ -23,7 +23,7 @@ const schema = Joi.object({
 
 async function validator(ctx, next) {
   const isWriterExists = await writerService.exists({
-    _id: Number(ctx.params.writerId)
+    _id: +ctx.params.writerId
   });
 
   console.log(isWriterExists);
@@ -45,7 +45,7 @@ async function handler(ctx) {
   console.log(data.firstName);
 
   await writerService.update({
-    _id: Number(ctx.params.writerId)
+    _id: +ctx.params.writerId
   }, (doc) => {
     if (data.firstName) doc.firstName = data.firstName;
     if (data.lastName) doc.lastName = data.lastName;

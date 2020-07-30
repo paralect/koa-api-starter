@@ -1,42 +1,53 @@
 const Joi = require('@hapi/joi');
 
+const validate = require('middlewares/validate');
 const writerService = require('resources/writer/writer.service');
+const sortByEnum = ["createdOn", "firstName", "lastName", "id"];
+const sortOrderEnum = ["asc", "desc"];
 
-async function validator(ctx, next) {
-  const { firstName, lastName } = ctx.validatedData;
-  console.log(ctx.validatedData);
-  console.log(firstName, lastName);
-
-  const isWriterExists = await writerService.exists({
-    firstName,
-    lastName,
-  });
-
-  if (isWriterExists) {
-    ctx.body = {
-      errors: {
-        _global: ['This writer is already exists'],
-      },
-    };
-    ctx.throw(400);
-  }
-
-  await next();
-}
+const schema = Joi.object({
+  pageNumber: Joi.number().required(),
+  documentsInPage: Joi.number().required(),
+  sortBy:
+    Joi.string().valid(...sortByEnum),
+  sortOrder:
+    Joi.string().valid(...sortOrderEnum),
+});
 
 async function handler(ctx) {
-  const data = ctx.validatedData;
-  console.log(data);
+  const {
+    pageNumber,
+    documentsInPage,
+  } = ctx.query;
 
-  await writerService.create({
-    _id: data._id,
-    firstName: data.firstName,
-    lastName: data.lastName,
-    age: data.age,
-    books: data.books,
+  let {
+    sortOrder,
+    sortBy,
+  } = ctx.query;
+
+
+  switch (sortOrder) {
+    case 'asc':
+      sortOrder = 1;
+      break;
+    case 'desc':
+      sortOrder = -1;
+      break;
+  };
+
+  if (sortBy === 'id') sortBy = '_id';
+
+  console.log(pageNumber, documentsInPage, sortBy, sortOrder);
+
+  ctx.body = await writerService.find({}, {
+    perPage: +documentsInPage,
+    page: +pageNumber,
+    sort: { [sortBy]: sortOrder }
   });
 }
 
 module.exports.register = (router) => {
-  router.post('/:pageNumber/:documentsInPage/:sortBy/:sortOrder', validator, handler);
+  router.get('/get', validate(schema), handler);
 };
+
+

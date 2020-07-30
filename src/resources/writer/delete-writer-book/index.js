@@ -6,10 +6,10 @@ const writerService = require('resources/writer/writer.service');
 async function validator(ctx, next) {
   console.log("sdfdsfsdf");
   const isWriterExists = await writerService.exists({
-    _id: Number(ctx.params.writerId)
+    _id: +ctx.params.writerId
   });
   const isBookExists = await writerService.exists({
-    "books._id": Number(ctx.params.bookId)
+    "books._id": +ctx.params.bookId
   });
 
   console.log(isBookExists);
@@ -38,10 +38,10 @@ async function validator(ctx, next) {
 
 async function handler(ctx) {
   const data = ctx.validatedData;
-  ctx.body = await writerService.update({ _id: Number(ctx.params.writerId) }, (doc) => {
+  ctx.body = await writerService.update({ _id: +ctx.params.writerId }, (doc) => {
     console.log(doc.books)
     doc.books = doc.books.filter(book =>
-      !(book._id === Number(ctx.params.bookId))
+      !(book._id === +ctx.params.bookId)
     );
     return doc;
   }
