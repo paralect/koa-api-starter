@@ -17,6 +17,6 @@ async function handler(ctx) {
 }
 
 module.exports.register = (router) => {
-  router.post('/books/:id', validate(schema), handler);
+   router.post('/books/:id', validate(schema), handler);
 };
 
