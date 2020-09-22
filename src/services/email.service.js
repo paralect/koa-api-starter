@@ -4,7 +4,6 @@ const MailService = require('@paralect/email-service');
 const config = require('config');
 const logger = require('logger');
 
-
 const mailService = new MailService({
   isSendEmail: !config.isTest,
   mailgun: config.mailgun,

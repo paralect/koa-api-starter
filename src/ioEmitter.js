@@ -5,7 +5,6 @@ const emitter = require('socket.io-emitter')({
   port: config.redis.port,
 });
 
-
 emitter.redis.on('error', (err) => {
   logger.error(`Error publishing to sockets: ${err}`);
 });

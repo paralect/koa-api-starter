@@ -11,7 +11,6 @@ const validateSchema = require('resources/user/user.schema');
 const userService = db.createService(USER.COLLECTION, { validateSchema });
 const app = server.listen();
 
-
 const request = supertest.agent(app);
 chai.should();
 

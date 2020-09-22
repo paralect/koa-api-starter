@@ -11,7 +11,6 @@ const testsHelper = require('tests/tests.helper');
 const UserBuilder = require('./user.builder');
 const userSchema = require('./user.schema');
 
-
 const app = server.listen();
 const userService = db.createService(USER.COLLECTION, userSchema);
 chai.should();

@@ -3,7 +3,6 @@ const { OAuth2Client } = require('google-auth-library');
 const config = require('config');
 const logger = require('logger');
 
-
 const client = new OAuth2Client(
   config.google.clientId,
   config.google.clientSecret,

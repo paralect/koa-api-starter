@@ -4,7 +4,6 @@ const extractTokens = require('./middlewares/extractTokens.middleware');
 const publicRoutes = require('./public');
 const authenticatedRoutes = require('./authenticated');
 
-
 const defineRoutes = (app) => {
   app.use(extractTokens);
   app.use(tryToAttachUser);

@@ -5,7 +5,6 @@ const constants = require('app.constants');
 
 const validateSchema = require('./user.schema');
 
-
 const service = db.createService(constants.DATABASE_DOCUMENTS.USERS, { validateSchema });
 
 service.updateLastRequest = async (_id) => {

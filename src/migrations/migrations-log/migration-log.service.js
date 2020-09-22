@@ -2,7 +2,6 @@ const db = require('db');
 
 const validateSchema = require('./migration-log.schema.js');
 
-
 const service = db.createService('__migrationLog', { validateSchema });
 
 service.startMigrationLog = (_id, startTime, migrationVersion) => {

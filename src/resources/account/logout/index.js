@@ -1,6 +1,5 @@
 const authService = require('services/auth.service');
 
-
 /**
  * Remove tokens for the user and logout
  */

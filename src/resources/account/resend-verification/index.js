@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const emailService = require('services/email.service');
 const validate = require('middlewares/validate');

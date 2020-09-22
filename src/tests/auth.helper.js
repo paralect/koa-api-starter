@@ -1,6 +1,5 @@
 const { USER } = require('./constants');
 
-
 exports.signin = (request, user, password = USER.DEFAULT_PASSWORD) => {
   return new Promise((resolve, reject) => {
     request

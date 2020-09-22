@@ -3,7 +3,6 @@ const userService = require('resources/user/user.service');
 const googleService = require('services/google.service.js');
 const authService = require('services/auth.service');
 
-
 const createUserAccount = async (userData) => {
   const user = await userService.create({
     firstName: userData.given_name,
@@ -55,7 +54,6 @@ const signinGoogleWithCode = async (ctx) => {
   ]);
   ctx.redirect(config.webUrl);
 };
-
 
 module.exports.register = (router) => {
   router.get('/signin/google/auth', getOAuthUrl);

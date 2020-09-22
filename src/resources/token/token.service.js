@@ -4,7 +4,6 @@ const { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH, TOKEN_TYPES } = require('app.
 
 const validateSchema = require('./token.schema');
 
-
 const service = db.createService(DATABASE_DOCUMENTS.TOKENS, { validateSchema });
 
 const createToken = async (userId, type) => {
