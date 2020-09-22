@@ -6,7 +6,6 @@ const logger = require('logger');
 const migrationLogService = require('./migrations-log/migration-log.service');
 const migrationService = require('./migration.service');
 
-
 const migrator = {};
 
 const run = async (migrations, curVersion) => {

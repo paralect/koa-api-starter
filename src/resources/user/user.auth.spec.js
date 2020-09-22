@@ -11,7 +11,6 @@ const testsHelper = require('tests/tests.helper');
 
 const UserBuilder = require('./user.builder');
 
-
 const app = server.listen();
 chai.should();
 

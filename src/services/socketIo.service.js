@@ -5,7 +5,6 @@ const config = require('config');
 const tokenService = require('resources/token/token.service');
 const { COOKIES } = require('app.constants');
 
-
 io.adapter(redis({
   host: config.redis.host,
   port: config.redis.port,

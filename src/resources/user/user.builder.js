@@ -7,7 +7,6 @@ const BaseBuilder = require('tests/base.builder');
 
 const validateSchema = require('./user.schema');
 
-
 const userService = db.createService(USER.COLLECTION, { validateSchema });
 
 class UserBuilder extends BaseBuilder {

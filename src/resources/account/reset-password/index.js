@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const securityUtil = require('security.util');
 const validate = require('middlewares/validate');
