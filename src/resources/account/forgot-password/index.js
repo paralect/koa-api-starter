@@ -26,7 +26,7 @@ async function handler(ctx) {
 
     if (!resetPasswordToken) {
       resetPasswordToken = await securityUtil.generateSecureToken();
-      await userService.update(
+      await userService.updateOne(
         { _id: user._id },
         (old) => ({ ...old, resetPasswordToken }),
       );

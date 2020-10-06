@@ -50,7 +50,7 @@ async function handler(ctx) {
   const data = ctx.validatedData;
 
   if (Object.keys(data).length > 0) {
-    user = await userService.update(
+    user = await userService.updateOne(
       { _id: user._id },
       (old) => ({ ...old, ...data }),
     );

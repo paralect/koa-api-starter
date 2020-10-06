@@ -38,7 +38,7 @@ async function handler(ctx) {
   }
 
   const passwordHash = await securityUtil.getHash(password);
-  await userService.update(
+  await userService.updateOne(
     { _id: user._id },
     (old) => ({ ...old, passwordHash, resetPasswordToken: null }),
   );
