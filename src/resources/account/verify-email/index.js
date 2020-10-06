@@ -35,7 +35,7 @@ async function handler(ctx) {
   const { userId } = ctx.validatedData;
 
   await Promise.all([
-    userService.update(
+    userService.updateOne(
       { _id: userId },
       (old) => ({ ...old, isEmailVerified: true, signupToken: null }),
     ),
