@@ -8,6 +8,7 @@ const { COOKIES } = require('app.constants');
 io.adapter(redisAdapter({
   host: config.redis.host,
   port: config.redis.port,
+  password: config.redis.password,
 }));
 
 const getCookie = (cookieString, name) => {
