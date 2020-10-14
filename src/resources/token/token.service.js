@@ -2,9 +2,9 @@ const db = require('db');
 const securityUtil = require('security.util');
 const { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH, TOKEN_TYPES } = require('app.constants');
 
-const validateSchema = require('./token.schema');
+const { validate } = require('./token.schema');
 
-const service = db.createService(DATABASE_DOCUMENTS.TOKENS, { validateSchema });
+const service = db.createService(DATABASE_DOCUMENTS.TOKENS, { validate });
 
 const createToken = async (userId, type) => {
   const value = await securityUtil.generateSecureToken(TOKEN_SECURITY_LENGTH);

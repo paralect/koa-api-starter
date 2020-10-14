@@ -1,35 +1,41 @@
-const { Kafka } = require('kafkajs');
+const KafkaJS = require('kafkajs');
 
 const { KafkaProcessor } = require('./kafka-processor');
 
-const kafka = new Kafka({
-  clientId: 'ship',
-  brokers: ['kafka:9092'],
-});
+class Kafka {
+  constructor(config) {
+    this.kafka = new KafkaJS.Kafka(config);
 
-const processors = {
-  user: new KafkaProcessor(kafka, { groupId: 'ship' }, { topic: 'user' }),
-};
+    this.producer = this.kafka.producer();
+    this.processors = {};
+  }
 
-async function run() {
-  await Promise.all(Object.values(processors).map((p) => p.run()));
+  addProcessor(topic, consumerConfig, subscribeConfig = { topic }) {
+    if (this.processors[topic]) {
+      throw new Error(`Processor for "${topic}" topic already exists`);
+    }
+
+    this.processors[topic] = new KafkaProcessor(this.kafka, consumerConfig, subscribeConfig);
+    return this;
+  }
+
+  async run() {
+    await this.producer.connect();
+    await Promise.all(Object.values(this.processors).map((p) => p.run()));
+  }
+
+  async send({ event, data, ...record }) {
+    await this.producer.send({
+      ...record,
+      messages: [
+        { value: JSON.stringify({ event, data }) },
+      ],
+    });
+  }
 }
 
-async function send({ event, data, ...record }) {
-  const producer = kafka.producer();
-  await producer.connect();
-  await producer.send({
-    ...record,
-    messages: [
-      { value: JSON.stringify({ event, data }) },
-    ],
-  });
-  await producer.disconnect();
-}
+const kafka = new Kafka({ clientId: 'ship', brokers: ['kafka:9092'] });
 
-module.exports = {
-  kafka,
-  processors,
-  run,
-  send,
-};
+kafka.addProcessor('user', { groupId: 'ship' });
+
+module.exports = kafka;

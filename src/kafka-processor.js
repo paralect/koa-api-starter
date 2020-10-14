@@ -81,22 +81,40 @@ class KafkaProcessor {
     }
   }
 
-  on(eventName, listener) {
-    let listeners = this.listeners.get(eventName);
+  addListener(event, listener) {
+    let listeners = this.listeners.get(event);
 
     if (!listeners) {
       listeners = new Set();
-      this.listeners.set(eventName, listeners);
+      this.listeners.set(event, listeners);
     }
 
     listeners.add(listener);
+    return this;
   }
 
-  off(eventName, listener) {
-    const listeners = this.listeners.get(eventName);
-    if (!listeners) return;
+  on(event, listener) {
+    return this.addListener(event, listener);
+  }
 
-    listeners.delete(listener);
+  removeListener(event, listener) {
+    const listeners = this.listeners.get(event);
+    if (listeners) listeners.delete(listener);
+    return this;
+  }
+
+  off(event, listener) {
+    return this.removeListener(event, listener);
+  }
+
+  once(eventName, listener) {
+    const wrapper = async (...args) => {
+      this.removeListener(eventName, wrapper);
+      await listener(...args);
+    };
+
+    this.addListener(eventName, wrapper);
+    return this;
   }
 }
 

@@ -5,9 +5,9 @@ const { USER } = require('tests/constants');
 const securityUtil = require('tests/security.util');
 const BaseBuilder = require('tests/base.builder');
 
-const validateSchema = require('./user.schema');
+const { validate } = require('./user.schema');
 
-const userService = db.createService(USER.COLLECTION, { validateSchema });
+const userService = db.createService(USER.COLLECTION, { validate });
 
 class UserBuilder extends BaseBuilder {
   constructor({
