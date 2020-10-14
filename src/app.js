@@ -8,6 +8,7 @@ process.env.APP_ENV = process.env.APP_ENV || 'development';
 
 const config = require('config');
 const logger = require('logger');
+const kafka = require('kafka');
 
 process.on('unhandledRejection', (reason, p) => {
   logger.error('Possibly Unhandled Rejection at: Promise ', p, ' reason: ', reason);
@@ -19,8 +20,11 @@ require('./config/koa')(app);
 
 require('services/socketIo.service');
 
-app.listen(config.port, () => {
-  logger.warn(`Api server listening on ${config.port}, in ${process.env.NODE_ENV} mode and ${process.env.APP_ENV} environment`);
-});
+kafka.run()
+  .then(() => {
+    app.listen(config.port, () => {
+      logger.warn(`Api server listening on ${config.port}, in ${process.env.NODE_ENV} mode and ${process.env.APP_ENV} environment`);
+    });
+  });
 
 module.exports = app;
