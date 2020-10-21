@@ -1,9 +1,6 @@
 class KafkaProcessor {
-  constructor(kafka, consumerConfig, consumerSubscribeTopic) {
-    this.kafka = kafka;
-
-    this.consumerConfig = consumerConfig;
-    this.consumer = this.kafka.consumer(this.consumerConfig);
+  constructor(topic, consumer, consumerSubscribeTopic = { topic }) {
+    this.consumer = consumer;
 
     this.consumerSubscribeTopic = consumerSubscribeTopic;
 
@@ -81,7 +78,7 @@ class KafkaProcessor {
     }
   }
 
-  addListener(event, listener) {
+  on(event, listener) {
     let listeners = this.listeners.get(event);
 
     if (!listeners) {
@@ -93,18 +90,10 @@ class KafkaProcessor {
     return this;
   }
 
-  on(event, listener) {
-    return this.addListener(event, listener);
-  }
-
-  removeListener(event, listener) {
+  off(event, listener) {
     const listeners = this.listeners.get(event);
     if (listeners) listeners.delete(listener);
     return this;
-  }
-
-  off(event, listener) {
-    return this.removeListener(event, listener);
   }
 
   once(eventName, listener) {

@@ -73,6 +73,17 @@ services:
     depends_on:
       - mongo-replicator
       - redis
+
+  user-signup-handler:
+    container_name: ship-user-signup-handler
+    build:
+      context: ./user-signup-handler
+      dockerfile: Dockerfile.dev
+    networks:
+      - ship
+    volumes:
+      - ./user-signup-handler/src:/app/src
+
   migrator:
     container_name: ship-migrator
     command: npm run migrate

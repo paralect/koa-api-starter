@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const kafka = require('kafka');
+const kafkaService = require('services/kafka.service');
 
 const validate = require('middlewares/validate');
 const securityUtil = require('security.util');
@@ -85,7 +85,7 @@ async function handler(ctx) {
     },
   };
 
-  await kafka.send({
+  await kafkaService.send({
     topic: 'user',
     event: 'user:signup',
     data: user,
