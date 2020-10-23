@@ -10,7 +10,7 @@ class NodeMongoKafkaEmitter {
     await this.producer.send({
       topic: this.topic,
       messages: [
-        { value: JSON.stringify({ event, data }) },
+        { value: JSON.stringify({ event: `${this.topic}:${event}`, data }) },
       ],
     });
   }

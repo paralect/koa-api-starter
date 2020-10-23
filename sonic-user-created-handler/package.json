@@ -4,10 +4,9 @@
     "development": "nodemon --watch src src/index.js"
   },
   "dependencies": {
-    "@paralect/node-mongo": "2.1.0",
     "@slizenko/kafka-processor": "0.0.1",
-    "@slizenko/node-mongo-kafka-emitter": "0.0.1",
-    "kafkajs": "1.14.0"
+    "kafkajs": "1.14.0",
+    "sonic-channel": "^1.2.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
