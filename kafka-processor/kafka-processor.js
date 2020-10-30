@@ -1,15 +1,10 @@
 class KafkaProcessor {
-  constructor(topic, consumer, consumerSubscribeTopic = { topic }) {
+  constructor(topic, consumer, options) {
+    this.this = topic;
     this.consumer = consumer;
-
-    this.consumerSubscribeTopic = consumerSubscribeTopic;
+    this.options = options;
 
     this.listeners = new Map();
-
-    this.event = {
-      START_MESSAGE_PROCESSING: 'processor:start-message-processing',
-      END_MESSAGE_PROCESSING: 'processor:end-message-processing',
-    };
 
     this.run = this.run.bind(this);
     this.process = this.process.bind(this);
@@ -17,7 +12,7 @@ class KafkaProcessor {
 
   async run() {
     await this.consumer.connect();
-    await this.consumer.subscribe(this.consumerSubscribeTopic);
+    await this.consumer.subscribe({ topic: this.topic });
     await this.consumer.run({
       autoCommitInterval: 5000,
       eachMessage: this.process,
@@ -43,38 +38,38 @@ class KafkaProcessor {
   }
 
   async process({ topic, partition, message }) {
-    const data = JSON.parse(message.value.toString());
-    data.kafka = { topic, partition, message };
+    const { metadata = {}, data = {} } = JSON.parse(message.value.toString());
 
-    const startListeners = this.listeners.get(this.event.START_MESSAGE_PROCESSING);
-    if (startListeners) {
-      await Promise.all(Array.from(startListeners).map(async (listener) => {
-        await listener(data);
-      }));
-    }
-
-    const start = Date.now();
-
-    const targetListeners = this.listeners.get(data.event);
-    if (targetListeners) {
-      await Promise.all(Array.from(targetListeners).map(async (listener) => {
-        await listener(data);
-      }));
-    }
-
-    const end = Date.now();
-
-    data.metadata = {
-      startProcessingOn: start,
-      endProcessingOn: end,
-      processingDuration: end - start,
+    const m = {
+      data,
+      metadata,
+      kafka: { topic, partition, message },
     };
 
-    const endListeners = this.listeners.get(this.event.END_MESSAGE_PROCESSING);
-    if (endListeners) {
-      await Promise.all(Array.from(endListeners).map(async (listener) => {
-        await listener(data);
-      }));
+    if (this.options.onStart) {
+      const response = await this.options.onStart(m).catch(() => {});
+      if (response && response.skip) return;
+    }
+
+    m.metadata.startProcessingOn = Date.now();
+
+    const results = await Promise.allSettled(
+      Array.from(this.listeners.get(m.metadata.name) || [])
+        .map((listener) => listener(data)),
+    );
+
+    m.metadata.endProcessingOn = Date.now();
+    m.metadata.processingDuration = m.metadata.endProcessingOn - m.metadata.startProcessingOn;
+
+    const rejected = results.filter((r) => r.status === 'rejected');
+
+    if (rejected.length > 0) {
+      m.metadata.status = 'fail';
+      m.metadata.errors = rejected.map((r) => r.value);
+      if (this.options.onFail) this.options.onFail(m).catch(() => {});
+    } else {
+      m.metadata.status = 'success';
+      if (this.options.onSuccess) this.options.onSuccess(m).catch(() => {});
     }
   }
 

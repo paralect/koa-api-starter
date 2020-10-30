@@ -1,4 +1,5 @@
 const { Kafka } = require('kafkajs');
+const { nanoid } = require('nanoid');
 
 const config = require('config');
 
@@ -14,7 +15,15 @@ exports.send = async ({ event, data, ...record }) => {
   await producer.send({
     ...record,
     messages: [
-      { value: JSON.stringify({ event, data }) },
+      {
+        value: JSON.stringify({
+          data,
+          metadata: {
+            _id: nanoid(),
+            name: event,
+          },
+        }),
+      },
     ],
   });
 };

@@ -98,8 +98,8 @@ services:
       context: ./api-user-signup-handler
       dockerfile: Dockerfile.dev
     environment:
-      - KAFKA_BROKERS=kafka:9092
       - MONGO_CONNECTION=mongodb://root:root@mongo/api-development?authSource=admin&replicaSet=ship-rs
+      - KAFKA_BROKERS=kafka:9092
     networks:
       - ship
     volumes:
@@ -114,6 +114,7 @@ services:
       context: ./sonic-user-created-handler
       dockerfile: Dockerfile.dev
     environment:
+      - MONGO_CONNECTION=mongodb://root:root@mongo/api-development?authSource=admin&replicaSet=ship-rs
       - KAFKA_BROKERS=kafka:9092
       - SONIC_HOST=sonic
       - SONIC_PORT=1491
