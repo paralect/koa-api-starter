@@ -118,6 +118,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/scherbenokk"><img src="https://avatars1.githubusercontent.com/u/11193538?v=4" width="100px;" alt="Kirill Scherbenok"/><br /><sub><b>Kirill Scherbenok</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=scherbenokk" title="Code">💻</a> <a href="#ideas-scherbenokk" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/vladimirmyshkovski"><img src="https://avatars2.githubusercontent.com/u/12729789?s=460&u=e9ecc655150ce71bd0d29627a0886f0105b768e1&v=4" width="100px;" alt="Vladimir Myshkovski"/><br /><sub><b>Vladimir Myshkovski</b></sub></a><br /><a href="https://github.com/paralect/koa-api-starter/commits?author=vladimirmyshkovski" title="Code">💻</a></td>
   </tr>
 </table>
 
