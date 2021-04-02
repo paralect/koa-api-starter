@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const validateSchema = require('./migration.schema');
 
-const service = db.createService('__migrationVersion', { validateSchema });
+const service = db.createService('__migrationVersion', { validate: validateSchema });
 const migrationsPath = path.join(__dirname, 'migrations');
 const _id = 'migration_version';
 
