@@ -2,7 +2,7 @@ const db = require('db');
 
 const validateSchema = require('./migration-log.schema.js');
 
-const service = db.createService('__migrationLog', { validateSchema });
+const service = db.createService('__migrationLog', { validate: validateSchema });
 
 service.startMigrationLog = (_id, startTime, migrationVersion) => {
   return service.atomic.findOneAndUpdate({ _id }, {
