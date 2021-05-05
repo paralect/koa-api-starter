@@ -9,6 +9,7 @@ const UserBuilder = require('resources/user/user.builder');
 const { validate } = require('resources/user/user.schema');
 
 const userService = db.createService(USER.COLLECTION, { validate });
+
 const app = server.listen();
 
 const request = supertest.agent(app);

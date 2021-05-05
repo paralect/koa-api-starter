@@ -9,6 +9,7 @@ const { validate } = require('./user.schema');
 
 const userService = db.createService(USER.COLLECTION, { validate });
 
+
 class UserBuilder extends BaseBuilder {
   constructor({
     firstName = faker.name.firstName(),
