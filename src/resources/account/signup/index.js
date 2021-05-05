@@ -1,5 +1,7 @@
 const Joi = require('joi');
 
+const kafkaService = require('services/kafka.service');
+
 const validate = require('middlewares/validate');
 const securityUtil = require('security.util');
 const userService = require('resources/user/user.service');
@@ -70,7 +72,8 @@ async function handler(ctx) {
     securityUtil.generateSecureToken(),
   ]);
 
-  const user = await userService.create({
+  const user = {
+    createdOn: new Date().toISOString(),
     firstName: data.firstName,
     lastName: data.lastName,
     email: data.email,
@@ -80,6 +83,12 @@ async function handler(ctx) {
     oauth: {
       google: false,
     },
+  };
+
+  await kafkaService.send({
+    topic: 'user',
+    event: 'user:signup',
+    data: user,
   });
 
   await emailService.sendSignupWelcome({

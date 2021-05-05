@@ -2,7 +2,7 @@ version: '3.6'
 services:
   mongo-test:
     container_name: ship-test-mongo
-    image: mongo:4.2
+    image: mongo:4.4
     command: --replSet ship-test-rs --bind_ip_all
     networks:
       - ship-test

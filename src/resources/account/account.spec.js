@@ -6,9 +6,10 @@ const db = require('tests/db');
 const { USER, ERRORS } = require('tests/constants');
 const testsHelper = require('tests/tests.helper');
 const UserBuilder = require('resources/user/user.builder');
-const validateSchema = require('resources/user/user.schema');
+const { validate } = require('resources/user/user.schema');
 
-const userService = db.createService(USER.COLLECTION, { validate: validateSchema });
+const userService = db.createService(USER.COLLECTION, { validate });
+
 const app = server.listen();
 
 const request = supertest.agent(app);

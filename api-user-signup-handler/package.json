@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "start": "node src/index.js",
+    "development": "nodemon --watch src src/index.js"
+  },
+  "dependencies": {
+    "@paralect/node-mongo": "2.1.0",
+    "@slizenko/kafka-processor": "0.0.1",
+    "@slizenko/node-mongo-kafka-emitter": "0.0.2",
+    "kafkajs": "1.14.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}

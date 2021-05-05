@@ -27,4 +27,4 @@ const schema = Joi.object({
   lastRequest: Joi.date(),
 });
 
-module.exports = (obj) => schema.validate(obj, { allowUnknown: false });
+module.exports.validate = (obj) => schema.validate(obj, { allowUnknown: false });

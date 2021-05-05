@@ -1,18 +1,54 @@
 version: '3.6'
 services:
+  zookeeper:
+    container_name: ship-zookeeper
+    image: bitnami/zookeeper:latest
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - 2181:2181
+    networks:
+      - ship
+
+  kafka:
+    container_name: ship-kafka
+    image: bitnami/kafka:latest
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    ports:
+      - 9092:9092
+    networks:
+      - ship
+    depends_on:
+      - zookeeper
+
+  sonic:
+    container_name: ship-sonic
+    image: valeriansaliou/sonic:v1.3.0
+    ports:
+      - 1491:1491
+    networks:
+      - ship
+    volumes:
+      - ./sonic.cfg:/etc/sonic.cfg
+      - ./data/sonic:/var/lib/sonic/store
+
   mongo:
     container_name: ship-mongo
-    image: mongo:4.2
-    command: --replSet ship-rs --bind_ip_all
+    image: mongo:4.4
+    command: --replSet ship-rs --bind_ip_all --quiet
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
-    networks:
-      - ship
     ports:
       - 27017:27017
+
+    networks:
+      - ship
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/mongo:/data/db
+
   mongo-replicator:
     container_name: ship-mongo-replicator
     build: ./mongo-replicator
@@ -26,15 +62,17 @@ services:
       - ship
     depends_on:
       - mongo
+
   redis:
     container_name: ship-redis
     image: redis:5.0.5
     command: redis-server --appendonly yes
     hostname: redis
-    networks:
-      - ship
     ports:
       - 6379:6379
+    networks:
+      - ship
+
   api:
     container_name: ship-api
     build:
@@ -52,6 +90,42 @@ services:
     depends_on:
       - mongo-replicator
       - redis
+      - kafka
+
+  api-user-signup-handler:
+    container_name: ship-api-user-signup-handler
+    build:
+      context: ./api-user-signup-handler
+      dockerfile: Dockerfile.dev
+    environment:
+      - MONGO_CONNECTION=mongodb://root:root@mongo/api-development?authSource=admin&replicaSet=ship-rs
+      - KAFKA_BROKERS=kafka:9092
+    networks:
+      - ship
+    volumes:
+      - ./api-user-signup-handler/src:/app/src
+    depends_on:
+      - mongo-replicator
+      - kafka
+
+  sonic-user-created-handler:
+    container_name: ship-sonic-user-created-handler
+    build:
+      context: ./sonic-user-created-handler
+      dockerfile: Dockerfile.dev
+    environment:
+      - MONGO_CONNECTION=mongodb://root:root@mongo/api-development?authSource=admin&replicaSet=ship-rs
+      - KAFKA_BROKERS=kafka:9092
+      - SONIC_HOST=sonic
+      - SONIC_PORT=1491
+    networks:
+      - ship
+    volumes:
+      - ./sonic-user-created-handler/src:/app/src
+    depends_on:
+      - kafka
+      - sonic
+
   migrator:
     container_name: ship-migrator
     command: npm run migrate
@@ -64,6 +138,7 @@ services:
       - ./src:/app/src
     depends_on:
       - mongo-replicator
+
   scheduler:
     container_name: ship-scheduler
     command: npm run schedule-dev

@@ -16,4 +16,4 @@ const schema = Joi.object({
   isShadow: Joi.boolean(),
 });
 
-module.exports = (obj) => schema.validate(obj, { allowUnknown: false });
+module.exports.validate = (obj) => schema.validate(obj, { allowUnknown: false });

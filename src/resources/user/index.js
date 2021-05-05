@@ -1,7 +1,5 @@
 const Router = require('@koa/router');
 
-require('./user.handler');
-
 const router = new Router();
 
 require('./get-current').register(router);

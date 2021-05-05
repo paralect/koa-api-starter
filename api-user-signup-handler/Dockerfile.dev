@@ -1,0 +1,6 @@
+FROM node:14.14
+WORKDIR /app
+COPY ["./package*.json", "./"]
+RUN npm install --silent
+COPY . .
+CMD npm run development

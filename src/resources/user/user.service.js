@@ -1,11 +1,17 @@
+const { NodeMongoKafkaEmitter } = require('@slizenko/node-mongo-kafka-emitter');
 const _ = require('lodash');
 
 const db = require('db');
+const kafkaService = require('services/kafka.service');
+
 const constants = require('app.constants');
 
-const validateSchema = require('./user.schema');
+const { validate } = require('./user.schema');
 
-const service = db.createService(constants.DATABASE_DOCUMENTS.USERS, { validate: validateSchema });
+const service = db.createService(constants.DATABASE_DOCUMENTS.USERS, {
+  validate,
+  emitter: new NodeMongoKafkaEmitter('user', kafkaService.producer),
+});
 
 service.updateLastRequest = async (_id) => {
   return service.atomic.update({ _id }, {
