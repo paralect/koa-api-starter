@@ -154,4 +154,18 @@ describe('/users', async () => {
       verifiedUser = updated;
     });
   });
+  it('should successfully return data of users', (done) => {
+    testsHelper.test(done, async () => {
+      const response = await verifiedUserRequest
+        .get('/users/user')
+        .query({
+          limit: 1, page: 1, sortKey: 'firstName', sortDirection: 1,
+        })
+        .expect(200);
+
+      response.body.items.should.be.an('array');
+      response.body.totalPages.should.be.deep.equal(2);
+      response.body.currentPage.should.be.deep.equal(1);
+    });
+  });
 });
