@@ -19,6 +19,7 @@
     "test": "run-s test:**",
     "test:eslint": "eslint ./src",
     "test:mocha": "NODE_ENV=production APP_ENV=test mocha --timeout 20000 --require src/test.js --recursive --exit -c -R spec 'src/**/*.spec.js'",
+    "development:watcher": "concurrently \"node packageJsonWatcher.js\" \"npm:development\"",
     "development": "NODE_ENV=development nodemon --watch src src/app.js",
     "add-contributor": "all-contributors add",
     "generate-contributors": "all-contributors generate",
@@ -44,6 +45,7 @@
     "@paralect/node-mongo": "2.0.0",
     "app-module-path": "2.2.0",
     "bcrypt": "5.0.0",
+    "concurrently": "6.0.2",
     "google-auth-library": "6.0.6",
     "joi": "17.2.1",
     "koa": "2.13.0",
@@ -67,6 +69,7 @@
   "devDependencies": {
     "all-contributors-cli": "6.17.4",
     "chai": "4.2.0",
+    "cli-spinner": "0.2.10",
     "eslint": "7.2.0",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-plugin-import": "2.22.0",

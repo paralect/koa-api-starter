@@ -1,10 +1,13 @@
 FROM node:12
 
 EXPOSE 3001 8082
-COPY ["./package.json", "./package-lock.json", "/app/"]
+COPY ["./package.json", "./packageJsonWatcher.js", "./package-lock.json", "/app/"]
 WORKDIR /app
 RUN npm ci --quiet
 
 VOLUME "/app/src"
 
-CMD npm run development
+CMD npm run development:watcher
+
+# CMD npm run development
+
