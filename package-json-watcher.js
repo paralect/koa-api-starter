@@ -11,7 +11,7 @@ const moment = require('moment');
   console.log('Start watching package.json');
 
   fs.watchFile('package.json', () => {
-    console.log('file Changed');
+    console.log('Found changes in package.json. Installing npm dependencies...');
     spinner.start();
 
     exec('npm install', (err, stdout) => {
