@@ -23,7 +23,7 @@ const schema = Joi.object({
       'string.empty': 'Last name is required',
     }),
   email: Joi.string()
-    .email()
+    .email({ tlds: false })
     .trim()
     .lowercase()
     .required()

@@ -7,7 +7,7 @@ const emailService = require('services/email.service');
 
 const schema = Joi.object({
   email: Joi.string()
-    .email()
+    .email({ tlds: false })
     .trim()
     .lowercase()
     .required()
