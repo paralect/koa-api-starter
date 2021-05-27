@@ -13,7 +13,7 @@ process.on('unhandledRejection', (reason, p) => {
   logger.error('Possibly Unhandled Rejection at: Promise ', p, ' reason: ', reason);
   // application specific logging here
 });
-
+ asdasd sa d
 const app = new Koa();
 require('./config/koa')(app);
 
