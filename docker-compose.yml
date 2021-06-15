@@ -46,6 +46,7 @@ services:
       APP_ENV: development
     volumes:
       - ./src:/app/src
+      - ./package.json:/app/package.json
     ports:
       - 3001:3001
       - 8082:8082
