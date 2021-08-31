@@ -19,8 +19,7 @@ async function handler(ctx) {
     const { user } = ctx.state;
     const fileName = `${user._id}-${Date.now()}-${ctx.file.originalname}`;
     const { key } = await cloudStorageService.upload(fileName, ctx.file);
-    const url = await cloudStorageService.getSignedDownloadUrl(key);
-    ctx.body = { url };
+    ctx.body = { key };
   } catch (error) {
     if (error.code) {
       ctx.body = {

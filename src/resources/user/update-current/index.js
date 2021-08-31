@@ -22,7 +22,7 @@ const schema = Joi.object({
       'string.empty': 'Email is required',
       'string.email': 'Please enter a valid email address',
     }),
-  avatarUrl: Joi.string()
+  avatarFileKey: Joi.string()
     .allow(null),
 });
 

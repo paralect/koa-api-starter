@@ -25,7 +25,7 @@ const schema = Joi.object({
     })
     .required(),
   lastRequest: Joi.date(),
-  avatarUrl: Joi.string()
+  avatarFileKey: Joi.string()
     .allow(null),
 });
 
