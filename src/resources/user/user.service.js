@@ -24,41 +24,41 @@ const privateFields = [
 
 service._find = service.find;
 service.find = async (query = {}, options = {}) => {
-  const { results, pagesCount, count } = await service._find(query, options);
-  const users = results.map((user) => _.omit(user, privateFields));
-  return { users, pagesCount, count };
+  const { results, ...data } = await service._find(query, options);
+  const items = results.map((item) => _.omit(item, privateFields));
+  return { results: items, ...data };
 };
 
 service._findOne = service.findOne;
 service.findOne = async (query = {}, options = {}) => {
-  const user = await service._findOne(query, options);
-  return _.omit(user, privateFields);
+  const item = await service._findOne(query, options);
+  return _.omit(item, privateFields);
 };
 
 service._create = service.create;
 service.create = async (data) => {
-  const users = await service._create(data);
-  return users.length
-    ? users.map((user) => _.omit(user, privateFields))
-    : _.omit(users, privateFields);
+  const items = await service._create(data);
+  return items.length
+    ? items.map((item) => _.omit(item, privateFields))
+    : _.omit(items, privateFields);
 };
 
 service._remove = service.remove;
 service.remove = async (query = {}, options = {}) => {
-  const users = await service._remove(query, options);
-  return users.map((user) => _.omit(user, privateFields));
+  const items = await service._remove(query, options);
+  return items.map((item) => _.omit(item, privateFields));
 };
 
 service._updateOne = service.updateOne;
 service.updateOne = async (query = {}, updateFn = (doc) => doc, options = {}) => {
-  const user = await service._updateOne(query, updateFn, options);
-  return _.omit(user, privateFields);
+  const item = await service._updateOne(query, updateFn, options);
+  return _.omit(item, privateFields);
 };
 
 service._updateMany = service.updateMany;
 service.updateMany = async (query = {}, updateFn = (doc) => doc, options = {}) => {
-  const users = await service._updateMany(query, updateFn, options);
-  return users.map((user) => _.omit(user, privateFields));
+  const items = await service._updateMany(query, updateFn, options);
+  return items.map((item) => _.omit(item, privateFields));
 };
 
 module.exports = service;

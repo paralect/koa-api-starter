@@ -15,13 +15,13 @@ async function handler(ctx) {
     limit, page, sortKey, sortDirection,
   } = ctx.validatedData;
 
-  const { users, pagesCount } = await userService.find(
+  const { results, pagesCount } = await userService.find(
     {},
     { page, perPage: limit, sort: { [sortKey]: sortDirection } },
   );
 
   ctx.body = {
-    items: users,
+    items: results,
     totalPages: pagesCount,
     currentPage: page,
   };
