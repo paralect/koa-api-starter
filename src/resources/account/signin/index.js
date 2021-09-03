@@ -75,7 +75,7 @@ async function handler(ctx) {
     authService.setTokens(ctx, user._id),
   ]);
 
-  ctx.body = userService.getPublic(user);
+  ctx.body = user;
 }
 
 module.exports.register = (router) => {

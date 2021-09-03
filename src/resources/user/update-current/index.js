@@ -58,7 +58,7 @@ async function handler(ctx) {
     );
   }
 
-  ctx.body = userService.getPublic(user);
+  ctx.body = user;
 }
 
 module.exports.register = (router) => {
