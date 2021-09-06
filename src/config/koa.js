@@ -13,17 +13,12 @@ const routeErrorHandler = async (ctx, next) => {
   try {
     await next();
   } catch (error) {
-    ctx.status = error.statusCode || error.status || 500;
+    const status = error.status || 500;
+    const errors = error.errors || error.message;
 
-    if (!ctx.body) {
-      ctx.body = {
-        errors: {
-          _global: [error.message],
-        },
-      };
-    }
-
-    logger.error(ctx.body);
+    ctx.status = status;
+    ctx.body = { errors: error.errors || { _global: 'Something went wrong.' } };
+    logger.error(errors);
   }
 };
 
