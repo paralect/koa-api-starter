@@ -3,7 +3,7 @@ services:
   mongo:
     container_name: ship-mongo
     image: mongo:4.2
-    command: --replSet ship-rs --bind_ip_all
+    command: --replSet rs --bind_ip_all
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
@@ -21,7 +21,7 @@ services:
       - PORT=27017
       - USERNAME=root
       - PASSWORD=root
-      - REPLICA_SET_NAME=ship-rs
+      - REPLICA_SET_NAME=rs
     networks:
       - ship
     depends_on:
