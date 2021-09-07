@@ -17,7 +17,10 @@ const routeErrorHandler = async (ctx, next) => {
     const errors = error.errors || error.message;
 
     ctx.status = status;
-    ctx.body = { errors: error.errors || { _global: 'Something went wrong.' } };
+    ctx.body = process.env.APP_ENV === 'production'
+      ? { errors: error.errors || { _global: ['Something went wrong.'] } }
+      : { errors: error.errors || { _global: [error.message] } };
+
     logger.error(errors);
   }
 };
