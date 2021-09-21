@@ -16,10 +16,12 @@ const routeErrorHandler = async (ctx, next) => {
     const status = error.status || 500;
     const errors = error.errors || error.message;
 
+    const errorDetails = errors.match('details":\\[(.*)\\]}');
     ctx.status = status;
+
     ctx.body = process.env.APP_ENV === 'production'
       ? { errors: error.errors || { _global: ['Something went wrong.'] } }
-      : { errors: error.errors || { _global: [error.message] } };
+      : { errors: error.errors || { _global: errorDetails ? [JSON.parse(errorDetails[1])?.message] : [error.message] } };
 
     logger.error(errors);
   }

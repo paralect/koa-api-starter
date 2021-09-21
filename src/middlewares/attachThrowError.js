@@ -6,7 +6,7 @@ const attachThrowError = async (ctx, next) => {
   };
 
   ctx.assertError = (condition, errors = ['Something went wrong.'], status = 400) => {
-    ctx.assert(condition, status, errors);
+    ctx.assert(!condition, status, errors);
 
     return null;
   };
