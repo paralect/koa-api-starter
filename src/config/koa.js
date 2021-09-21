@@ -23,7 +23,7 @@ const routeErrorHandler = async (ctx, next) => {
       ? { errors: error.errors || { _global: ['Something went wrong.'] } }
       : { errors: error.errors || { _global: errorDetails ? [JSON.parse(errorDetails[1])?.message] : [error.message] } };
 
-    logger.error(errors);
+    logger.error(errorDetails[1] || errors);
   }
 };
 
