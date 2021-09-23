@@ -1,6 +1,6 @@
 {
   "mongo": {
-    "connection": "mongodb://root:root@mongo/api-development?authSource=admin&replicaSet=ship-rs"
+    "connection": "mongodb://root:root@mongo/api-development?authSource=admin&replicaSet=rs"
   },
   "jwt": {
     "secret": "the_secret"
@@ -19,5 +19,11 @@
     "clientId": "clientId",
     "clientSecret": "clientSecret",
     "redirectUri": "redirectUri"
+  },
+  "cloudStorage": {
+    "endpoint": "fra1.digitaloceanspaces.com",
+    "accessKeyId": "yourAccessKeyId",
+    "secretAccessKey": "yourSecretAccessKey",
+    "bucket": "yourBucket"
   }
 }
