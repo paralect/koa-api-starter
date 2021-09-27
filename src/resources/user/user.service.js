@@ -1,11 +1,11 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const db = require('db');
-const constants = require('app.constants');
+import db from '../../db.js';
+import { DATABASE_DOCUMENTS } from '../../app.constants.js';
 
-const validateSchema = require('./user.schema');
+import validateSchema from './user.schema.js';
 
-const service = db.createService(constants.DATABASE_DOCUMENTS.USERS, { validate: validateSchema });
+const service = db.createService(DATABASE_DOCUMENTS.USERS, { validate: validateSchema });
 
 service.updateLastRequest = async (_id) => {
   return service.atomic.update({ _id }, {
@@ -26,4 +26,4 @@ service.getPublic = (user) => {
   return _.omit(user, privateFields);
 };
 
-module.exports = service;
+export default service;

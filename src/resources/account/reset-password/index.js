@@ -1,8 +1,8 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const securityUtil = require('security.util');
-const validate = require('middlewares/validate');
-const userService = require('resources/user/user.service');
+import * as securityUtil from '../../../security.util.js';
+import validate from '../../../middlewares/validate.js';
+import userService from '../../user/user.service.js';
 
 const schema = Joi.object({
   token: Joi.string()
@@ -41,6 +41,6 @@ async function handler(ctx) {
   ctx.body = {};
 }
 
-module.exports.register = (router) => {
+export default (router) => {
   router.put('/reset-password', validate(schema), handler);
 };

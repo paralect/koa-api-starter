@@ -1,10 +1,9 @@
-const attachThrowError = require('middlewares/attachThrowError');
-
-const auth = require('./middlewares/auth.middleware');
-const tryToAttachUser = require('./middlewares/tryToAttachUser.middleware');
-const extractTokens = require('./middlewares/extractTokens.middleware');
-const publicRoutes = require('./public');
-const authenticatedRoutes = require('./authenticated');
+import attachThrowError from '../../middlewares/attachThrowError.js';
+import auth from './middlewares/auth.middleware.js';
+import tryToAttachUser from './middlewares/tryToAttachUser.middleware.js';
+import extractTokens from './middlewares/extractTokens.middleware.js';
+import publicRoutes from './public.js';
+import authenticatedRoutes from './authenticated.js';
 
 const defineRoutes = (app) => {
   app.use(attachThrowError);
@@ -19,4 +18,4 @@ const defineRoutes = (app) => {
   authenticatedRoutes(app);
 };
 
-module.exports = defineRoutes;
+export default defineRoutes;

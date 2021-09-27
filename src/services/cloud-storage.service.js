@@ -1,5 +1,5 @@
-const aws = require('aws-sdk');
-const config = require('config');
+import aws from 'aws-sdk';
+import config from '../config/index.js';
 
 const storage = new aws.S3(config.cloudStorage);
 const Bucket = config.cloudStorage.bucket;
@@ -55,7 +55,7 @@ function deleteObject(fileName) {
   });
 }
 
-module.exports = {
+export default {
   upload,
   getObject,
   deleteObject,

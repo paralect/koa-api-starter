@@ -1,5 +1,5 @@
-const multer = require('@koa/multer');
+import multer from '@koa/multer';
 
 const storage = multer.memoryStorage();
 
-module.exports = multer({ storage });
+export default multer({ storage });

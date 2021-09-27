@@ -1,9 +1,9 @@
-const mount = require('koa-mount');
+import mount from 'koa-mount';
 
-const userResource = require('resources/user');
-const fileResource = require('resources/file');
+import userResource from '../../resources/user/index.js';
+import fileResource from '../../resources/file/index.js';
 
-module.exports = (app) => {
+export default (app) => {
   app.use(mount('/users', userResource));
   app.use(mount('/files', fileResource));
 };

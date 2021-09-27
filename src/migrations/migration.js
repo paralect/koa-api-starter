@@ -5,4 +5,4 @@ class Migration {
   }
 }
 
-module.exports = Migration;
+export default Migration;

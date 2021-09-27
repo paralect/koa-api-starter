@@ -1,14 +1,18 @@
-const config = require('config');
-const logger = require('logger');
-const client = require('redis').createClient({
+import redis from 'redis';
+import emmit from 'socket.io-emitter';
+
+import config from './config/index.js';
+import logger from './logger.js';
+
+const client = redis.createClient({
   host: config.redis.host,
   port: config.redis.port,
   password: config.redis.password,
 });
-const emitter = require('socket.io-emitter')(client);
+const emitter = emmit(client);
 
 emitter.redis.on('error', (err) => {
   logger.error(`Error publishing to sockets: ${err}`);
 });
 
-module.exports = emitter;
+export default emitter;

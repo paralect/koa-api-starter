@@ -1,5 +1,5 @@
-const schedule = require('node-schedule');
-const EventEmitter = require('events');
+import schedule from 'node-schedule';
+import EventEmitter from 'events';
 
 const eventEmitter = new EventEmitter();
 
@@ -7,4 +7,4 @@ schedule.scheduleJob('* * * * *', () => {
   eventEmitter.emit('cron:every-minute');
 });
 
-module.exports = eventEmitter;
+export default eventEmitter;

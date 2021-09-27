@@ -1,7 +1,7 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const validate = require('middlewares/validate');
-const userService = require('resources/user/user.service');
+import validate from '../../../middlewares/validate.js';
+import userService from '../user.service.js';
 
 const schema = Joi.object({
   firstName: Joi.string()
@@ -56,6 +56,6 @@ async function handler(ctx) {
   ctx.body = userService.getPublic(user);
 }
 
-module.exports.register = (router) => {
+export default (router) => {
   router.put('/current', validate(schema), validator, handler);
 };

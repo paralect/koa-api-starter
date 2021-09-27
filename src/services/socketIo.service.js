@@ -1,9 +1,11 @@
-const io = require('socket.io')();
-const redisAdapter = require('socket.io-redis');
+import { Server } from 'socket.io';
+import redisAdapter from 'socket.io-redis';
 
-const config = require('config');
-const tokenService = require('resources/token/token.service');
-const { COOKIES } = require('app.constants');
+import config from '../config/index.js';
+import tokenService from '../resources/token/token.service.js';
+import { COOKIES } from '../app.constants.js';
+
+const io = new Server();
 
 io.adapter(redisAdapter({
   host: config.redis.host,

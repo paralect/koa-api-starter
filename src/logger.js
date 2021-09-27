@@ -1,5 +1,5 @@
-const { createConsoleLogger } = require('@paralect/common-logger');
+import { createConsoleLogger } from '@paralect/common-logger';
 
-const config = require('config');
+import config from './config/index.js';
 
-module.exports = createConsoleLogger({ isDev: config.isDev });
+export default createConsoleLogger({ isDev: config.isDev });

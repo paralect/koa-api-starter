@@ -1,13 +1,13 @@
-const cors = require('@koa/cors');
-const bodyParser = require('koa-bodyparser');
-const helmet = require('koa-helmet');
-const validate = require('koa-validate');
-const requestLogger = require('koa-logger');
-const qs = require('koa-qs');
+import cors from '@koa/cors';
+import bodyParser from 'koa-bodyparser';
+import helmet from 'koa-helmet';
+import validate from 'koa-validate';
+import requestLogger from 'koa-logger';
+import qs from 'koa-qs';
 
-const logger = require('logger');
+import logger from '../logger.js';
 
-const routes = require('./routes');
+import routes from './routes/index.js';
 
 const routeErrorHandler = async (ctx, next) => {
   try {
@@ -25,7 +25,7 @@ const routeErrorHandler = async (ctx, next) => {
   }
 };
 
-module.exports = (app) => {
+export default (app) => {
   app.use(cors({ credentials: true }));
   app.use(helmet());
   qs(app);

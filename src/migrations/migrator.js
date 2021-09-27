@@ -1,10 +1,10 @@
-require('moment-duration-format');
-const moment = require('moment');
+import 'moment-duration-format';
+import moment from 'moment';
 
-const logger = require('logger');
+import logger from 'logger';
 
-const migrationLogService = require('./migrations-log/migration-log.service');
-const migrationService = require('./migration.service');
+import migrationLogService from './migrations-log/migration-log.service';
+import migrationService from './migration.service';
 
 const migrator = {};
 
@@ -59,4 +59,4 @@ migrator.exec = async () => {
   process.exit(0);
 };
 
-module.exports = migrator;
+export default migrator;

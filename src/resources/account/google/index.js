@@ -1,7 +1,7 @@
-const config = require('config');
-const userService = require('resources/user/user.service');
-const googleService = require('services/google.service.js');
-const authService = require('services/auth.service');
+import config from '../../../config/index.js';
+import userService from '../../user/user.service.js';
+import * as googleService from '../../../services/google.service.js';
+import * as authService from '../../../services/auth.service.js';
 
 const createUserAccount = async (userData) => {
   const user = await userService.create({
@@ -55,7 +55,7 @@ const signinGoogleWithCode = async (ctx) => {
   ctx.redirect(config.webUrl);
 };
 
-module.exports.register = (router) => {
+export default (router) => {
   router.get('/signin/google/auth', getOAuthUrl);
   router.get('/signin/google', signinGoogleWithCode);
 };

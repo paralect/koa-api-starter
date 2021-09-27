@@ -1,5 +1,5 @@
-const userService = require('resources/user/user.service');
-const ioEmitter = require('ioEmitter');
+import userService from './user.service.js';
+import ioEmitter from '../../ioEmitter.js';
 
 userService.on('updated', ({ doc }) => {
   const roomId = `user-${doc._id}`;

@@ -1,5 +1,5 @@
-const userService = require('resources/user/user.service');
-const tokenService = require('resources/token/token.service');
+import userService from '../../../resources/user/user.service.js';
+import tokenService from '../../../resources/token/token.service.js';
 
 const tryToAttachUser = async (ctx, next) => {
   let userData;
@@ -17,4 +17,4 @@ const tryToAttachUser = async (ctx, next) => {
   return next();
 };
 
-module.exports = tryToAttachUser;
+export default tryToAttachUser;

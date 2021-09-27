@@ -2,6 +2,6 @@ const handler = (ctx) => {
   ctx.status = 200;
 };
 
-module.exports.register = (router) => {
+export default (router) => {
   router.get('/', handler);
 };

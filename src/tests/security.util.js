@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
-exports.getHashSync = (text) => {
+export const getHashSync = (text) => {
   return bcrypt.hashSync(text, 10);
 };

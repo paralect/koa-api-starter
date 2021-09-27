@@ -1,5 +1,8 @@
-require('app-module-path').addPath(__dirname);
+import appModulePath from 'app-module-path';
+import path from 'path';
 
-require('scheduler/cron');
+import './scheduler/cron/index.js';
 
-require('scheduler/handlers/action.example.handler.js');
+import './scheduler/handlers/action.example.handler.js';
+
+appModulePath.addPath(path.resolve());

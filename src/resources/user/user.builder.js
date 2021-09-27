@@ -1,11 +1,11 @@
-const faker = require('faker');
+import faker from 'faker';
 
-const db = require('tests/db');
-const { USER } = require('tests/constants');
-const securityUtil = require('tests/security.util');
-const BaseBuilder = require('tests/base.builder');
+import db from 'tests/db';
+import { USER } from 'tests/constants';
+import { getHashSync } from 'tests/security.util';
+import BaseBuilder from 'tests/base.builder';
 
-const validateSchema = require('./user.schema');
+import validateSchema from './user.schema';
 
 const userService = db.createService(USER.COLLECTION, { validate: validateSchema });
 
@@ -29,7 +29,7 @@ class UserBuilder extends BaseBuilder {
       createdOn,
       lastRequest,
       signupToken,
-      passwordHash: securityUtil.getHashSync(password),
+      passwordHash: getHashSync(password),
       isEmailVerified: false,
       oauth: { google: false },
     };
@@ -54,4 +54,4 @@ class UserBuilder extends BaseBuilder {
   }
 }
 
-module.exports = UserBuilder;
+export default UserBuilder;

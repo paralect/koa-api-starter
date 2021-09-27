@@ -1,15 +1,24 @@
-const Router = require('@koa/router');
+import Router from '@koa/router';
+
+import signUpRegister from './signup/index.js';
+import logOutRegister from './logout/index.js';
+import verifyEmailRegister from './verify-email/index.js';
+import signInRegister from './signin/index.js';
+import forgotPasswordRegister from './forgot-password/index.js';
+import resetPasswordRegister from './reset-password/index.js';
+import resendVerificationRegister from './resend-verification/index.js';
+import googleRegister from './google/index.js';
 
 const router = new Router();
 
-require('./signup').register(router);
-require('./logout').register(router);
-require('./verify-email').register(router);
-require('./signin').register(router);
-require('./forgot-password').register(router);
-require('./reset-password').register(router);
-require('./resend-verification').register(router);
+signUpRegister(router);
+logOutRegister(router);
+verifyEmailRegister(router);
+signInRegister(router);
+forgotPasswordRegister(router);
+resetPasswordRegister(router);
+resendVerificationRegister(router);
 
-require('./google').register(router);
+googleRegister(router);
 
-module.exports = router.routes();
+export default router.routes();

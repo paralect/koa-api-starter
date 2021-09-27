@@ -8,4 +8,4 @@ const auth = (ctx, next) => {
   return null;
 };
 
-module.exports = auth;
+export default auth;

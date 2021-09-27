@@ -1,4 +1,7 @@
-const config = require('config');
-const db = require('@paralect/node-mongo').connect(config.mongo.connection);
+import db from '@paralect/node-mongo';
 
-module.exports = db;
+import config from './config/index.js';
+
+const connectedDB = db.connect(config.mongo.connection);
+
+export default connectedDB;

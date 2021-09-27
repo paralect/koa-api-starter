@@ -1,6 +1,6 @@
-const db = require('db');
+import db from 'db';
 
-const validateSchema = require('./migration-log.schema.js');
+import validateSchema from './migration-log.schema.js';
 
 const service = db.createService('__migrationLog', { validate: validateSchema });
 
@@ -34,4 +34,4 @@ service.finishMigrationLog = (_id, finishTime, duration) => service.atomic.updat
   },
 });
 
-module.exports = service;
+export default service;

@@ -17,4 +17,4 @@ class BaseBuilder {
   }
 }
 
-module.exports = BaseBuilder;
+export default BaseBuilder;

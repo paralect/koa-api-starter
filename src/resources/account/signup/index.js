@@ -1,11 +1,11 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const validate = require('middlewares/validate');
-const securityUtil = require('security.util');
-const userService = require('resources/user/user.service');
-const emailService = require('services/email.service');
+import validate from '../../../middlewares/validate.js';
+import * as securityUtil from '../../../security.util.js';
+import userService from '../../user/user.service.js';
+import * as emailService from '../../../services/email.service.js';
 
-const config = require('config');
+import config from '../../../config/index.js';
 
 const schema = Joi.object({
   firstName: Joi.string()
@@ -86,6 +86,6 @@ async function handler(ctx) {
   };
 }
 
-module.exports.register = (router) => {
+export default (router) => {
   router.post('/signup', validate(schema), validator, handler);
 };

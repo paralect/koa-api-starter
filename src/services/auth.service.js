@@ -1,7 +1,7 @@
-const tokenService = require('resources/token/token.service');
-const cookieHelper = require('helpers/cookie.helper');
+import tokenService from '../resources/token/token.service.js';
+import * as cookieHelper from '../helpers/cookie.helper.js';
 
-exports.setTokens = async (ctx, userId) => {
+export const setTokens = async (ctx, userId) => {
   const res = await tokenService.createAuthTokens({ userId });
 
   const options = {
@@ -12,7 +12,7 @@ exports.setTokens = async (ctx, userId) => {
   cookieHelper.setTokenCookies(options);
 };
 
-exports.unsetTokens = async (ctx) => {
+export const unsetTokens = async (ctx) => {
   await tokenService.removeAuthTokens(ctx.state.accessToken, ctx.state.refreshToken);
   cookieHelper.unsetTokenCookies(ctx);
 };

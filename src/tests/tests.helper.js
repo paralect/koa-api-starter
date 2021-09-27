@@ -1,4 +1,4 @@
-exports.test = async (done, check) => {
+export const test = async (done, check) => {
   try {
     await check();
 
@@ -8,14 +8,14 @@ exports.test = async (done, check) => {
   }
 };
 
-exports.checkAutoUpdatedFields = (response, startTime, fields) => {
+export const checkAutoUpdatedFields = (response, startTime, fields) => {
   fields.forEach((field) => {
     new Date(response.body[field]).getTime().should.be.above(startTime);
     new Date(response.body[field]).getTime().should.be.below(Date.now());
   });
 };
 
-exports.datesToISOStrings = (object) => {
+export const datesToISOStrings = (object) => {
   return Object.keys(object).reduce((acc, key) => {
     return {
       ...acc,

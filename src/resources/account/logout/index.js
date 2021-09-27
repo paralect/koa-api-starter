@@ -1,4 +1,4 @@
-const authService = require('services/auth.service');
+import * as authService from '../../../services/auth.service.js';
 
 /**
  * Remove tokens for the user and logout
@@ -8,6 +8,6 @@ const handler = async (ctx) => {
   ctx.body = {};
 };
 
-module.exports.register = (router) => {
+export default (router) => {
   router.post('/logout', handler);
 };

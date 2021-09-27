@@ -1,4 +1,4 @@
-const cloudStorageService = require('services/cloud-storage.service');
+import cloudStorageService from '../../../services/cloud-storage.service.js';
 
 async function validate(ctx, next) {
   try {
@@ -21,6 +21,6 @@ async function handler(ctx) {
   }
 }
 
-module.exports.register = (router) => {
+export default (router) => {
   router.get('/:key', validate, handler);
 };

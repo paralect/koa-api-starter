@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const { TOKEN_TYPES } = require('app.constants');
+import { TOKEN_TYPES } from '../../app.constants.js';
 
 const schema = Joi.object({
   _id: Joi.string(),
@@ -16,4 +16,4 @@ const schema = Joi.object({
   isShadow: Joi.boolean(),
 });
 
-module.exports = (obj) => schema.validate(obj, { allowUnknown: false });
+export default (obj) => schema.validate(obj, { allowUnknown: false });

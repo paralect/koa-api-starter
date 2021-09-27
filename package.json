@@ -2,14 +2,19 @@
   "name": "koa-api-starter",
   "version": "2.3.0",
   "description": "Koa api",
+  "type": "module",
   "private": false,
-  "main": "src/app.js",
+  "exports": "./src/app.js",
   "author": "Paralect",
   "license": "MIT",
   "keywords": [
     "koa",
     "rest api",
     "paralect"
+  ],
+  "files": [
+    "src",
+    "*.mjml"
   ],
   "scripts": {
     "build": "run-s build:**",
@@ -84,5 +89,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/paralect/koa-api-starter.git"
+  },
+  "engines": {
+    "node": ">=14.13.1 || >=16.0.0"
   }
 }

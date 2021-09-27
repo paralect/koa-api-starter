@@ -1,9 +1,9 @@
-const mount = require('koa-mount');
+import mount from 'koa-mount';
 
-const accountResource = require('resources/account/public');
-const healthResource = require('resources/health/public');
+import accountResource from '../../resources/account/public.js';
+import healthResource from '../../resources/health/public.js';
 
-module.exports = (app) => {
+export default (app) => {
   app.use(mount('/account', accountResource));
   app.use(mount('/health', healthResource));
 };

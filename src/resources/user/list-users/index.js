@@ -1,7 +1,7 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const validate = require('middlewares/validate');
-const userService = require('resources/user/user.service');
+import validate from '../../../middlewares/validate.js';
+import userService from '../user.service.js';
 
 const schema = Joi.object({
   limit: Joi.number().required(),
@@ -27,6 +27,6 @@ async function handler(ctx) {
   };
 }
 
-module.exports.register = (router) => {
+export default (router) => {
   router.get('/user', validate(schema), handler);
 };

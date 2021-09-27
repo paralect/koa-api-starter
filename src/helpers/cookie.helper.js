@@ -1,9 +1,10 @@
-const psl = require('psl');
-const url = require('url');
-const config = require('config');
-const { COOKIES } = require('app.constants');
+import psl from 'psl';
+import url from 'url';
 
-exports.setTokenCookies = ({
+import config from '../config/index.js';
+import { COOKIES } from '../app.constants.js';
+
+export const setTokenCookies = ({
   ctx,
   accessToken,
 }) => {
@@ -18,6 +19,6 @@ exports.setTokenCookies = ({
   });
 };
 
-exports.unsetTokenCookies = (ctx) => {
+export const unsetTokenCookies = (ctx) => {
   ctx.cookies.set(COOKIES.ACCESS_TOKEN);
 };

@@ -1,8 +1,11 @@
-const Router = require('@koa/router');
+import Router from '@koa/router';
+
+import uploadRegister from './upload/index.js';
+import getDownloadUrlRegirster from './get-download-url/index.js';
 
 const router = new Router();
 
-require('./upload').register(router);
-require('./get-download-url').register(router);
+uploadRegister(router);
+getDownloadUrlRegirster(router);
 
-module.exports = router.routes();
+export default router.routes();

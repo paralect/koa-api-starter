@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:16
 
 EXPOSE 3001 8082
 COPY ["./package.json", "./package-lock.json", ".eslintrc.js", ".eslintignore", "/app/"]

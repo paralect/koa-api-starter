@@ -1,5 +1,5 @@
-const cloudStorageService = require('services/cloud-storage.service');
-const uploadMiddleware = require('middlewares/uploadMiddleware');
+import cloudStorageService from '../../../services/cloud-storage.service.js';
+import uploadMiddleware from '../../../middlewares/uploadMiddleware.js';
 
 async function validate(ctx, next) {
   ctx.assertError(!ctx.file, {
@@ -22,6 +22,6 @@ async function handler(ctx) {
   }
 }
 
-module.exports.register = (router) => {
+export default (router) => {
   router.post('/', uploadMiddleware.single('file'), validate, handler);
 };

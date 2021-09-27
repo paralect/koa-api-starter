@@ -1,15 +1,15 @@
-const _ = require('lodash');
-const supertest = require('supertest');
-const chai = require('chai');
+import _ from 'lodash';
+import supertest from 'supertest';
+import chai from 'chai';
 
-const server = require('app');
-const db = require('tests/db');
-const { USER, ERRORS } = require('tests/constants');
-const authHelper = require('tests/auth.helper');
-const testsHelper = require('tests/tests.helper');
+import server from 'app';
+import db from 'tests/db';
+import { USER, ERRORS } from 'tests/constants';
+import { signin } from 'tests/auth.helper';
+import { test, datesToISOStrings, checkAutoUpdatedFields } from 'tests/tests.helper';
 
-const UserBuilder = require('./user.builder');
-const userSchema = require('./user.schema');
+import UserBuilder from './user.builder';
+import userSchema from './user.schema';
 
 const app = server.listen();
 const userService = db.createService(USER.COLLECTION, userSchema);
@@ -33,11 +33,11 @@ describe('/users', async () => {
     ]);
 
     verifiedUserRequest = supertest.agent(app);
-    await authHelper.signin(verifiedUserRequest, verifiedUser);
+    await signin(verifiedUserRequest, verifiedUser);
   });
 
   it('should successfully return data of the current user', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const startTime = Date.now();
 
       let updated = verifiedUser;
@@ -51,14 +51,14 @@ describe('/users', async () => {
         [field]: response.body[field],
       }), updated);
 
-      testsHelper.checkAutoUpdatedFields(response, startTime, autoUpdatedFields);
-      response.body.should.be.deep.equal(testsHelper.datesToISOStrings(
+      checkAutoUpdatedFields(response, startTime, autoUpdatedFields);
+      response.body.should.be.deep.equal(datesToISOStrings(
         _.omit(updated, USER.PRIVATE_FIELDS),
       ));
 
       const dbUser = await userService.findOne({ _id: updated._id });
-      testsHelper.datesToISOStrings(dbUser).should.be.deep.equal(
-        testsHelper.datesToISOStrings(updated),
+      datesToISOStrings(dbUser).should.be.deep.equal(
+        datesToISOStrings(updated),
       );
 
       verifiedUser = updated;
@@ -66,7 +66,7 @@ describe('/users', async () => {
   });
 
   it('should return an error that email is already in use', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await verifiedUserRequest.put('/users/current')
         .send({ email: newUser.email })
         .expect(400);
@@ -76,7 +76,7 @@ describe('/users', async () => {
   });
 
   it('should successfully update user info', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const startTime = Date.now();
 
       const newUserData = {
@@ -99,14 +99,14 @@ describe('/users', async () => {
         [field]: response.body[field],
       }), updated);
 
-      testsHelper.checkAutoUpdatedFields(response, startTime, autoUpdatedFields);
-      response.body.should.be.deep.equal(testsHelper.datesToISOStrings(
+      checkAutoUpdatedFields(response, startTime, autoUpdatedFields);
+      response.body.should.be.deep.equal(datesToISOStrings(
         _.omit(updated, USER.PRIVATE_FIELDS),
       ));
 
       const dbUser = await userService.findOne({ _id: updated._id });
-      testsHelper.datesToISOStrings(dbUser).should.be.deep.equal(
-        testsHelper.datesToISOStrings(updated),
+      datesToISOStrings(dbUser).should.be.deep.equal(
+        datesToISOStrings(updated),
       );
 
       verifiedUser = updated;
@@ -114,7 +114,7 @@ describe('/users', async () => {
   });
 
   it('should successfully update user info exept not existing field', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const startTime = Date.now();
 
       const newUserData = {
@@ -141,21 +141,21 @@ describe('/users', async () => {
         [field]: response.body[field],
       }), updated);
 
-      testsHelper.checkAutoUpdatedFields(response, startTime, autoUpdatedFields);
-      response.body.should.be.deep.equal(testsHelper.datesToISOStrings(
+      checkAutoUpdatedFields(response, startTime, autoUpdatedFields);
+      response.body.should.be.deep.equal(datesToISOStrings(
         _.omit(updated, USER.PRIVATE_FIELDS),
       ));
 
       const dbUser = await userService.findOne({ _id: updated._id });
-      testsHelper.datesToISOStrings(dbUser).should.be.deep.equal(
-        testsHelper.datesToISOStrings(updated),
+      datesToISOStrings(dbUser).should.be.deep.equal(
+        datesToISOStrings(updated),
       );
 
       verifiedUser = updated;
     });
   });
   it('should successfully return data of users', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await verifiedUserRequest
         .get('/users/user')
         .query({

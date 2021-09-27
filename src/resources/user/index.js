@@ -1,11 +1,15 @@
-const Router = require('@koa/router');
+import Router from '@koa/router';
 
-require('./user.handler');
+import './user.handler.js';
+
+import getCurrentRegister from './get-current/index.js';
+import updateCurrentRegister from './update-current/index.js';
+import listUsersRegister from './list-users/index.js';
 
 const router = new Router();
 
-require('./get-current').register(router);
-require('./update-current').register(router);
-require('./list-users').register(router);
+getCurrentRegister(router);
+updateCurrentRegister(router);
+listUsersRegister(router);
 
-module.exports = router.routes();
+export default router.routes();

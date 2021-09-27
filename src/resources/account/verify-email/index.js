@@ -1,9 +1,9 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const config = require('config');
-const validate = require('middlewares/validate');
-const userService = require('resources/user/user.service');
-const authService = require('services/auth.service');
+import config from '../../../config/index.js';
+import validate from '../../../middlewares/validate.js';
+import userService from '../../user/user.service.js';
+import * as authService from '../../../services/auth.service.js';
 
 const schema = Joi.object({
   token: Joi.string()
@@ -40,6 +40,6 @@ async function handler(ctx) {
   ctx.redirect(config.webUrl);
 }
 
-module.exports.register = (router) => {
+export default (router) => {
   router.get('/verify-email', validate(schema), validator, handler);
 };

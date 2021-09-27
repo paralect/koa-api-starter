@@ -5,6 +5,7 @@ module.exports = {
     node: true,
   },
   rules: {
+    'import/prefer-default-export': 'off',
     'arrow-body-style': 0,
     'no-underscore-dangle': 0,
     'import/no-extraneous-dependencies': ['error', {
@@ -14,6 +15,10 @@ module.exports = {
         './src/tests/**',
       ],
     }],
+    'import/extensions': [0, { extensions: ['.js'] }],
+  },
+  parserOptions: {
+    sourceType: 'module',
   },
   settings: {
     'import/resolver': {

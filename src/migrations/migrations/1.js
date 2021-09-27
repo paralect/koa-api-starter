@@ -1,7 +1,7 @@
-const Migration = require('migrations/migration');
+import Migration from 'migrations/migration';
 
 const migration = new Migration(1, 'Example');
 
 migration.migrate = async () => {};
 
-module.exports = migration;
+export default migration;

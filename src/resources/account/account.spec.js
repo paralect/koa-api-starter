@@ -1,12 +1,12 @@
-const chai = require('chai');
-const supertest = require('supertest');
+import chai from 'chai';
+import supertest from 'supertest';
 
-const server = require('app');
-const db = require('tests/db');
-const { USER, ERRORS } = require('tests/constants');
-const testsHelper = require('tests/tests.helper');
-const UserBuilder = require('resources/user/user.builder');
-const validateSchema = require('resources/user/user.schema');
+import server from 'app';
+import db from 'tests/db';
+import { USER, ERRORS } from 'tests/constants';
+import { test } from 'tests/tests.helper';
+import UserBuilder from 'resources/user/user.builder';
+import validateSchema from 'resources/user/user.schema';
 
 const userService = db.createService(USER.COLLECTION, { validate: validateSchema });
 const app = server.listen();
@@ -37,7 +37,7 @@ describe('/account', () => {
   });
 
   it('should successfully create new user', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.post('/account/signup')
         .send(newUserData)
         .expect(200);
@@ -50,7 +50,7 @@ describe('/account', () => {
   });
 
   it('should return an error that email is already registered.', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.post('/account/signup')
         .send({
           firstName: 'Petr',
@@ -65,7 +65,7 @@ describe('/account', () => {
   });
 
   it('should return an error that token is invalid', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.get('/account/verify-email?token=token')
         .expect(400);
 
@@ -74,7 +74,7 @@ describe('/account', () => {
   });
 
   it('should successfully verify email', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.get(`/account/verify-email?token=${user.signupToken}`)
         .expect(302);
 
@@ -86,7 +86,7 @@ describe('/account', () => {
   });
 
   it('should return an error if email is not registered', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.post('/account/signin')
         .send({
           email: 'test@test.com',
@@ -99,7 +99,7 @@ describe('/account', () => {
   });
 
   it('should return an error if trying to log in before email is verified', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.post('/account/signin')
         .send({
           email: newUserData.email,
@@ -112,7 +112,7 @@ describe('/account', () => {
   });
 
   it('should return an error if wrong password is provided when logging in', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.post('/account/signin')
         .send({
           email: user.email,
@@ -125,7 +125,7 @@ describe('/account', () => {
   });
 
   it('should return an error that the email address is incorrect', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.post('/account/forgot-password')
         .send({ email: 'not@email' })
         .expect(400);
@@ -135,7 +135,7 @@ describe('/account', () => {
   });
 
   it('should successfully send forgot password link', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.post('/account/forgot-password')
         .send({ email: newUserData.email })
         .expect(200);
@@ -148,7 +148,7 @@ describe('/account', () => {
   });
 
   it('should return 200 if forgot password email is not registered', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.post('/account/forgot-password')
         .send({ email: 'not@registered.com' })
         .expect(200);
@@ -158,7 +158,7 @@ describe('/account', () => {
   });
 
   it('should return an error that reset password token is invalid', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.put('/account/reset-password')
         .send({
           password: 'new_password',
@@ -171,7 +171,7 @@ describe('/account', () => {
   });
 
   it('should successfully reset old password', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.put('/account/reset-password')
         .send({
           password: 'new_password',
@@ -189,7 +189,7 @@ describe('/account', () => {
   });
 
   it('should successfully resend verification email', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request
         .post('/account/resend')
         .send({ email: newUserData.email })
@@ -200,7 +200,7 @@ describe('/account', () => {
   });
 
   it('should return an error that the email address is incorrect', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request.post('/account/resend')
         .send({ email: 'not@email' })
         .expect(400);
@@ -210,7 +210,7 @@ describe('/account', () => {
   });
 
   it('should successfully logout user', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request
         .post('/account/logout')
         .expect(200);
@@ -220,7 +220,7 @@ describe('/account', () => {
   });
 
   it('should redirect to google auth url', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       const response = await request
         .get('/account/signin/google/auth')
         .expect(302);
@@ -230,7 +230,7 @@ describe('/account', () => {
   });
 
   it('should return 404 for google signin with invalid code', (done) => {
-    testsHelper.test(done, async () => {
+    test(done, async () => {
       await request
         .get('/account/signin/google')
         .expect(404);

@@ -1,9 +1,9 @@
-const userService = require('resources/user/user.service');
+import userService from '../user.service.js';
 
 async function handler(ctx) {
   ctx.body = userService.getPublic(ctx.state.user);
 }
 
-module.exports.register = (router) => {
+export default (router) => {
   router.get('/current', handler);
 };

@@ -14,4 +14,4 @@ const attachThrowError = async (ctx, next) => {
   await next();
 };
 
-module.exports = attachThrowError;
+export default attachThrowError;

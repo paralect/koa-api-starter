@@ -1,13 +1,13 @@
-const db = require('db');
-const securityUtil = require('security.util');
-const { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH, TOKEN_TYPES } = require('app.constants');
+import db from '../../db.js';
+import { generateSecureToken } from '../../security.util.js';
+import { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH, TOKEN_TYPES } from '../../app.constants.js';
 
-const validateSchema = require('./token.schema');
+import validateSchema from './token.schema.js';
 
 const service = db.createService(DATABASE_DOCUMENTS.TOKENS, { validate: validateSchema });
 
 const createToken = async (userId, type) => {
-  const value = await securityUtil.generateSecureToken(TOKEN_SECURITY_LENGTH);
+  const value = await generateSecureToken(TOKEN_SECURITY_LENGTH);
 
   return service.create({
     type, value, userId, isShadow: false,
@@ -35,4 +35,4 @@ service.removeAuthTokens = async (accessToken) => {
   return service.remove({ value: { $in: [accessToken] } });
 };
 
-module.exports = service;
+export default service;

@@ -1,6 +1,6 @@
-const crypto = require('crypto');
-const bcrypt = require('bcrypt');
-const util = require('util');
+import crypto from 'crypto';
+import bcrypt from 'bcrypt';
+import util from 'util';
 
 const randomBytes = util.promisify(crypto.randomBytes, crypto);
 const bcryptHash = util.promisify(bcrypt.hash, bcrypt);
@@ -11,7 +11,7 @@ const compare = util.promisify(bcrypt.compare, bcrypt);
  *
  * @return {string} - random string
  */
-exports.generateSecureToken = async (tokenLength = 48) => {
+export const generateSecureToken = async (tokenLength = 48) => {
   const buf = await randomBytes(tokenLength);
   return buf.toString('hex');
 };
@@ -22,7 +22,7 @@ exports.generateSecureToken = async (tokenLength = 48) => {
  * @param text {string} - a text to produce hash from
  * @return {Promise} - a hash from input text
  */
-exports.getHash = (text) => {
+export const getHash = (text) => {
   return bcryptHash(text, 10);
 };
 
@@ -33,6 +33,6 @@ exports.getHash = (text) => {
  * @param hash {string} - a hash to compare with text
  * @return {Promise} - are hash and text equal
  */
-exports.compareTextWithHash = (text, hash) => {
+export const compareTextWithHash = (text, hash) => {
   return compare(text, hash);
 };

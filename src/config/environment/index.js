@@ -1,9 +1,10 @@
-const _ = require('lodash');
-const path = require('path');
-const fs = require('fs');
+import _ from 'lodash';
+import path from 'path';
+import fs from 'fs';
 
 const env = process.env.APP_ENV || 'development';
 
+// eslint-disable-next-line import/no-mutable-exports
 let base = {
   env,
   port: process.env.PORT || 3001,
@@ -12,15 +13,18 @@ let base = {
   isTest: env === 'test',
 };
 
-const envConfig = require(`./${env}.json`); // eslint-disable-line import/no-dynamic-require
+const envConfig = fs.readFileSync(`src/config/environment/${env}.json`);
+const parsedEnvConfig = JSON.parse(envConfig);
 
-base = _.merge(base, envConfig || {});
+base = _.merge(base, parsedEnvConfig || {});
 
 const loadLocalConfig = (name) => {
-  const localConfigPath = path.join(__dirname, name);
+  const localConfigPath = path.join(path.resolve(), name);
   if (fs.existsSync(localConfigPath)) {
     // eslint-disable-next-line import/no-dynamic-require, global-require
-    base = _.merge(base, require(localConfigPath));
+    const secParam = require(localConfigPath);
+
+    base = _.merge(base, secParam);
     console.log(`loaded ${localConfigPath} config`); // eslint-disable-line no-console
   }
 };
@@ -31,4 +35,4 @@ if (base.env === 'test') {
 } else {
   loadLocalConfig('local.js');
 }
-module.exports = base;
+export default base;

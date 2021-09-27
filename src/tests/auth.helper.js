@@ -1,6 +1,6 @@
-const { USER } = require('./constants');
+import { USER } from './constants';
 
-exports.signin = (request, user, password = USER.DEFAULT_PASSWORD) => {
+export const signin = (request, user, password = USER.DEFAULT_PASSWORD) => {
   return new Promise((resolve, reject) => {
     request
       .post('/account/signin')

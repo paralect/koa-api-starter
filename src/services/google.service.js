@@ -1,7 +1,7 @@
-const { OAuth2Client } = require('google-auth-library');
+import { OAuth2Client } from 'google-auth-library';
 
-const config = require('config');
-const logger = require('logger');
+import config from '../config/index.js';
+import logger from '../logger.js';
 
 const client = new OAuth2Client(
   config.google.clientId,
@@ -9,13 +9,13 @@ const client = new OAuth2Client(
   config.google.redirectUri,
 );
 
-module.exports.oAuthURL = client.generateAuthUrl({
+export const oAuthURL = client.generateAuthUrl({
   access_type: 'offline',
   scope: ['email', 'profile'],
   include_granted_scopes: true,
 });
 
-module.exports.exchangeCodeForToken = async (code) => {
+export const exchangeCodeForToken = async (code) => {
   try {
     const { tokens } = await client.getToken(code);
 

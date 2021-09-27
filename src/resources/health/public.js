@@ -1,7 +1,9 @@
-const Router = require('@koa/router');
+import Router from '@koa/router';
+
+import getRegiser from './get/index.js';
 
 const router = new Router();
 
-require('./get').register(router);
+getRegiser(router);
 
-module.exports = router.routes();
+export default router.routes();

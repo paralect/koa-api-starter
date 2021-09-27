@@ -1,13 +1,14 @@
-const { join } = require('path');
-const MailService = require('@paralect/email-service');
+import { join, resolve } from 'path';
 
-const config = require('config');
-const logger = require('logger');
+import MailService from '@paralect/email-service';
+
+import config from '../config/index.js';
+import logger from '../logger.js';
 
 const mailService = new MailService({
   isSendEmail: !config.isTest,
   mailgun: config.mailgun,
-  templatesDir: join(__dirname, './assets/emails/dist'), // absolute path to templates directory
+  templatesDir: join(resolve(), './assets/emails/dist'), // absolute path to templates directory
 });
 
 const sendEmail = async (template, { to, subject }, data = {}) => {
@@ -27,7 +28,7 @@ const sendEmail = async (template, { to, subject }, data = {}) => {
   }
 };
 
-exports.sendSignupWelcome = ({ email, signupToken }) => {
+export const sendSignupWelcome = ({ email, signupToken }) => {
   return sendEmail(
     'signup-welcome.html',
     {
@@ -40,7 +41,7 @@ exports.sendSignupWelcome = ({ email, signupToken }) => {
   );
 };
 
-exports.sendForgotPassword = ({ email, firstName, resetPasswordToken }) => {
+export const sendForgotPassword = ({ email, firstName, resetPasswordToken }) => {
   return sendEmail(
     'forgot-password.html',
     {

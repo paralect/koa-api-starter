@@ -1,8 +1,8 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const emailService = require('services/email.service');
-const validate = require('middlewares/validate');
-const userService = require('resources/user/user.service');
+import * as emailService from '../../../services/email.service.js';
+import validate from '../../../middlewares/validate.js';
+import userService from '../../user/user.service.js';
 
 const schema = Joi.object({
   email: Joi.string()
@@ -31,6 +31,6 @@ async function handler(ctx) {
   ctx.body = {};
 }
 
-module.exports.register = (router) => {
+export default (router) => {
   router.post('/resend', validate(schema), handler);
 };

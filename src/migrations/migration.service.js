@@ -1,10 +1,10 @@
-const db = require('db');
-const fs = require('fs');
-const path = require('path');
-const validateSchema = require('./migration.schema');
+import db from 'db';
+import fs from 'fs';
+import path from 'path';
+import validateSchema from './migration.schema';
 
 const service = db.createService('__migrationVersion', { validate: validateSchema });
-const migrationsPath = path.join(__dirname, 'migrations');
+const migrationsPath = path.join(path.resolve(), 'migrations');
 const _id = 'migration_version';
 
 const getMigrationNames = () => new Promise((resolve, reject) => {
@@ -51,4 +51,4 @@ service.setNewMigrationVersion = (version) => service.atomic.findOneAndUpdate({ 
   },
 }, { upsert: true });
 
-module.exports = service;
+export default service;
