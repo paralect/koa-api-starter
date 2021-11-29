@@ -49,7 +49,7 @@ async function validator(ctx, next) {
   const { email } = ctx.validatedData;
 
   const isUserExists = await userService.exists({ email });
-  ctx.assertError(isUserExists, {
+  ctx.assertError(!isUserExists, {
     email: ['User with this email is already registered'],
   });
 
@@ -87,5 +87,5 @@ async function handler(ctx) {
 }
 
 module.exports.register = (router) => {
-  router.post('/signup', validate(schema), validator, handler);
+  router.post('/sign-up', validate(schema), validator, handler);
 };

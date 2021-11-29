@@ -56,6 +56,6 @@ const signinGoogleWithCode = async (ctx) => {
 };
 
 module.exports.register = (router) => {
-  router.get('/signin/google/auth', getOAuthUrl);
-  router.get('/signin/google', signinGoogleWithCode);
+  router.get('/sign-in/google/auth', getOAuthUrl);
+  router.get('/sign-in/google', signinGoogleWithCode);
 };

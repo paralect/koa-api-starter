@@ -10,13 +10,22 @@ function upload(fileName, file) {
     ContentType: file.mimetype,
     Body: file.buffer,
     Key: fileName,
+    ACL: 'private',
   };
 
-  return new Promise((res, rej) => {
-    storage.upload(uploadParameters, (error, data) => {
-      return error ? rej(error) : res(data);
-    });
-  });
+  return storage.upload(uploadParameters).promise();
+}
+
+function uploadPublic(fileName, file) {
+  const uploadParameters = {
+    Bucket,
+    ContentType: file.mimetype,
+    Body: file.buffer,
+    Key: fileName,
+    ACL: 'public-read',
+  };
+
+  return storage.upload(uploadParameters).promise();
 }
 
 function getSignedDownloadUrl(fileName) {
@@ -35,11 +44,17 @@ function getObject(fileName) {
     Key: fileName,
   };
 
-  return new Promise((res, rej) => {
-    storage.getObject(downloadParameters, (error, data) => {
-      return error ? rej(error) : res(data);
-    });
-  });
+  return storage.getObject(downloadParameters).promise();
+}
+
+function copyObject(filePath, copyFilePath) {
+  const parameters = {
+    Bucket,
+    CopySource: encodeURI(`${Bucket}/${copyFilePath}`),
+    Key: filePath,
+  };
+
+  return storage.copyObject(parameters).promise();
 }
 
 function deleteObject(fileName) {
@@ -48,16 +63,14 @@ function deleteObject(fileName) {
     Key: fileName,
   };
 
-  return new Promise((res, rej) => {
-    storage.deleteObject(parameters, (error, data) => {
-      return error ? rej(error) : res(data);
-    });
-  });
+  return storage.deleteObject(parameters).promise();
 }
 
 module.exports = {
   upload,
+  uploadPublic,
   getObject,
+  copyObject,
   deleteObject,
   getSignedDownloadUrl,
 };

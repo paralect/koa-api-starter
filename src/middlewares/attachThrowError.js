@@ -1,12 +1,30 @@
 const attachThrowError = async (ctx, next) => {
-  ctx.throwError = (errors = ['Something went wrong.'], status = 400) => {
-    ctx.throw(status, errors);
+  ctx.throwClientError = (errors) => {
+    ctx.throw(400, { errors });
 
     return null;
   };
 
-  ctx.assertError = (condition, errors = ['Something went wrong.'], status = 400) => {
-    ctx.assert(condition, status, errors);
+  ctx.throwError = (message) => {
+    ctx.throw(500, { message });
+
+    return null;
+  };
+
+  ctx.assertClientError = (condition, errors) => {
+    ctx.assert(condition, 400, { errors });
+
+    return null;
+  };
+
+  ctx.assertError = (condition, message) => {
+    ctx.assert(condition, 500, { message });
+
+    return null;
+  };
+
+  ctx.forbiddenError = (condition, message) => {
+    ctx.assert(condition, 403, { message });
 
     return null;
   };

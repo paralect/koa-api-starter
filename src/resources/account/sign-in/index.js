@@ -33,16 +33,17 @@ async function validator(ctx, next) {
   const { email, password } = ctx.validatedData;
 
   const user = await userService.findOne({ email });
-  ctx.assertError(!user, {
+
+  ctx.assertClientError(user, {
     credentials: ['The email or password you have entered is invalid.'],
   });
 
   const isPasswordMatch = await securityUtil.compareTextWithHash(password, user.passwordHash);
-  ctx.assertError(!isPasswordMatch, {
+  ctx.assertClientError(isPasswordMatch, {
     credentials: ['The email or password you have entered is invalid.'],
   });
 
-  ctx.assertError(!user.isEmailVerified, {
+  ctx.assertClientError(user.isEmailVerified, {
     email: ['Please verify your email to sign in'],
   });
 
@@ -63,5 +64,5 @@ async function handler(ctx) {
 }
 
 module.exports.register = (router) => {
-  router.post('/signin', validate(schema), validator, handler);
+  router.post('/sign-in', validate(schema), validator, handler);
 };
