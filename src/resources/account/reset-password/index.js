@@ -28,11 +28,12 @@ async function handler(ctx) {
   const { token, password } = ctx.validatedData;
 
   const user = await userService.findOne({ resetPasswordToken: token });
-  ctx.assertError(!user, {
+  ctx.assertError(user, {
     token: ['Password reset link has expired or invalid'],
   });
 
   const passwordHash = await securityUtil.getHash(password);
+
   await userService.updateOne(
     { _id: user._id },
     (old) => ({ ...old, passwordHash, resetPasswordToken: null }),

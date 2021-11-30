@@ -9,5 +9,5 @@ const handler = async (ctx) => {
 };
 
 module.exports.register = (router) => {
-  router.post('/logout', handler);
+  router.post('/sign-out', handler);
 };

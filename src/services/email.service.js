@@ -7,7 +7,7 @@ const logger = require('logger');
 const mailService = new MailService({
   isSendEmail: !config.isTest,
   mailgun: config.mailgun,
-  templatesDir: join(__dirname, './assets/emails/dist'), // absolute path to templates directory
+  templatesDir: join(__dirname, '../assets/emails/dist'),
 });
 
 const sendEmail = async (template, { to, subject }, data = {}) => {
@@ -49,7 +49,7 @@ exports.sendForgotPassword = ({ email, firstName, resetPasswordToken }) => {
     },
     {
       firstName,
-      resetPasswordUrl: `${config.webUrl}/reset?token=${resetPasswordToken}`,
+      resetPasswordUrl: `${config.apiUrl}/account/verify-reset-token?token=${resetPasswordToken}&email=${email}`,
     },
   );
 };
