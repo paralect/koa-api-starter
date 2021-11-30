@@ -27,7 +27,7 @@ async function validator(ctx) {
   if (user) {
     ctx.redirect(`${config.webUrl}/reset-password?token=${token}`);
   } else {
-    ctx.redirect(`${config.webUrl}/expire-password?email=${email}`);
+    ctx.redirect(`${config.webUrl}/expire-token?email=${email}`);
   }
 }
 

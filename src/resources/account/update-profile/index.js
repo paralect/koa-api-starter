@@ -11,7 +11,6 @@ const schema = Joi.object({
     .trim()
     .min(6)
     .max(50)
-    .required()
     .messages({
       'any.required': 'Password is required',
       'string.empty': 'Password is required',
@@ -24,12 +23,10 @@ async function validator(ctx, next) {
   const { user } = ctx.state;
   const { password } = ctx.validatedData;
 
-  if (password) {
-    const isPasswordMatch = await securityUtil.compareTextWithHash(password, user.passwordHash);
-    ctx.assertClientError(!isPasswordMatch, {
-      password: ['The new password should be different from the previous one.'],
-    });
-  }
+  const isPasswordMatch = await securityUtil.compareTextWithHash(password, user.passwordHash);
+  ctx.assertClientError(!isPasswordMatch, {
+    password: ['The new password should be different from the previous one.'],
+  });
 
   await next();
 }
