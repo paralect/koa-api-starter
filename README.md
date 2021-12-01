@@ -1,4 +1,4 @@
-# Koa.JS REST api starter
+# Koa.JS REST api starter 
 
 [![Stack](https://raw.githubusercontent.com/paralect/stack/master/stack-component-template/stack.png)](https://github.com/paralect/stack)
 
