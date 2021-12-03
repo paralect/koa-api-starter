@@ -1,6 +1,7 @@
 const db = require('db');
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
 const validateSchema = require('./migration.schema');
 
 const service = db.createService('__migrationVersion', { validate: validateSchema });
@@ -50,5 +51,15 @@ service.setNewMigrationVersion = (version) => service.atomic.findOneAndUpdate({ 
     _id,
   },
 }, { upsert: true });
+
+service.promiseLimit = async (collection = [], limit, operator) => {
+  const chunks = _.chunk(collection, limit);
+
+  await chunks.reduce((init, chunk) => {
+    return init.then(() => {
+      return Promise.all(chunk.map((c) => operator(c)));
+    });
+  }, Promise.resolve());
+};
 
 module.exports = service;
