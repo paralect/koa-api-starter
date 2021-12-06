@@ -11,9 +11,8 @@
     "host": "redis",
     "port": 6379
   },
-  "mailgun": {
-    "apiKey": "yourApiKey",
-    "domain": "yourDomain"
+  "sendgrid": {
+    "apiKey": "yourApiKey"
   },
   "google": {
     "clientId": "clientId",

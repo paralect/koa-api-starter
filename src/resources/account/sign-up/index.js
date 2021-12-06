@@ -76,10 +76,12 @@ async function handler(ctx) {
     },
   });
 
-  await emailService.sendSignupWelcome({
-    email: user.email,
-    signupToken,
-  });
+  await emailService.sendSignUpWelcome(
+    user.email,
+    {
+      verifyEmailUrl: `${config.apiUrl}/account/verify-email?token=${signupToken}`,
+    },
+  );
 
   ctx.body = {
     signupToken: config.isDev ? signupToken : undefined,

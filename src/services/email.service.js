@@ -1,55 +1,35 @@
 const { join } = require('path');
-const MailService = require('@paralect/email-service');
+const EmailService = require('helpers/sendgrid.helper');
 
 const config = require('config');
-const logger = require('logger');
 
-const mailService = new MailService({
-  isSendEmail: !config.isTest,
-  mailgun: config.mailgun,
+const emailService = new EmailService({
+  apiKey: config.sendgrid.apiKey,
   templatesDir: join(__dirname, '../assets/emails/dist'),
+  from: {
+    email: 'notifications@ship.com',
+    name: 'SHIP',
+  },
 });
 
-const sendEmail = async (template, { to, subject }, data = {}) => {
-  try {
-    await mailService.send(
-      template,
-      data,
-      {
-        from: 'Excited User <me@samples.mailgun.org>',
-        to,
-        subject,
-      },
-    );
-    logger.debug(`Sending email [${template}]. The data is: ${JSON.stringify(data)}`);
-  } catch (e) {
-    logger.error(`Error in sending email. Data: ${e.message}`);
-  }
+exports.sendSignUpWelcome = async (email, dynamicTemplateData) => {
+  await emailService.sendTemplate({
+    subject: 'Sign Up',
+    template: 'signup-welcome.html',
+    to: email,
+    dynamicTemplateData,
+  });
+
+  return null;
 };
 
-exports.sendSignupWelcome = ({ email, signupToken }) => {
-  return sendEmail(
-    'signup-welcome.html',
-    {
-      subject: 'Sign Up',
-      to: email,
-    },
-    {
-      verifyEmailUrl: `${config.apiUrl}/account/verify-email?token=${signupToken}`,
-    },
-  );
-};
+exports.sendForgotPassword = async (email, dynamicTemplateData) => {
+  await emailService.sendSendgridTemplate({
+    subject: 'Welcome',
+    templateId: 'your-template-id',
+    to: email,
+    dynamicTemplateData,
+  });
 
-exports.sendForgotPassword = ({ email, firstName, resetPasswordToken }) => {
-  return sendEmail(
-    'forgot-password.html',
-    {
-      subject: 'Forgot Password',
-      to: email,
-    },
-    {
-      firstName,
-      resetPasswordUrl: `${config.apiUrl}/account/verify-reset-token?token=${resetPasswordToken}&email=${email}`,
-    },
-  );
+  return null;
 };
