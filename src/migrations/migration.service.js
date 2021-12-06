@@ -52,10 +52,10 @@ service.setNewMigrationVersion = (version) => service.atomic.findOneAndUpdate({ 
   },
 }, { upsert: true });
 
-service.promiseLimit = async (collection = [], limit, operator) => {
-  const chunks = _.chunk(collection, limit);
+service.promiseLimit = (documents = [], limit, operator) => {
+  const chunks = _.chunk(documents, limit);
 
-  await chunks.reduce((init, chunk) => {
+  return chunks.reduce((init, chunk) => {
     return init.then(() => {
       return Promise.all(chunk.map((c) => operator(c)));
     });
