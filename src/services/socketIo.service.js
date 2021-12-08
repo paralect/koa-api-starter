@@ -1,15 +1,9 @@
-const io = require('socket.io')();
+const socketIo = require('socket.io');
 const redisAdapter = require('socket.io-redis');
 
 const config = require('config');
 const tokenService = require('resources/token/token.service');
 const { COOKIES } = require('app.constants');
-
-io.adapter(redisAdapter({
-  host: config.redis.host,
-  port: config.redis.port,
-  password: config.redis.password,
-}));
 
 const getCookie = (cookieString, name) => {
   const value = `; ${cookieString}`;
@@ -25,48 +19,55 @@ const getCookie = (cookieString, name) => {
   return null;
 };
 
-io.use(async (socket, next) => {
-  const accessToken = getCookie(socket.handshake.headers.cookie, COOKIES.ACCESS_TOKEN);
-  const userData = await tokenService.getUserDataByToken(accessToken);
-
-  if (userData) {
-    // eslint-disable-next-line no-param-reassign
-    socket.handshake.data = { userId: userData.userId, isShadow: userData.isShadow };
-
-    return next();
-  }
-
-  return next(new Error('token is invalid'));
-});
-
 function checkAccessToRoom(roomId, data) {
-  let result = false;
   const [roomType, id] = roomId.split('-');
 
   switch (roomType) {
     case 'user':
-      result = (id === data.userId);
-      break;
+      return id === data.userId;
     default:
-      result = false;
+      return false;
   }
-
-  return result;
 }
 
-io.on('connection', (client) => {
-  client.on('subscribe', (roomId) => {
-    const { userId } = client.handshake.data;
-    const hasAccessToRoom = checkAccessToRoom(roomId, { userId });
+module.exports = (server) => {
+  const io = socketIo(server);
 
-    if (hasAccessToRoom) {
-      client.join(roomId);
+  io.adapter(redisAdapter({
+    host: config.redis.host,
+    port: config.redis.port,
+    password: config.redis.password,
+  }));
+
+  io.use(async (socket, next) => {
+    const accessToken = getCookie(socket.handshake.headers.cookie, COOKIES.ACCESS_TOKEN);
+    const userData = await tokenService.getUserDataByToken(accessToken);
+
+    if (userData) {
+      // eslint-disable-next-line no-param-reassign
+      socket.handshake.data = {
+        userId: userData.userId,
+        isShadow: userData.isShadow,
+      };
+
+      return next();
     }
+
+    return next(new Error('token is invalid'));
   });
 
-  client.on('unsubscribe', (roomId) => {
-    client.leave(roomId);
-  });
-});
+  io.on('connection', (client) => {
+    client.on('subscribe', (roomId) => {
+      const { userId } = client.handshake.data;
+      const hasAccessToRoom = checkAccessToRoom(roomId, { userId });
 
-io.listen(config.socketPort);
+      if (hasAccessToRoom) {
+        client.join(roomId);
+      }
+    });
+
+    client.on('unsubscribe', (roomId) => {
+      client.leave(roomId);
+    });
+  });
+};

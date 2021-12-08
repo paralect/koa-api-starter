@@ -24,7 +24,7 @@
     "test": "run-s test:**",
     "test:eslint": "eslint ./src",
     "test:mocha": "NODE_ENV=production APP_ENV=test mocha --timeout 20000 --require src/test.js --recursive --exit -c -R spec 'src/**/*.spec.js'",
-    "development": "NODE_ENV=development nodemon --watch src src/app.js",
+    "dev": "NODE_ENV=development nodemon --watch src src/app.js",
     "add-contributor": "all-contributors add",
     "generate-contributors": "all-contributors generate",
     "migrate": "node ./src/migrator.js",
@@ -58,7 +58,7 @@
     "nodemon": "2.0.7",
     "psl": "1.8.0",
     "redis": "3.1.2",
-    "socket.io": "4.1.1",
+    "socket.io": "4.4.0",
     "socket.io-emitter": "3.2.0",
     "socket.io-redis": "6.1.0"
   },
