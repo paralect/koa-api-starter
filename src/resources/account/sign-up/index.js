@@ -3,7 +3,7 @@ const Joi = require('joi');
 const validate = require('middlewares/validate');
 const securityUtil = require('security.util');
 const userService = require('resources/user/user.service');
-const emailService = require('services/email.service');
+const emailService = require('services/email/email.service');
 
 const config = require('config');
 

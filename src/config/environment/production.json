@@ -12,9 +12,8 @@
     "port": 6379,
     "password": "super-secured-password"
   },
-  "mailgun": {
-    "apiKey": "yourApiKey",
-    "domain": "yourDomain"
+  "sendgrid": {
+    "apiKey": ""
   },
   "google": {
     "clientId": "clientId",

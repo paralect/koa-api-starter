@@ -12,7 +12,7 @@
     "port": 6379
   },
   "sendgrid": {
-    "apiKey": "yourApiKey"
+    "apiKey": ""
   },
   "google": {
     "clientId": "clientId",
