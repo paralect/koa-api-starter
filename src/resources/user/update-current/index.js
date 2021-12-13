@@ -49,5 +49,5 @@ async function handler(ctx) {
 }
 
 module.exports.register = (router) => {
-  router.post('/update-profile', validate(schema), validator, handler);
+  router.post('/current', validate(schema), validator, handler);
 };

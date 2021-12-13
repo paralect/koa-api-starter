@@ -6,15 +6,12 @@ const uploadMiddleware = require('middlewares/upload-file.middleware');
 
 const getFileKey = (url) => url.replace(`https://${config.cloudStorage.bucket}.${config.cloudStorage.endpoint}/`, '');
 
-async function validate(ctx, next) {
-  const { user } = ctx.state;
+async function validator(ctx, next) {
   const { file } = ctx.request;
 
-  ctx.assertError(file, {
-    file: 'File cannot be empty',
+  ctx.assertClientError(file, {
+    global: 'File cannot be empty',
   });
-
-  if (user.avatarUrl) cloudStorageService.deleteObject(getFileKey(user.avatarUrl));
 
   await next();
 }
@@ -22,6 +19,8 @@ async function validate(ctx, next) {
 async function handler(ctx) {
   const { user } = ctx.state;
   const { file } = ctx.request;
+
+  if (user.avatarUrl) await cloudStorageService.deleteObject(getFileKey(user.avatarUrl));
 
   const fileName = `${user._id}-${Date.now()}-${file.originalname}`;
   const { Location } = await cloudStorageService.uploadPublic(`avatars/${fileName}`, file);
@@ -38,5 +37,5 @@ async function handler(ctx) {
 }
 
 module.exports.register = (router) => {
-  router.post('/upload-photo', uploadMiddleware.single('file'), validate, handler);
+  router.post('/upload-photo', uploadMiddleware.single('file'), validator, handler);
 };

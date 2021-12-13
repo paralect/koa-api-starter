@@ -57,17 +57,22 @@ async function validator(ctx, next) {
 }
 
 async function handler(ctx) {
-  const data = ctx.validatedData;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+  } = ctx.validatedData;
 
   const [hash, signupToken] = await Promise.all([
-    securityUtil.getHash(data.password),
+    securityUtil.getHash(password),
     securityUtil.generateSecureToken(),
   ]);
 
   const user = await userService.create({
-    firstName: data.firstName,
-    lastName: data.lastName,
-    email: data.email,
+    firstName,
+    lastName,
+    email,
     passwordHash: hash.toString(),
     isEmailVerified: false,
     signupToken,

@@ -5,8 +5,10 @@ require('./user.handler');
 const router = new Router();
 
 require('./get-current').register(router);
+require('./update-current').register(router);
+require('./upload-avatar').register(router);
+require('./remove-avatar').register(router);
+
 require('./list').register(router);
-require('./upload-photo').register(router);
-require('./remove-photo').register(router);
 
 module.exports = router.routes();

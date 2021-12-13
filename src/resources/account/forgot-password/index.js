@@ -19,32 +19,42 @@ const schema = Joi.object({
     }),
 });
 
-async function handler(ctx) {
+async function validator(ctx, next) {
   const user = await userService.findOne({ email: ctx.validatedData.email });
 
-  if (user) {
-    let { resetPasswordToken } = user;
+  if (!user) {
+    ctx.body = {};
+    return;
+  }
 
-    if (!resetPasswordToken) {
-      resetPasswordToken = await securityUtil.generateSecureToken();
-      await userService.updateOne(
-        { _id: user._id },
-        (old) => ({ ...old, resetPasswordToken }),
-      );
-    }
+  ctx.validatedData.user = user;
+  await next();
+}
 
-    await emailService.sendForgotPassword(
-      user.email,
-      {
-        firstName: user.firstName,
-        resetPasswordUrl: `${config.apiUrl}/account/verify-reset-token?token=${resetPasswordToken}&email=${user.email}`,
-      },
+async function handler(ctx) {
+  const { user } = ctx.validatedData;
+
+  let { resetPasswordToken } = user;
+
+  if (!resetPasswordToken) {
+    resetPasswordToken = await securityUtil.generateSecureToken();
+    await userService.updateOne(
+      { _id: user._id },
+      (old) => ({ ...old, resetPasswordToken }),
     );
   }
+
+  await emailService.sendForgotPassword(
+    user.email,
+    {
+      firstName: user.firstName,
+      resetPasswordUrl: `${config.apiUrl}/account/verify-reset-token?token=${resetPasswordToken}&email=${user.email}`,
+    },
+  );
 
   ctx.body = {};
 }
 
 module.exports.register = (router) => {
-  router.post('/forgot-password', validate(schema), handler);
+  router.post('/forgot-password', validate(schema), validator, handler);
 };

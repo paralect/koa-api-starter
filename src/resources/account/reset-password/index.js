@@ -24,13 +24,20 @@ const schema = Joi.object({
     }),
 });
 
-async function handler(ctx) {
-  const { token, password } = ctx.validatedData;
+async function validator(ctx, next) {
+  const { token } = ctx.validatedData;
 
   const user = await userService.findOne({ resetPasswordToken: token });
   ctx.assertError(user, {
     token: 'Password reset link has expired or invalid',
   });
+
+  ctx.validatedData.user = user;
+  await next();
+}
+
+async function handler(ctx) {
+  const { user, password } = ctx.validatedData;
 
   const passwordHash = await securityUtil.getHash(password);
 
@@ -43,5 +50,5 @@ async function handler(ctx) {
 }
 
 module.exports.register = (router) => {
-  router.put('/reset-password', validate(schema), handler);
+  router.put('/reset-password', validate(schema), validator, handler);
 };

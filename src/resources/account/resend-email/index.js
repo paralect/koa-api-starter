@@ -22,7 +22,11 @@ async function validator(ctx, next) {
   const { email } = ctx.validatedData;
 
   const user = await userService.findOne({ email });
-  ctx.assertError(user, 'User not found.');
+
+  if (!user) {
+    ctx.body = {};
+    return;
+  }
 
   ctx.validatedData.user = user;
   await next();

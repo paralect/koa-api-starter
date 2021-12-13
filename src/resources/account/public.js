@@ -10,6 +10,5 @@ require('./forgot-password').register(router);
 require('./reset-password').register(router);
 require('./verify-reset-token').register(router);
 require('./resend-email').register(router);
-require('./update-profile').register(router);
 
 module.exports = router.routes();
