@@ -3,7 +3,7 @@ const Joi = require('joi');
 const config = require('config');
 const validate = require('middlewares/validate');
 const userService = require('resources/user/user.service');
-const authService = require('services/auth.service');
+const authService = require('services/auth/auth.service');
 
 const schema = Joi.object({
   token: Joi.string()

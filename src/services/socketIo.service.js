@@ -47,7 +47,6 @@ module.exports = (server) => {
       // eslint-disable-next-line no-param-reassign
       socket.handshake.data = {
         userId: userData.userId,
-        isShadow: userData.isShadow,
       };
 
       return next();

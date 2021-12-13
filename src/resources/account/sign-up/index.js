@@ -71,9 +71,6 @@ async function handler(ctx) {
     passwordHash: hash.toString(),
     isEmailVerified: false,
     signupToken,
-    oauth: {
-      google: false,
-    },
   });
 
   await emailService.sendSignUpWelcome(
@@ -83,9 +80,7 @@ async function handler(ctx) {
     },
   );
 
-  ctx.body = {
-    signupToken: config.isDev ? signupToken : undefined,
-  };
+  ctx.body = config.isDev ? { signupToken } : {};
 }
 
 module.exports.register = (router) => {

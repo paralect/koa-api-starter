@@ -1,5 +1,5 @@
 const tokenService = require('resources/token/token.service');
-const cookieHelper = require('helpers/cookie.helper');
+const cookieHelper = require('./auth.helper');
 
 exports.setTokens = async (ctx, userId) => {
   const res = await tokenService.createAuthTokens({ userId });

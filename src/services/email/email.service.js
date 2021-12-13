@@ -4,7 +4,7 @@ const config = require('config');
 const EmailService = require('./email.helper');
 
 const emailService = new EmailService({
-  apiKey: config.sendgrid.apiKey,
+  apiKey: config.sendgridApiKey,
   templatesDir: join(__dirname, '../../assets/emails/dist'),
   from: {
     email: 'notifications@ship.com',

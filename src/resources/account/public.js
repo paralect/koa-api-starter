@@ -12,6 +12,4 @@ require('./verify-reset-token').register(router);
 require('./resend-email').register(router);
 require('./update-profile').register(router);
 
-require('./google').register(router);
-
 module.exports = router.routes();

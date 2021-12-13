@@ -5,8 +5,6 @@ const http = require('http');
 const config = require('config');
 const logger = require('logger');
 
-process.env.APP_ENV = process.env.APP_ENV || 'development';
-
 process.on('unhandledRejection', (reason, p) => {
   logger.error('Possibly Unhandled Rejection at: Promise ', p, ' reason: ', reason);
 });

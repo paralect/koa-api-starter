@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const securityUtil = require('security.util');
 const validate = require('middlewares/validate');
-const authService = require('services/auth.service');
+const authService = require('services/auth/auth.service');
 const userService = require('resources/user/user.service');
 
 const schema = Joi.object({

@@ -1,10 +1,5 @@
 {
-  "mongo": {
-    "connection": "mongodb+srv://<username>:<password>@<db>/app?retryWrites=true&w=majority"
-  },
-  "jwt": {
-    "secret": "the_secret"
-  },
+  "mongoUri": "mongodb+srv://<username>:<password>@<db>/app?retryWrites=true&w=majority",
   "apiUrl": "https://ship-api-staging.paralect.net",
   "webUrl": "https://ship-staging.paralect.net",
   "redis": {
@@ -12,14 +7,8 @@
     "port": 6379,
     "password": "super-secured-password"
   },
-  "sendgrid": {
-    "apiKey": ""
-  },
-  "google": {
-    "clientId": "clientId",
-    "clientSecret": "clientSecret",
-    "redirectUri": "redirectUri"
-  },
+  "sendgridApiKey": "",
+
   "cloudStorage": {
     "endpoint": "fra1.digitaloceanspaces.com",
     "accessKeyId": "yourAccessKeyId",
