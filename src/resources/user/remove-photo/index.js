@@ -1,7 +1,7 @@
 const config = require('config');
 
 const userService = require('resources/user/user.service');
-const cloudStorageService = require('services/cloud-storage.service');
+const cloudStorageService = require('services/cloud-storage/cloud-storage.service');
 
 const getFileKey = (url) => url.replace(`https://${config.cloudStorage.bucket}.${config.cloudStorage.endpoint}/`, '');
 

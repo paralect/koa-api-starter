@@ -6,22 +6,24 @@ const requestLogger = require('koa-logger');
 const qs = require('koa-qs');
 
 const logger = require('logger');
-
 const routes = require('./routes');
 
 const routeErrorHandler = async (ctx, next) => {
   try {
     await next();
   } catch (error) {
-    const status = error.status || 500;
-    const errors = error.errors || error.message;
+    const clientError = error.errors;
+    const serverError = { global: error.message };
 
-    ctx.status = status;
-    ctx.body = process.env.APP_ENV === 'production'
-      ? { errors: error.errors || { _global: ['Something went wrong.'] } }
-      : { errors: error.errors || { _global: [error.message] } };
-
+    const errors = clientError || serverError;
     logger.error(errors);
+
+    if (serverError && process.env.APP_ENV === 'production') {
+      serverError.global = 'Something went wrong';
+    }
+
+    ctx.status = error.status || 500;
+    ctx.body = { errors };
   }
 };
 

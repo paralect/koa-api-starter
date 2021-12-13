@@ -1,8 +1,8 @@
 const config = require('config');
 
 const userService = require('resources/user/user.service');
-const cloudStorageService = require('services/cloud-storage.service');
-const uploadMiddleware = require('middlewares/uploadMiddleware');
+const cloudStorageService = require('services/cloud-storage/cloud-storage.service');
+const uploadMiddleware = require('middlewares/upload-file.middleware');
 
 const getFileKey = (url) => url.replace(`https://${config.cloudStorage.bucket}.${config.cloudStorage.endpoint}/`, '');
 
@@ -11,7 +11,7 @@ async function validate(ctx, next) {
   const { file } = ctx.request;
 
   ctx.assertError(file, {
-    file: ['File cannot be empty'],
+    file: 'File cannot be empty',
   });
 
   if (user.avatarUrl) cloudStorageService.deleteObject(getFileKey(user.avatarUrl));

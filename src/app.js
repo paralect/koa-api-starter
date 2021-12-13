@@ -13,7 +13,7 @@ const app = new Koa();
 require('./config/koa')(app);
 
 const server = http.createServer(app.callback());
-require('services/socketIo.service')(server);
+require('services/socket/socket.service')(server);
 
 server.listen(config.port, () => {
   logger.warn(`Api server listening on ${config.port}, in ${process.env.NODE_ENV} mode and ${process.env.APP_ENV} environment`);

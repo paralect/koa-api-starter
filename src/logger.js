@@ -11,7 +11,7 @@ const createConsoleLogger = () => {
     format: winston.format.combine(
       winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
       config.isDev
-        ? winston.format.printf((msg) => colorizer.colorize(msg.level, `${msg.timestamp} - ${msg.level}: ${msg.message}`))
+        ? winston.format.printf((msg) => colorizer.colorize(msg.level, `${msg.timestamp} - ${msg.level}: ${JSON.stringify(msg.message)}`))
         : winston.format.json(),
     ),
     transports: [

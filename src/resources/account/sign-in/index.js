@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const securityUtil = require('security.util');
-const validate = require('middlewares/validate');
+const validate = require('middlewares/validate.middleware');
 const authService = require('services/auth/auth.service');
 const userService = require('resources/user/user.service');
 
@@ -35,16 +35,16 @@ async function validator(ctx, next) {
   const user = await userService.findOne({ email });
 
   ctx.assertClientError(user, {
-    credentials: ['The email or password you have entered is invalid.'],
+    credentials: 'The email or password you have entered is invalid',
   });
 
   const isPasswordMatch = await securityUtil.compareTextWithHash(password, user.passwordHash);
   ctx.assertClientError(isPasswordMatch, {
-    credentials: ['The email or password you have entered is invalid.'],
+    credentials: 'The email or password you have entered is invalid',
   });
 
   ctx.assertClientError(user.isEmailVerified, {
-    email: ['Please verify your email to sign in'],
+    email: 'Please verify your email to sign in',
   });
 
   ctx.validatedData.user = user;

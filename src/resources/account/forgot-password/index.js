@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const validate = require('middlewares/validate');
+const validate = require('middlewares/validate.middleware');
 const securityUtil = require('security.util');
 const userService = require('resources/user/user.service');
 const emailService = require('services/email/email.service');

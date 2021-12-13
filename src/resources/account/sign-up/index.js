@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const validate = require('middlewares/validate');
+const validate = require('middlewares/validate.middleware');
 const securityUtil = require('security.util');
 const userService = require('resources/user/user.service');
 const emailService = require('services/email/email.service');
@@ -50,7 +50,7 @@ async function validator(ctx, next) {
 
   const isUserExists = await userService.exists({ email });
   ctx.assertError(!isUserExists, {
-    email: ['User with this email is already registered'],
+    email: 'User with this email is already registered',
   });
 
   await next();

@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const validate = require('middlewares/validate');
+const validate = require('middlewares/validate.middleware');
 
 const securityUtil = require('security.util');
 
@@ -25,7 +25,7 @@ async function validator(ctx, next) {
 
   const isPasswordMatch = await securityUtil.compareTextWithHash(password, user.passwordHash);
   ctx.assertClientError(!isPasswordMatch, {
-    password: ['The new password should be different from the previous one.'],
+    password: 'The new password should be different from the previous one',
   });
 
   await next();

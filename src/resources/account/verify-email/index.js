@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const config = require('config');
-const validate = require('middlewares/validate');
+const validate = require('middlewares/validate.middleware');
 const userService = require('resources/user/user.service');
 const authService = require('services/auth/auth.service');
 
@@ -17,7 +17,7 @@ const schema = Joi.object({
 async function validator(ctx, next) {
   const user = await userService.findOne({ signupToken: ctx.validatedData.token });
   ctx.assertError(user, {
-    token: ['Token is invalid'],
+    token: 'Token is invalid',
   });
 
   ctx.validatedData.userId = user._id;
