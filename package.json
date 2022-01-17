@@ -16,9 +16,9 @@
     "url": "git+https://github.com/paralect/koa-api-starter.git"
   },
   "scripts": {
-    "build": "mjml ./src/assets/emails/*.mjml -o ./src/assets/emails/dist/",
-    "start": "NODE_ENV=production node src/app.js",
-    "dev": "NODE_ENV=development nodemon --watch src src/app.js",
+    "build-assets": "mjml ./src/assets/emails/*.mjml -o ./src/assets/emails/dist/",
+    "dev": "nodemon --watch src src/app.js",
+    "start": "node src/app.js",
     "migrate": "node ./src/migrator.js",
     "schedule-dev": "nodemon --watch ./src ./src/scheduler ./src/scheduler.js",
     "schedule": "node ./src/scheduler.js",
