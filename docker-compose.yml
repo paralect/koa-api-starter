@@ -46,7 +46,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-      target: app
+      target: api
       args:
         APP_ENV: development
     networks:
