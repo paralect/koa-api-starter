@@ -1,6 +1,5 @@
-const aws = require('aws-sdk');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'config'.
-const config = require('config');
+import aws from 'aws-sdk';
+import config from 'config';
 
 const storage = new aws.S3(config.cloudStorage);
 const Bucket = config.cloudStorage.bucket;
@@ -67,7 +66,7 @@ function deleteObject(fileName: $TSFixMe) {
   return storage.deleteObject(parameters).promise();
 }
 
-module.exports = {
+export default {
   upload,
   uploadPublic,
   getObject,

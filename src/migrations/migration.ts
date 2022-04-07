@@ -1,13 +1,14 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Migration'... Remove this comment to see the full error message
 class Migration {
-  description: $TSFixMe;
+  description?: string;
 
-  version: $TSFixMe;
+  version: number;
 
-  constructor(version: $TSFixMe, description: $TSFixMe) {
+  constructor(version: number, description?: string) {
     this.version = version;
     this.description = description;
   }
+
+  migrate: $TSFixMe;
 }
 
-module.exports = Migration;
+export default Migration;

@@ -1,6 +1,9 @@
-require('app-module-path').addPath(__dirname);
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'migrator'.
-const migrator = require('migrations/migrator');
+// allows require modules relative to /src folder
+// for example: require('lib/mongo/idGenerator')
+// all options can be found here: https://gist.github.com/branneman/8048520
+import moduleAlias from 'module-alias';
+moduleAlias.addPath(__dirname);
+moduleAlias(); // read aliases from package json
+import migrator from 'migrations/migrator';
 
 migrator.exec();

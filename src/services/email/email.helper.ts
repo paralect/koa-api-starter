@@ -1,9 +1,7 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'fs'.
-const { promises: fs } = require('fs');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'path'.
-const path = require('path');
-const handlebars = require('handlebars');
-const sendgrid = require('@sendgrid/mail');
+import path from 'path';
+import handlebars from 'handlebars';
+import sendgrid from '@sendgrid/mail';
+import fs from 'fs/promises';
 
 const render = async (templatePath: $TSFixMe, templateParams: $TSFixMe) => {
   const template = await fs.readFile(templatePath);
@@ -68,4 +66,4 @@ class MailService {
   }
 }
 
-module.exports = MailService;
+export default MailService;

@@ -1,11 +1,9 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'logger'.
-const logger = require('logger');
+import logger from 'logger';
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'routeError... Remove this comment to see the full error message
 const routeErrorHandler = async (ctx: $TSFixMe, next: $TSFixMe) => {
   try {
     await next();
-  } catch (error) {
+  } catch (error: $TSFixMe) {
     const clientError = error.errors;
     const serverError = { global: error.message };
 
@@ -21,4 +19,4 @@ const routeErrorHandler = async (ctx: $TSFixMe, next: $TSFixMe) => {
   }
 };
 
-module.exports = routeErrorHandler;
+export default routeErrorHandler;

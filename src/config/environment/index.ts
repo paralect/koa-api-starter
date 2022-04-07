@@ -1,7 +1,5 @@
 import { configUtil } from 'utils';
-
 import { COOKIES } from 'app.constants';
-import developmentConfig from './development.json';
 
 const env = process.env.APP_ENV || 'development';
 
@@ -10,7 +8,14 @@ const base = {
   port: process.env.PORT || 3001,
   isDev: env === 'development',
   accessTokenName: `${env}.${COOKIES.ACCESS_TOKEN}`,
-  ...developmentConfig,
+  mongo: {
+    connection: '',
+    dbName: '',
+  },
+  cloudStorage: {
+    bucket: '',
+    endpoint: '',
+  },
 };
 
 const config = configUtil.loadConfig(base, env, __dirname);

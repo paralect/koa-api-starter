@@ -1,10 +1,8 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Joi'.
-const Joi = require('joi');
+import Joi from 'joi';
+import validate from 'middlewares/validate.middleware';
+import securityUtil from 'security.util';
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'validate'.
-const validate = require('middlewares/validate.middleware');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'securityUt... Remove this comment to see the full error message
-const securityUtil = require('security.util');
+
 // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'userServic... Remove this comment to see the full error message
 const userService = require('resources/user/user.service');
 // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'emailServi... Remove this comment to see the full error message
@@ -38,7 +36,6 @@ async function validator(ctx: $TSFixMe, next: $TSFixMe) {
   await next();
 }
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'handler'.
 async function handler(ctx: $TSFixMe) {
   const { user } = ctx.validatedData;
 

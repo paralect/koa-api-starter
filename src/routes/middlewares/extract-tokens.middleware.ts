@@ -1,7 +1,7 @@
-const { COOKIES: { ACCESS_TOKEN } } = require('app.constants');
+import { COOKIES } from 'app.constants';
 
 const storeTokenToState = async (ctx: $TSFixMe, next: $TSFixMe) => {
-  let accessToken = ctx.cookies.get(ACCESS_TOKEN);
+  let accessToken = ctx.cookies.get(COOKIES.ACCESS_TOKEN);
 
   const { authorization } = ctx.headers;
 
@@ -14,4 +14,4 @@ const storeTokenToState = async (ctx: $TSFixMe, next: $TSFixMe) => {
   await next();
 };
 
-module.exports = storeTokenToState;
+export default storeTokenToState;

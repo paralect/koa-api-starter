@@ -1,9 +1,7 @@
-// @ts-expect-error ts-migrate(2306) FIXME: File '/Users/andrew/work/koa-api-starter/src/db.ts... Remove this comment to see the full error message
 import db from 'db';
-const securityUtil = require('security.util');
-const { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH, TOKEN_TYPES } = require('app.constants');
-
-const validateSchema = require('./token.schema');
+import securityUtil from 'utils/security.util';
+import { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH, COOKIES } from 'app.constants';
+import validateSchema from './token.schema';
 
 const service = db.createService(DATABASE_DOCUMENTS.TOKENS, { validate: validateSchema });
 
@@ -18,7 +16,7 @@ const createToken = async (userId: $TSFixMe, type: $TSFixMe) => {
 service.createAuthTokens = async ({
   userId,
 }: $TSFixMe) => {
-  const accessTokenEntity = await createToken(userId, TOKEN_TYPES.ACCESS);
+  const accessTokenEntity = await createToken(userId, COOKIES.ACCESS_TOKEN);
 
   return {
     accessToken: accessTokenEntity.value,
@@ -37,4 +35,4 @@ service.removeAuthTokens = async (accessToken: $TSFixMe) => {
   return service.remove({ value: { $in: [accessToken] } });
 };
 
-module.exports = service;
+export default service;

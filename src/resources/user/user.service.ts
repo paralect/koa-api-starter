@@ -1,18 +1,13 @@
-// @ts-expect-error ts-migrate(2649) FIXME: Cannot augment module '_' with value exports becau... Remove this comment to see the full error message
-const _ = require('lodash');
+import _ from 'lodash';
+import db from 'db';
+import { DATABASE_DOCUMENTS } from 'app.constants';
+import validateSchema from './user.schema';
+import { User } from './user.types';
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'db'.
-const db = require('db');
-const constants = require('app.constants');
+const service = db.createService<User>(DATABASE_DOCUMENTS.USERS, { validate: validateSchema });
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'validateSc... Remove this comment to see the full error message
-const validateSchema = require('./user.schema');
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'service'.
-const service = db.createService(constants.DATABASE_DOCUMENTS.USERS, { validate: validateSchema });
-
-service.updateLastRequest = async (_id: $TSFixMe) => {
-  return service.atomic.update({ _id }, {
+const updateLastRequest = async (_id: $TSFixMe) => {
+  return service.atomic.updateMany({ _id }, {
     $set: {
       lastRequest: new Date(),
       updatedOn: new Date(),
@@ -26,8 +21,11 @@ const privateFields = [
   'resetPasswordToken',
 ];
 
-service.getPublic = (user: $TSFixMe) => {
+const getPublic = (user: $TSFixMe) => {
   return _.omit(user, privateFields);
 };
 
-module.exports = service;
+export default Object.assign(service, {
+  updateLastRequest,
+  getPublic,
+});

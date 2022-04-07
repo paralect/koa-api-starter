@@ -1,10 +1,7 @@
-const { join } = require('path');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'config'.
-const config = require('config');
+import { join } from 'path';
+import config from 'config';
+import EmailService from './email.helper';
 
-const EmailService = require('./email.helper');
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'emailServi... Remove this comment to see the full error message
 const emailService = new EmailService({
   apiKey: config.sendgridApiKey,
   templatesDir: join(__dirname, '../../assets/emails/dist'),
@@ -14,14 +11,14 @@ const emailService = new EmailService({
   },
 });
 
-exports.sendSignUpWelcome = (to: $TSFixMe, dynamicTemplateData: $TSFixMe) => emailService.sendTemplate({
+export const sendSignUpWelcome = (to: $TSFixMe, dynamicTemplateData: $TSFixMe) => emailService.sendTemplate({
   to,
   subject: 'Sign Up',
   template: 'signup-welcome.html',
   dynamicTemplateData,
 });
 
-exports.sendForgotPassword = (to: $TSFixMe, dynamicTemplateData: $TSFixMe) => emailService.sendSendgridTemplate({
+export const sendForgotPassword = (to: $TSFixMe, dynamicTemplateData: $TSFixMe) => emailService.sendSendgridTemplate({
   to,
   subject: 'Welcome',
   templateId: 'your-template-id',

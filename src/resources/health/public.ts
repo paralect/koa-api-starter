@@ -1,9 +1,7 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Router'.
-const Router = require('@koa/router');
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'router'.
+import Router from '@koa/router';
 const router = new Router();
+import getAction from './actions/get';
 
-require('./get').register(router);
+getAction(router);
 
-module.exports = router.routes();
+export default router.routes();

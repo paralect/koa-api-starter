@@ -1,10 +1,6 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'db'.
-const db = require('db');
+import db from 'db';
+import validateSchema from './migration-log.schema';
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'validateSc... Remove this comment to see the full error message
-const validateSchema = require('./migration-log.schema.js');
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'service'.
 const service = db.createService('__migrationLog', { validate: validateSchema });
 
 service.startMigrationLog = (_id: $TSFixMe, startTime: $TSFixMe, migrationVersion: $TSFixMe) => {
@@ -37,4 +33,4 @@ service.finishMigrationLog = (_id: $TSFixMe, finishTime: $TSFixMe, duration: $TS
   },
 });
 
-module.exports = service;
+export default service;

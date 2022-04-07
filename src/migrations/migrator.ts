@@ -1,14 +1,19 @@
-require('moment-duration-format');
-const moment = require('moment');
+import moment from 'moment';
+import 'moment-duration-format';
+import logger from 'logger';
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'logger'.
-const logger = require('logger');
+import migrationLogService from './migrations-log/migration-log.service';
+import migrationService from './migration.service';
+interface Duration extends moment.Duration {
+  format: (template?: string, precision?: number, settings?: DurationSettings) => string;
+}
 
-const migrationLogService = require('./migrations-log/migration-log.service');
-const migrationService = require('./migration.service');
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'migrator'.
-const migrator = {};
+interface DurationSettings {
+  forceLength: boolean;
+  precision: number;
+  template: string;
+  trim: boolean | 'left' | 'right';
+}
 
 const run = async (migrations: $TSFixMe, curVersion: $TSFixMe) => {
   const newMigrations = migrations.filter((migration: $TSFixMe) => migration.version > curVersion)
@@ -27,16 +32,15 @@ const run = async (migrations: $TSFixMe, curVersion: $TSFixMe) => {
   try {
     for (migration of newMigrations) { //eslint-disable-line
       migrationLogId = migrationService.generateId();
-      const startTime = new Date();
+      const startTime = new Date().getSeconds();
       await migrationLogService.startMigrationLog(migrationLogId, startTime, migration.version); //eslint-disable-line
       logger.info(`Migration #${migration.version} is running: ${migration.description}`);
       await migration.migrate(); //eslint-disable-line
 
       lastMigrationVersion = migration.version;
       await migrationService.setNewMigrationVersion(migration.version); //eslint-disable-line
-      const finishTime = new Date();
-      // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
-      const duration = moment.duration(finishTime - startTime)
+      const finishTime = new Date().getSeconds();
+      const duration = (moment.duration(finishTime - startTime) as Duration)
         .format('h [hrs], m [min], s [sec], S [ms]');
 
       await migrationLogService.finishMigrationLog(migrationLogId, finishTime, duration); //eslint-disable-line
@@ -53,7 +57,7 @@ const run = async (migrations: $TSFixMe, curVersion: $TSFixMe) => {
   }
 };
 
-migrator.exec = async () => {
+const exec = async () => {
   const [migrations, currentVersion] = await Promise.all([
     migrationService.getMigrations(),
     migrationService.getCurrentMigrationVersion(),
@@ -62,4 +66,6 @@ migrator.exec = async () => {
   process.exit(0);
 };
 
-module.exports = migrator;
+export default {
+  exec,
+};

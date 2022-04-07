@@ -1,15 +1,18 @@
-const psl = require('psl');
-const url = require('url');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'config'.
-const config = require('config');
-const { COOKIES } = require('app.constants');
+import psl from 'psl';
+import url from 'url';
+import config from 'config';
+import { COOKIES } from 'app.constants';
 
-exports.setTokenCookies = ({
+export const setTokenCookies = ({
   ctx,
   accessToken,
 }: $TSFixMe) => {
   const parsedUrl = url.parse(config.webUrl);
-  const parsed = psl.parse(parsedUrl.hostname);
+  if (!parsedUrl.hostname) {
+    return;
+  }
+
+  const parsed = psl.parse(parsedUrl.hostname) as psl.ParsedDomain;
   const cookiesDomain = parsed.domain;
 
   ctx.cookies.set(COOKIES.ACCESS_TOKEN, accessToken, {
@@ -19,6 +22,11 @@ exports.setTokenCookies = ({
   });
 };
 
-exports.unsetTokenCookies = (ctx: $TSFixMe) => {
+export const unsetTokenCookies = (ctx: $TSFixMe) => {
   ctx.cookies.set(COOKIES.ACCESS_TOKEN);
+};
+
+export default {
+  setTokenCookies,
+  unsetTokenCookies,
 };
