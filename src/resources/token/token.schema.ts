@@ -1,13 +1,13 @@
-const Joi = require('joi');
-
-const { TOKEN_TYPES } = require('app.constants');
+import Joi from 'joi';
+import { TokenType } from 'resources/token/token.types';
 
 const schema = Joi.object({
   _id: Joi.string(),
   createdOn: Joi.date(),
   updatedOn: Joi.date(),
+  deletedOn: Joi.date(),
   type: Joi.string()
-    .valid(TOKEN_TYPES.ACCESS)
+    .valid(...Object.values(TokenType))
     .required(),
   value: Joi.string()
     .required(),
@@ -15,4 +15,4 @@ const schema = Joi.object({
     .required(),
 });
 
-module.exports = (obj) => schema.validate(obj, { allowUnknown: false });
+export default schema;

@@ -1,5 +1,5 @@
 const userService = require('resources/user/user.service');
-const ioEmitter = require('ioEmitter');
+const ioEmitter = require('io-emitter');
 
 userService.on('updated', ({ doc }) => {
   const roomId = `user-${doc._id}`;

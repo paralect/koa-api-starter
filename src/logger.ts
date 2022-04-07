@@ -1,11 +1,12 @@
-const winston = require('winston');
-const config = require('config');
+import winston from 'winston';
+
+import config from 'config';
 
 const colorizer = winston.format.colorize();
 
 const createConsoleLogger = () => {
   // eslint-disable-next-line new-cap
-  const logger = new winston.createLogger({
+  const logger = winston.createLogger({
     exitOnError: false,
     level: config.isDev ? 'debug' : 'info',
     format: winston.format.combine(
@@ -24,4 +25,4 @@ const createConsoleLogger = () => {
   return logger;
 };
 
-module.exports = createConsoleLogger();
+export default createConsoleLogger();

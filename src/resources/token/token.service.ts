@@ -1,4 +1,4 @@
-const db = require('db');
+import db from 'db';
 const securityUtil = require('security.util');
 const { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH, TOKEN_TYPES } = require('app.constants');
 
