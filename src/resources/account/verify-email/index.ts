@@ -1,10 +1,16 @@
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Joi'.
 const Joi = require('joi');
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'config'.
 const config = require('config');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'validate'.
 const validate = require('middlewares/validate.middleware');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'userServic... Remove this comment to see the full error message
 const userService = require('resources/user/user.service');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'authServic... Remove this comment to see the full error message
 const authService = require('services/auth/auth.service');
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'schema'.
 const schema = Joi.object({
   token: Joi.string()
     .required()
@@ -14,7 +20,7 @@ const schema = Joi.object({
     }),
 });
 
-async function validator(ctx, next) {
+async function validator(ctx: $TSFixMe, next: $TSFixMe) {
   const user = await userService.findOne({ signupToken: ctx.validatedData.token });
 
   ctx.assertError(user, 'Token is invalid');
@@ -23,13 +29,18 @@ async function validator(ctx, next) {
   await next();
 }
 
-async function handler(ctx) {
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'handler'.
+async function handler(ctx: $TSFixMe) {
   const { userId } = ctx.validatedData;
 
   await Promise.all([
     userService.updateOne(
       { _id: userId },
-      (old) => ({ ...old, isEmailVerified: true, signupToken: null }),
+      (old: $TSFixMe) => ({
+        ...old,
+        isEmailVerified: true,
+        signupToken: null,
+      }),
     ),
     userService.updateLastRequest(userId),
     authService.setTokens(ctx, userId),
@@ -38,6 +49,6 @@ async function handler(ctx) {
   ctx.redirect(config.webUrl);
 }
 
-module.exports.register = (router) => {
+module.exports.register = (router: $TSFixMe) => {
   router.get('/verify-email', validate(schema), validator, handler);
 };

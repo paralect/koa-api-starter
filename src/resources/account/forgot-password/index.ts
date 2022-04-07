@@ -1,11 +1,18 @@
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Joi'.
 const Joi = require('joi');
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'validate'.
 const validate = require('middlewares/validate.middleware');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'securityUt... Remove this comment to see the full error message
 const securityUtil = require('security.util');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'userServic... Remove this comment to see the full error message
 const userService = require('resources/user/user.service');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'emailServi... Remove this comment to see the full error message
 const emailService = require('services/email/email.service');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'config'.
 const config = require('config');
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'schema'.
 const schema = Joi.object({
   email: Joi.string()
     .email()
@@ -19,7 +26,7 @@ const schema = Joi.object({
     }),
 });
 
-async function validator(ctx, next) {
+async function validator(ctx: $TSFixMe, next: $TSFixMe) {
   const user = await userService.findOne({ email: ctx.validatedData.email });
 
   if (!user) {
@@ -31,7 +38,8 @@ async function validator(ctx, next) {
   await next();
 }
 
-async function handler(ctx) {
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'handler'.
+async function handler(ctx: $TSFixMe) {
   const { user } = ctx.validatedData;
 
   let { resetPasswordToken } = user;
@@ -40,7 +48,10 @@ async function handler(ctx) {
     resetPasswordToken = await securityUtil.generateSecureToken();
     await userService.updateOne(
       { _id: user._id },
-      (old) => ({ ...old, resetPasswordToken }),
+      (old: $TSFixMe) => ({
+        ...old,
+        resetPasswordToken,
+      }),
     );
   }
 
@@ -55,6 +66,6 @@ async function handler(ctx) {
   ctx.body = {};
 }
 
-module.exports.register = (router) => {
+module.exports.register = (router: $TSFixMe) => {
   router.post('/forgot-password', validate(schema), validator, handler);
 };

@@ -1,3 +1,4 @@
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Migration'... Remove this comment to see the full error message
 const Migration = require('migrations/migration');
 // const migrationService = require('migrations/migration.service');
 //
@@ -5,6 +6,7 @@ const Migration = require('migrations/migration');
 
 const migration = new Migration(1, 'Example');
 
+// @ts-expect-error ts-migrate(2339) FIXME: Property 'migrate' does not exist on type 'Migrati... Remove this comment to see the full error message
 migration.migrate = async () => {
   // const userIds = await userService.distinct('_id', {
   //   isEmailVerified: true,

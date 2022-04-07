@@ -1,4 +1,5 @@
-const auth = (ctx, next) => {
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'auth'.
+const auth = (ctx: $TSFixMe, next: $TSFixMe) => {
   if (ctx.state.user) {
     return next();
   }

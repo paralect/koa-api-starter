@@ -1,9 +1,14 @@
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Joi'.
 const Joi = require('joi');
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'securityUt... Remove this comment to see the full error message
 const securityUtil = require('security.util');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'validate'.
 const validate = require('middlewares/validate.middleware');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'userServic... Remove this comment to see the full error message
 const userService = require('resources/user/user.service');
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'schema'.
 const schema = Joi.object({
   token: Joi.string()
     .required()
@@ -24,7 +29,7 @@ const schema = Joi.object({
     }),
 });
 
-async function validator(ctx, next) {
+async function validator(ctx: $TSFixMe, next: $TSFixMe) {
   const { token } = ctx.validatedData;
 
   const user = await userService.findOne({ resetPasswordToken: token });
@@ -38,19 +43,24 @@ async function validator(ctx, next) {
   await next();
 }
 
-async function handler(ctx) {
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'handler'.
+async function handler(ctx: $TSFixMe) {
   const { user, password } = ctx.validatedData;
 
   const passwordHash = await securityUtil.getHash(password);
 
   await userService.updateOne(
     { _id: user._id },
-    (old) => ({ ...old, passwordHash, resetPasswordToken: null }),
+    (old: $TSFixMe) => ({
+      ...old,
+      passwordHash,
+      resetPasswordToken: null,
+    }),
   );
 
   ctx.body = {};
 }
 
-module.exports.register = (router) => {
+module.exports.register = (router: $TSFixMe) => {
   router.put('/reset-password', validate(schema), validator, handler);
 };

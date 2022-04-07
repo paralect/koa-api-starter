@@ -1,5 +1,7 @@
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Joi'.
 const Joi = require('joi');
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'schema'.
 const schema = Joi.object({
   _id: Joi.string(),
   createdOn: Joi.date(),
@@ -24,4 +26,4 @@ const schema = Joi.object({
     .allow(null),
 });
 
-module.exports = (obj) => schema.validate(obj, { allowUnknown: false });
+module.exports = (obj: $TSFixMe) => schema.validate(obj, { allowUnknown: false });

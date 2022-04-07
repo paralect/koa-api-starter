@@ -1,10 +1,11 @@
 const aws = require('aws-sdk');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'config'.
 const config = require('config');
 
 const storage = new aws.S3(config.cloudStorage);
 const Bucket = config.cloudStorage.bucket;
 
-function upload(fileName, file) {
+function upload(fileName: $TSFixMe, file: $TSFixMe) {
   const uploadParameters = {
     Bucket,
     ContentType: file.mimetype,
@@ -16,7 +17,7 @@ function upload(fileName, file) {
   return storage.upload(uploadParameters).promise();
 }
 
-function uploadPublic(fileName, file) {
+function uploadPublic(fileName: $TSFixMe, file: $TSFixMe) {
   const uploadParameters = {
     Bucket,
     ContentType: file.mimetype,
@@ -28,7 +29,7 @@ function uploadPublic(fileName, file) {
   return storage.upload(uploadParameters).promise();
 }
 
-function getSignedDownloadUrl(fileName) {
+function getSignedDownloadUrl(fileName: $TSFixMe) {
   const params = {
     Bucket,
     Key: fileName,
@@ -38,7 +39,7 @@ function getSignedDownloadUrl(fileName) {
   return storage.getSignedUrl('getObject', params);
 }
 
-function getObject(fileName) {
+function getObject(fileName: $TSFixMe) {
   const downloadParameters = {
     Bucket,
     Key: fileName,
@@ -47,7 +48,7 @@ function getObject(fileName) {
   return storage.getObject(downloadParameters).promise();
 }
 
-function copyObject(filePath, copyFilePath) {
+function copyObject(filePath: $TSFixMe, copyFilePath: $TSFixMe) {
   const parameters = {
     Bucket,
     CopySource: encodeURI(`${Bucket}/${copyFilePath}`),
@@ -57,7 +58,7 @@ function copyObject(filePath, copyFilePath) {
   return storage.copyObject(parameters).promise();
 }
 
-function deleteObject(fileName) {
+function deleteObject(fileName: $TSFixMe) {
   const parameters = {
     Bucket,
     Key: fileName,

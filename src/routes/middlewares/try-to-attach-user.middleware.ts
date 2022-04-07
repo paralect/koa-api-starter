@@ -1,7 +1,10 @@
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'userServic... Remove this comment to see the full error message
 const userService = require('resources/user/user.service');
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'tokenServi... Remove this comment to see the full error message
 const tokenService = require('resources/token/token.service');
 
-const tryToAttachUser = async (ctx, next) => {
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'tryToAttac... Remove this comment to see the full error message
+const tryToAttachUser = async (ctx: $TSFixMe, next: $TSFixMe) => {
   let userData;
 
   if (ctx.state.accessToken) {

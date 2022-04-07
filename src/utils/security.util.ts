@@ -22,7 +22,7 @@ exports.generateSecureToken = async (tokenLength = 48) => {
  * @param text {string} - a text to produce hash from
  * @return {Promise} - a hash from input text
  */
-exports.getHash = (text) => {
+exports.getHash = (text: $TSFixMe) => {
   return bcryptHash(text, 10);
 };
 
@@ -33,6 +33,6 @@ exports.getHash = (text) => {
  * @param hash {string} - a hash to compare with text
  * @return {Promise} - are hash and text equal
  */
-exports.compareTextWithHash = (text, hash) => {
+exports.compareTextWithHash = (text: $TSFixMe, hash: $TSFixMe) => {
   return compare(text, hash);
 };
