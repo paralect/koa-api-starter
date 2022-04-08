@@ -1,11 +1,12 @@
 import db from 'db';
 import securityUtil from 'utils/security.util';
-import { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH, COOKIES } from 'app.constants';
+import { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH } from 'app.constants';
 import validateSchema from './token.schema';
+import { Token, TokenType } from './token.types';
 
-const service = db.createService(DATABASE_DOCUMENTS.TOKENS, { validate: validateSchema });
+const service = db.createService<Token>(DATABASE_DOCUMENTS.TOKENS, { validate: validateSchema });
 
-const createToken = async (userId: $TSFixMe, type: $TSFixMe) => {
+const createToken = async (userId: string, type: TokenType) => {
   const value = await securityUtil.generateSecureToken(TOKEN_SECURITY_LENGTH);
 
   return service.create({
@@ -13,17 +14,17 @@ const createToken = async (userId: $TSFixMe, type: $TSFixMe) => {
   });
 };
 
-service.createAuthTokens = async ({
+const createAuthTokens = async ({
   userId,
 }: $TSFixMe) => {
-  const accessTokenEntity = await createToken(userId, COOKIES.ACCESS_TOKEN);
+  const accessTokenEntity = await createToken(userId, TokenType.ACCESS);
 
   return {
     accessToken: accessTokenEntity.value,
   };
 };
 
-service.getUserDataByToken = async (token: $TSFixMe) => {
+const getUserDataByToken = async (token: string) => {
   const tokenEntity = await service.findOne({ value: token });
 
   return tokenEntity && {
@@ -31,8 +32,12 @@ service.getUserDataByToken = async (token: $TSFixMe) => {
   };
 };
 
-service.removeAuthTokens = async (accessToken: $TSFixMe) => {
-  return service.remove({ value: { $in: [accessToken] } });
+const removeAuthTokens = async (accessToken: string, refreshToken: string) => {
+  return service.remove({ value: { $in: [accessToken, refreshToken] } });
 };
 
-export default service;
+export default Object.assign(service, {
+  createAuthTokens,
+  getUserDataByToken,
+  removeAuthTokens,
+});

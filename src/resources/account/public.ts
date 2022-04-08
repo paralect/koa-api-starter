@@ -1,16 +1,22 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Router'.
-const Router = require('@koa/router');
+import { routeUtil } from 'utils';
+import signUp from './actions/sign-up';
+import signIn from './actions/sign-in';
+import signOut from './actions/sign-out';
+import verifyEmail from './actions/very-email';
+import forgotPassword from './actions/forgot-password';
+import resetPassword from './actions/reset-password';
+import verifyResetToken from './actions/verify-reset-token';
+import resendEmail from './actions/resend-email';
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'router'.
-const router = new Router();
-
-require('./sign-up').register(router);
-require('./sign-in').register(router);
-require('./sign-out').register(router);
-require('./verify-email').register(router);
-require('./forgot-password').register(router);
-require('./reset-password').register(router);
-require('./verify-reset-token').register(router);
-require('./resend-email').register(router);
-
-module.exports = router.routes();
+export default {
+  routes: routeUtil.getRoutes([
+    signUp,
+    signIn,
+    signOut,
+    verifyEmail,
+    forgotPassword,
+    resetPassword,
+    verifyResetToken,
+    resendEmail,
+  ]),
+};

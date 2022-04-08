@@ -1,19 +1,10 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Joi'.
-const Joi = require('joi');
+import Joi from 'joi';
+import validate from 'middlewares/validate.middleware';
+import securityUtil from 'utils/security.util';
+import userService from 'resources/user/user.service';
+import emailService from 'services/email/email.service';
+import config from 'config';
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'validate'.
-const validate = require('middlewares/validate.middleware');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'securityUt... Remove this comment to see the full error message
-const securityUtil = require('security.util');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'userServic... Remove this comment to see the full error message
-const userService = require('resources/user/user.service');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'emailServi... Remove this comment to see the full error message
-const emailService = require('services/email/email.service');
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'config'.
-const config = require('config');
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'schema'.
 const schema = Joi.object({
   firstName: Joi.string()
     .trim()
@@ -63,7 +54,6 @@ async function validator(ctx: $TSFixMe, next: $TSFixMe) {
   await next();
 }
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'handler'.
 async function handler(ctx: $TSFixMe) {
   const {
     firstName,
@@ -86,16 +76,13 @@ async function handler(ctx: $TSFixMe) {
     signupToken,
   });
 
-  await emailService.sendSignUpWelcome(
-    user.email,
-    {
-      verifyEmailUrl: `${config.apiUrl}/account/verify-email?token=${signupToken}`,
-    },
-  );
+  await emailService.sendSignUpWelcome(user.email, {
+    verifyEmailUrl: `${config.apiUrl}/account/verify-email?token=${signupToken}`,
+  });
 
   ctx.body = config.isDev ? { signupToken } : {};
 }
 
-module.exports.register = (router: $TSFixMe) => {
+export default (router: $TSFixMe) => {
   router.post('/sign-up', validate(schema), validator, handler);
 };

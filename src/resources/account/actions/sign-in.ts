@@ -1,16 +1,9 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Joi'.
-const Joi = require('joi');
+import Joi from 'joi';
+import validate from 'middlewares/validate.middleware';
+import securityUtil from 'utils/security.util';
+import userService from 'resources/user/user.service';
+import authService from 'services/auth/auth.service';
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'securityUt... Remove this comment to see the full error message
-const securityUtil = require('security.util');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'validate'.
-const validate = require('middlewares/validate.middleware');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'authServic... Remove this comment to see the full error message
-const authService = require('services/auth/auth.service');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'userServic... Remove this comment to see the full error message
-const userService = require('resources/user/user.service');
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'schema'.
 const schema = Joi.object({
   email: Joi.string()
     .email()
@@ -39,6 +32,10 @@ async function validator(ctx: $TSFixMe, next: $TSFixMe) {
   const { email, password } = ctx.validatedData;
 
   const user = await userService.findOne({ email });
+  if (!user) {
+    ctx.status = 404;
+    return;
+  }
 
   ctx.assertClientError(user, {
     credentials: 'The email or password you have entered is invalid',
@@ -58,7 +55,6 @@ async function validator(ctx: $TSFixMe, next: $TSFixMe) {
   await next();
 }
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'handler'.
 async function handler(ctx: $TSFixMe) {
   const { user } = ctx.validatedData;
 
@@ -70,6 +66,6 @@ async function handler(ctx: $TSFixMe) {
   ctx.body = userService.getPublic(user);
 }
 
-module.exports.register = (router: $TSFixMe) => {
+export default (router: $TSFixMe) => {
   router.post('/sign-in', validate(schema), validator, handler);
 };

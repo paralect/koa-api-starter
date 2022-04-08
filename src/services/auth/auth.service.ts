@@ -1,7 +1,7 @@
 import tokenService from 'resources/token/token.service';
 import cookieHelper from './auth.helper';
 
-export const setTokens = async (ctx: $TSFixMe, userId: $TSFixMe) => {
+const setTokens = async (ctx: $TSFixMe, userId: $TSFixMe) => {
   const res = await tokenService.createAuthTokens({ userId });
 
   const options = {
@@ -12,7 +12,12 @@ export const setTokens = async (ctx: $TSFixMe, userId: $TSFixMe) => {
   cookieHelper.setTokenCookies(options);
 };
 
-export const unsetTokens = async (ctx: $TSFixMe) => {
+const unsetTokens = async (ctx: $TSFixMe) => {
   await tokenService.removeAuthTokens(ctx.state.accessToken, ctx.state.refreshToken);
   cookieHelper.unsetTokenCookies(ctx);
+};
+
+export default {
+  setTokens,
+  unsetTokens,
 };

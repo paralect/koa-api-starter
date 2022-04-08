@@ -1,16 +1,10 @@
 import Joi from 'joi';
 import validate from 'middlewares/validate.middleware';
-import securityUtil from 'security.util';
+import securityUtil from 'utils/security.util';
+import userService from 'resources/user/user.service';
+import emailService from 'services/email/email.service';
+import config from 'config';
 
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'userServic... Remove this comment to see the full error message
-const userService = require('resources/user/user.service');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'emailServi... Remove this comment to see the full error message
-const emailService = require('services/email/email.service');
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'config'.
-const config = require('config');
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'schema'.
 const schema = Joi.object({
   email: Joi.string()
     .email()
@@ -63,6 +57,6 @@ async function handler(ctx: $TSFixMe) {
   ctx.body = {};
 }
 
-module.exports.register = (router: $TSFixMe) => {
+export default (router: $TSFixMe) => {
   router.post('/forgot-password', validate(schema), validator, handler);
 };

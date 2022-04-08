@@ -5,7 +5,7 @@ import attachCustomErrors from './middlewares/attach-custom-errors.middleware';
 import routeErrorHandler from './middlewares/route-error-handler.middleware';
 
 import publicRoutes from './public';
-const authenticatedRoutes = require('./authenticated');
+import authenticatedRoutes from './authenticated';
 
 const defineRoutes = (app: $TSFixMe) => {
   app.use(attachCustomErrors);
@@ -21,4 +21,4 @@ const defineRoutes = (app: $TSFixMe) => {
   authenticatedRoutes(app);
 };
 
-module.exports = defineRoutes;
+export default defineRoutes;

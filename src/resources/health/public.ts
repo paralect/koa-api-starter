@@ -1,7 +1,8 @@
-import Router from '@koa/router';
-const router = new Router();
+import { routeUtil } from 'utils';
 import getAction from './actions/get';
 
-getAction(router);
-
-export default router.routes();
+export default {
+  routes: routeUtil.getRoutes([
+    getAction,
+  ]),
+};

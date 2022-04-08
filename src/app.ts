@@ -17,7 +17,7 @@ import requestLogger from 'koa-logger';
 import config from 'config';
 import logger from 'logger';
 import { socketService } from 'services';
-// import routes from 'routes';
+import routes from 'routes';
 import { initClient } from 'io-emitter';
 
 const app = new Koa();
@@ -37,7 +37,7 @@ app.use(bodyParser({
 }));
 app.use(requestLogger());
 
-// routes(app);
+routes(app);
 
 const server = http.createServer(app.callback());
 

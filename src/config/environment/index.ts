@@ -16,6 +16,9 @@ const base = {
     bucket: '',
     endpoint: '',
   },
+  apiUrl: '',
+  webUrl: '',
+  sendgridApiKey: '',
 };
 
 const config = configUtil.loadConfig(base, env, __dirname);
