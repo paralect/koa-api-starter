@@ -9,13 +9,11 @@ migration.migrate = async () => {
     isEmailVerified: true,
   });
   
-  await migrationService.promiseLimit(userIds, 50, (userId: string) => userService.updateOne(
-    { _id: userId },
-    (old: $TSFixMe) => ({
-      ...old,
+  await migrationService.promiseLimit(userIds, 50, (userId: string) => userService.update({ _id: userId },
+    () => ({
       isEmailVerified: false,
     }),
   ));
 };
 
-module.exports = migration;
+export default migration;

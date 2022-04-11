@@ -81,7 +81,7 @@ services:
       target: development
       args:
         APP_ENV: development
-    command: npm run schedule
+    command: npm run schedule-dev
     networks:
       - ship
     volumes:

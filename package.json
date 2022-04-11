@@ -22,9 +22,9 @@
     "build:email": "npm run copy-assets && mjml ./src/assets/emails/*.mjml -o ./src/assets/emails/dist/",
     "dev": "nodemon --watch src -e ts,tsx --exec ts-node --project tsconfig.json src/app.ts",
     "start": "node dist/src/app.js",
-    "migrate": "",
-    "schedule-dev": "",
-    "schedule": "",
+    "migrate": "ts-node ./src/migrator.ts",
+    "schedule-dev": "nodemon --watch src -e ts,tsx --exec ts-node --project tsconfig.json ./src/scheduler.ts",
+    "schedule": "node dist/src/scheduler.js",
     "precommit": "lint-staged",
     "prepare": "husky install"
   },

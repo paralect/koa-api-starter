@@ -1,36 +1,49 @@
 import db from 'db';
-import validateSchema from './migration-log.schema';
 
-const service = db.createService('__migrationLog', { validate: validateSchema });
+import schema from './migration-log.schema';
 
-service.startMigrationLog = (_id: $TSFixMe, startTime: $TSFixMe, migrationVersion: $TSFixMe) => {
-  return service.atomic.findOneAndUpdate({ _id }, {
-    $set: {
-      migrationVersion,
-      startTime,
-      status: 'running',
+const service = db.createService('__migrationLog', { schema });
+
+const startMigrationLog = (_id: $TSFixMe, startTime: $TSFixMe, migrationVersion: $TSFixMe) => {
+  return service.atomic.findOneAndUpdate(
+    { _id },
+    {
+      $set: {
+        migrationVersion,
+        startTime,
+        status: 'running',
+      },
+      $setOnInsert: {
+        _id,
+      },
     },
-    $setOnInsert: {
-      _id,
-    },
-  }, { upsert: true });
+    { upsert: true },
+  );
 };
 
-service.failMigrationLog = (_id: $TSFixMe, finishTime: $TSFixMe, err: $TSFixMe) => service.atomic.update({ _id }, {
-  $set: {
-    finishTime,
-    status: 'failed',
-    error: err.message,
-    errorStack: err.stack,
-  },
-});
+const failMigrationLog = (_id: $TSFixMe, finishTime: $TSFixMe, err: $TSFixMe) =>
+  service.atomic.updateMany(
+    { _id },
+    {
+      $set: {
+        finishTime,
+        status: 'failed',
+        error: err.message,
+        errorStack: err.stack,
+      },
+    },
+  );
 
-service.finishMigrationLog = (_id: $TSFixMe, finishTime: $TSFixMe, duration: $TSFixMe) => service.atomic.update({ _id }, {
-  $set: {
-    finishTime,
-    status: 'completed',
-    duration,
-  },
-});
+const finishMigrationLog = (_id: $TSFixMe, finishTime: $TSFixMe, duration: $TSFixMe) =>
+  service.atomic.updateMany(
+    { _id },
+    {
+      $set: {
+        finishTime,
+        status: 'completed',
+        duration,
+      },
+    },
+  );
 
-export default service;
+export default { startMigrationLog, failMigrationLog, finishMigrationLog };

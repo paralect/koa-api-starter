@@ -19,7 +19,7 @@ const getMigrationNames = () => new Promise((resolve, reject) => {
   });
 });
 
-service.getCurrentMigrationVersion = () => service.findOne({ _id: id })
+const getCurrentMigrationVersion = () => service.findOne({ _id: id })
   .then((doc: $TSFixMe) => {
     if (!doc) {
       return 0;
@@ -28,23 +28,25 @@ service.getCurrentMigrationVersion = () => service.findOne({ _id: id })
     return doc.version;
   });
 
-service.getMigrations = () => {
+const getMigrations = () => {
   let migrations = null;
 
-  return getMigrationNames().then((names: $TSFixMe) => {
-    migrations = names.map((name: $TSFixMe) => {
-      const migrationPath = path.join(migrationsPath, name);
-      // eslint-disable-next-line import/no-dynamic-require, global-require
-      return require(migrationPath);
-    });
+  return getMigrationNames()
+    .then((names: $TSFixMe) => {
+      migrations = names.map((name: $TSFixMe) => {
+        const migrationPath = path.join(migrationsPath, name);
+        console.dir(migrationPath);
+        return require(migrationPath);
+      });
 
-    return migrations;
-  }).catch((err) => {
-    throw err;
-  });
+      return migrations;
+    })
+    .catch(err => {
+      throw err;
+    });
 };
 
-service.setNewMigrationVersion = (version: $TSFixMe) => service.atomic.findOneAndUpdate({ _id: id }, {
+const setNewMigrationVersion = (version: $TSFixMe) => service.atomic.findOneAndUpdate({ _id: id }, {
   $set: {
     version,
   },
@@ -53,7 +55,7 @@ service.setNewMigrationVersion = (version: $TSFixMe) => service.atomic.findOneAn
   },
 }, { upsert: true });
 
-service.promiseLimit = (documents: any[], limit: $TSFixMe, operator: $TSFixMe) => {
+const promiseLimit = (documents: any[], limit: $TSFixMe, operator: $TSFixMe) => {
   const chunks = _.chunk(documents, limit);
 
   return chunks.reduce((init: $TSFixMe, chunk) => {
@@ -63,4 +65,10 @@ service.promiseLimit = (documents: any[], limit: $TSFixMe, operator: $TSFixMe) =
   }, Promise.resolve());
 };
 
-export default service;
+export default Object.assign(service, {
+  getCurrentMigrationVersion,
+  getMigrations,
+  setNewMigrationVersion,
+  promiseLimit,
+});
+

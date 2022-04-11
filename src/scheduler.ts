@@ -5,6 +5,8 @@ import moduleAlias from 'module-alias';
 moduleAlias.addPath(__dirname);
 moduleAlias(); // read aliases from package json
 
-require('scheduler/cron');
+import logger from 'logger';
+import 'scheduler/cron';
+import 'scheduler/handlers/action.example.handler';
 
-require('scheduler/handlers/action.example.handler.js');
+logger.info('Scheduler has started');
