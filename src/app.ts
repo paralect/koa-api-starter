@@ -51,4 +51,4 @@ Promise.all([initClient(), socketService(server)])
     throw err;
   });
 
-module.exports = app;
+export default app;

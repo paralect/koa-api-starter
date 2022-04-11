@@ -5,7 +5,7 @@ import http from 'http';
 import config from 'config';
 import logger from 'logger';
 import pubClient from 'redis-client';
-import { tokenService } from 'resources/token';
+import tokenResource from 'resources/token';
 
 const getCookie = (cookieString: string, name: string) => {
   const value = `; ${cookieString}`;
@@ -48,7 +48,7 @@ export default async (server: http.Server) => {
     if (!socket.handshake.headers.cookie) return next(new Error('Cookie not found'));
 
     const accessToken = getCookie(socket.handshake.headers.cookie, config.accessTokenName);
-    const tokenData = await tokenService.findTokenByValue(accessToken || '');
+    const tokenData = await tokenResource.service.findTokenByValue(accessToken || '');
     if (tokenData) {
       socket.data = {
         userId: tokenData.userId,

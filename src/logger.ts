@@ -1,23 +1,39 @@
 import winston from 'winston';
-
 import config from 'config';
 
-const colorizer = winston.format.colorize();
+const getFormat = (isDev: boolean) => {
+  if (isDev) {
+    return winston.format.combine(
+      winston.format.colorize(),
+      winston.format.splat(),
+      winston.format.simple(),
+    );
+  }
 
-const createConsoleLogger = () => {
-  // eslint-disable-next-line new-cap
+  return winston.format.combine(
+    winston.format.errors({ stack: true }),
+    winston.format.timestamp(),
+    winston.format.json(),
+  );
+};
+
+const createConsoleLogger = (isDev: boolean) => {
+  const transports: any[] = [
+    new winston.transports.Console({
+      level: isDev ? 'debug' : 'info',
+      stderrLevels: [
+        'emerg',
+        'alert',
+        'crit',
+        'error',
+      ],
+    }),
+  ];
+
   const logger = winston.createLogger({
     exitOnError: false,
-    level: config.isDev ? 'debug' : 'info',
-    format: winston.format.combine(
-      winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-      config.isDev
-        ? winston.format.printf((msg) => colorizer.colorize(msg.level, `${msg.timestamp} - ${msg.level}: ${JSON.stringify(msg.message)}`))
-        : winston.format.json(),
-    ),
-    transports: [
-      new winston.transports.Console(),
-    ],
+    transports,
+    format: getFormat(isDev),
   });
 
   logger.debug('[logger] Configured console based logger');
@@ -25,4 +41,4 @@ const createConsoleLogger = () => {
   return logger;
 };
 
-export default createConsoleLogger();
+export default createConsoleLogger(config.isDev);

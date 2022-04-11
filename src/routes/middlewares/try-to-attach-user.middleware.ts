@@ -5,7 +5,7 @@ const tryToAttachUser = async (ctx: $TSFixMe, next: $TSFixMe) => {
   let userData;
 
   if (ctx.state.accessToken) {
-    userData = await tokenService.getUserDataByToken(ctx.state.accessToken);
+    userData = await tokenService.findTokenByValue(ctx.state.accessToken);
   }
 
   if (userData) {

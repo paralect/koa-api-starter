@@ -24,7 +24,7 @@ const createAuthTokens = async ({
   };
 };
 
-const getUserDataByToken = async (token: string) => {
+const findTokenByValue = async (token: string) => {
   const tokenEntity = await service.findOne({ value: token });
 
   return tokenEntity && {
@@ -38,6 +38,6 @@ const removeAuthTokens = async (accessToken: string, refreshToken: string) => {
 
 export default Object.assign(service, {
   createAuthTokens,
-  getUserDataByToken,
+  findTokenByValue,
   removeAuthTokens,
 });
