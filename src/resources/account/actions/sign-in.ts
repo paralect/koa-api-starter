@@ -3,6 +3,8 @@ import validate from 'middlewares/validate.middleware';
 import securityUtil from 'utils/security.util';
 import userService from 'resources/user/user.service';
 import authService from 'services/auth/auth.service';
+import { User } from 'resources/user';
+import { AppKoaContext, Next, AppRouter } from 'types';
 
 const schema = Joi.object({
   email: Joi.string()
@@ -28,7 +30,13 @@ const schema = Joi.object({
     }),
 });
 
-async function validator(ctx: $TSFixMe, next: $TSFixMe) {
+type ValidatedData = {
+  email: string;
+  password: string;
+  user: User;
+};
+
+async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
   const { email, password } = ctx.validatedData;
 
   const user = await userService.findOne({ email });
@@ -55,7 +63,7 @@ async function validator(ctx: $TSFixMe, next: $TSFixMe) {
   await next();
 }
 
-async function handler(ctx: $TSFixMe) {
+async function handler(ctx: AppKoaContext<ValidatedData>) {
   const { user } = ctx.validatedData;
 
   await Promise.all([
@@ -66,6 +74,6 @@ async function handler(ctx: $TSFixMe) {
   ctx.body = userService.getPublic(user);
 }
 
-export default (router: $TSFixMe) => {
+export default (router: AppRouter) => {
   router.post('/sign-in', validate(schema), validator, handler);
 };

@@ -8,4 +8,4 @@ const schema = Joi.object({
     .required(),
 });
 
-export default (obj: $TSFixMe) => schema.validate(obj, { allowUnknown: false });
+export default schema;

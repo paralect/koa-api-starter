@@ -1,7 +1,13 @@
 import _ from 'lodash';
+import { ValidationErrors, AppKoaContext, Next } from 'types';
 
-const formatError = (customError: $TSFixMe) => {
-  const errors: $TSFixMe = {};
+type ConditionFunc = () => boolean;
+type CustomErrors = {
+  [name: string]: string;
+};
+
+const formatError = (customError: CustomErrors): ValidationErrors => {
+  const errors: ValidationErrors = {};
 
   Object.keys(customError).forEach((key) => {
     errors[key] = _.isArray(customError[key])
@@ -12,12 +18,13 @@ const formatError = (customError: $TSFixMe) => {
   return errors;
 };
 
-const attachCustomErrors = async (ctx: $TSFixMe, next: $TSFixMe) => {
-  ctx.throwError = (message: $TSFixMe) => ctx.throw(500, { message });
-  ctx.assertError = (condition: $TSFixMe, message: $TSFixMe) => ctx.assert(condition, 500, { message });
+const attachCustomErrors = async (ctx: AppKoaContext, next: Next) => {
+  ctx.throwError = (message: string) => ctx.throw(500, { message });
+  ctx.assertError = (condition: ConditionFunc, message: string) => ctx.assert(condition, 500, { message });
 
-  ctx.throwClientError = (errors: $TSFixMe) => ctx.throw(400, { errors: formatError(errors) });
-  ctx.assertClientError = (condition: $TSFixMe, errors: $TSFixMe) => ctx.assert(condition, 400, { errors: formatError(errors) });
+  ctx.throwClientError = (errors: CustomErrors) => ctx.throw(400, { errors: formatError(errors) });
+  ctx.assertClientError = (condition: ConditionFunc, errors: CustomErrors) =>
+    ctx.assert(condition, 400, { errors: formatError(errors) });
 
   await next();
 };

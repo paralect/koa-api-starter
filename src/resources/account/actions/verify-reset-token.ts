@@ -2,6 +2,7 @@ import Joi from 'joi';
 import validate from 'middlewares/validate.middleware';
 import userService from 'resources/user/user.service';
 import config from 'config';
+import { AppKoaContext, AppRouter } from 'types';
 
 const schema = Joi.object({
   email: Joi.string()
@@ -18,7 +19,12 @@ const schema = Joi.object({
     }),
 });
 
-async function validator(ctx: $TSFixMe) {
+type ValidatedData = {
+  token: string;
+  email: string;
+};
+
+async function validator(ctx: AppKoaContext<ValidatedData>) {
   const { email, token } = ctx.validatedData;
 
   const user = await userService.findOne({ resetPasswordToken: token });
@@ -30,6 +36,6 @@ async function validator(ctx: $TSFixMe) {
   }
 }
 
-export default (router: $TSFixMe) => {
+export default (router: AppRouter) => {
   router.get('/verify-reset-token', validate(schema), validator);
 };

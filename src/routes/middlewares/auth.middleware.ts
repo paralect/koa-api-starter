@@ -1,4 +1,6 @@
-const auth = (ctx: $TSFixMe, next: $TSFixMe) => {
+import { AppKoaContext, Next } from 'types';
+
+const auth = (ctx: AppKoaContext, next: Next) => {
   if (ctx.state.user) {
     return next();
   }

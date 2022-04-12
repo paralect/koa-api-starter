@@ -1,6 +1,7 @@
 import moment from 'moment';
 import 'moment-duration-format';
 import logger from 'logger';
+import { Migration } from './migration.types';
 
 import migrationLogService from './migrations-log/migration-log.service';
 import migrationService from './migration.service';
@@ -15,9 +16,9 @@ interface DurationSettings {
   trim: boolean | 'left' | 'right';
 }
 
-const run = async (migrations: $TSFixMe, curVersion: $TSFixMe) => {
-  const newMigrations = migrations.filter((migration: $TSFixMe) => migration.version > curVersion)
-    .sort((a: $TSFixMe, b: $TSFixMe) => a.version - b.version);
+const run = async (migrations: Migration[], curVersion: number) => {
+  const newMigrations = migrations.filter((migration: Migration) => migration.version > curVersion)
+    .sort((a: Migration, b: Migration) => a.version - b.version);
 
   if (!newMigrations.length) {
     logger.info(`No new migrations found, stopping the process.
@@ -50,9 +51,12 @@ const run = async (migrations: $TSFixMe, curVersion: $TSFixMe) => {
     logger.info(`All migrations has been finished, stopping the process.
       Current database version is: ${lastMigrationVersion}`);
   } catch (err) {
-    logger.error(`Failed to update migration to version ${migration.version}`);
-    logger.error(err);
-    await migrationLogService.failMigrationLog(migrationLogId, new Date(), err);
+    if (migration) {
+      logger.error(`Failed to update migration to version ${migration.version}`);
+      logger.error(err);
+      await migrationLogService.failMigrationLog(migrationLogId, new Date(), err);
+    }
+   
     throw err;
   }
 };

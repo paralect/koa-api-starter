@@ -1,7 +1,9 @@
-const handler = (ctx: $TSFixMe) => {
+import { AppKoaContext, AppRouter } from 'types';
+
+const handler = (ctx: AppKoaContext) => {
   ctx.status = 200;
 };
 
-export default (router: $TSFixMe) => {
+export default (router: AppRouter) => {
   router.get('/', handler);
 };

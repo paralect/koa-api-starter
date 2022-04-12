@@ -2,25 +2,22 @@ import db from 'db';
 import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
+import { MigrationDocument, Migration } from './migration.types';
 
-import validateSchema from './migration.schema';
+import schema from './migration.schema';
 
-const service = db.createService('__migrationVersion', { validate: validateSchema });
+const service = db.createService<MigrationDocument>('__migrationVersion', {
+  schema,
+});
 const migrationsPath = path.join(__dirname, 'migrations');
 const id = 'migration_version';
 
-const getMigrationNames = () => new Promise((resolve, reject) => {
-  fs.readdir(migrationsPath, (err: $TSFixMe, files: $TSFixMe) => {
-    if (err) {
-      reject(err);
-      return;
-    }
-    resolve(files);
-  });
-});
+const getMigrationNames = (): string[] => {
+  return fs.readdirSync(migrationsPath);
+};
 
 const getCurrentMigrationVersion = () => service.findOne({ _id: id })
-  .then((doc: $TSFixMe) => {
+  .then((doc: MigrationDocument | null) => {
     if (!doc) {
       return 0;
     }
@@ -28,25 +25,19 @@ const getCurrentMigrationVersion = () => service.findOne({ _id: id })
     return doc.version;
   });
 
-const getMigrations = () => {
+const getMigrations = (): Migration[] => {
   let migrations = null;
 
-  return getMigrationNames()
-    .then((names: $TSFixMe) => {
-      migrations = names.map((name: $TSFixMe) => {
-        const migrationPath = path.join(migrationsPath, name);
-        console.dir(migrationPath);
-        return require(migrationPath);
-      });
+  const names = getMigrationNames();
+  migrations = names.map((name: string) => {
+    const migrationPath = path.join(migrationsPath, name);
+    return require(migrationPath);
+  });
 
-      return migrations;
-    })
-    .catch(err => {
-      throw err;
-    });
+  return migrations;
 };
 
-const setNewMigrationVersion = (version: $TSFixMe) => service.atomic.findOneAndUpdate({ _id: id }, {
+const setNewMigrationVersion = (version: number) => service.atomic.findOneAndUpdate({ _id: id }, {
   $set: {
     version,
   },
@@ -55,10 +46,10 @@ const setNewMigrationVersion = (version: $TSFixMe) => service.atomic.findOneAndU
   },
 }, { upsert: true });
 
-const promiseLimit = (documents: any[], limit: $TSFixMe, operator: $TSFixMe) => {
+const promiseLimit = (documents: unknown[], limit: number, operator: (doc: unknown) => any): Promise<void> => {
   const chunks = _.chunk(documents, limit);
 
-  return chunks.reduce((init: $TSFixMe, chunk) => {
+  return chunks.reduce((init: any, chunk) => {
     return init.then(() => {
       return Promise.all(chunk.map((c) => operator(c)));
     });

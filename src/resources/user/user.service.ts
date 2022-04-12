@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import db from 'db';
 import { DATABASE_DOCUMENTS } from 'app.constants';
-import validateSchema from './user.schema';
+import schema from './user.schema';
 import { User } from './user.types';
 
-const service = db.createService<User>(DATABASE_DOCUMENTS.USERS, { validate: validateSchema });
+const service = db.createService<User>(DATABASE_DOCUMENTS.USERS, { schema });
 
-const updateLastRequest = async (_id: $TSFixMe) => {
+const updateLastRequest = async (_id: string) => {
   return service.atomic.updateMany({ _id }, {
     $set: {
       lastRequest: new Date(),
@@ -21,7 +21,7 @@ const privateFields = [
   'resetPasswordToken',
 ];
 
-const getPublic = (user: $TSFixMe) => {
+const getPublic = (user: User) => {
   return _.omit(user, privateFields);
 };
 

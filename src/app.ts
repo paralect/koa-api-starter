@@ -5,7 +5,6 @@ import moduleAlias from 'module-alias';
 moduleAlias.addPath(__dirname);
 moduleAlias(); // read aliases from package json
 
-import Koa from 'koa';
 import http from 'http';
 import cors from '@koa/cors';
 import multer from '@koa/multer';
@@ -19,13 +18,15 @@ import logger from 'logger';
 import { socketService } from 'services';
 import routes from 'routes';
 import { initClient } from 'io-emitter';
+import { AppKoa } from 'types'; 
 
-const app = new Koa();
+
+const app = new AppKoa();
 const upload = multer();
 
 app.use(cors({ credentials: true }));
 app.use(helmet());
-qs(app);
+qs(app as any); // TODO: figure out how to use koa-qs with types
 app.use(upload.any());
 app.use(bodyParser({
   enableTypes: ['json', 'form', 'text'],

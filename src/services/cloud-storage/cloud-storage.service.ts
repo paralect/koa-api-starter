@@ -1,10 +1,11 @@
+import { File } from '@koa/multer';
 import aws from 'aws-sdk';
 import config from 'config';
 
 const storage = new aws.S3(config.cloudStorage);
 const Bucket = config.cloudStorage.bucket;
 
-function upload(fileName: $TSFixMe, file: $TSFixMe) {
+function upload(fileName: string, file: File) {
   const uploadParameters = {
     Bucket,
     ContentType: file.mimetype,
@@ -16,7 +17,7 @@ function upload(fileName: $TSFixMe, file: $TSFixMe) {
   return storage.upload(uploadParameters).promise();
 }
 
-function uploadPublic(fileName: $TSFixMe, file: $TSFixMe) {
+function uploadPublic(fileName: string, file: File) {
   const uploadParameters = {
     Bucket,
     ContentType: file.mimetype,
@@ -28,7 +29,7 @@ function uploadPublic(fileName: $TSFixMe, file: $TSFixMe) {
   return storage.upload(uploadParameters).promise();
 }
 
-function getSignedDownloadUrl(fileName: $TSFixMe) {
+function getSignedDownloadUrl(fileName: string) {
   const params = {
     Bucket,
     Key: fileName,
@@ -38,7 +39,7 @@ function getSignedDownloadUrl(fileName: $TSFixMe) {
   return storage.getSignedUrl('getObject', params);
 }
 
-function getObject(fileName: $TSFixMe) {
+function getObject(fileName: string) {
   const downloadParameters = {
     Bucket,
     Key: fileName,
@@ -47,7 +48,7 @@ function getObject(fileName: $TSFixMe) {
   return storage.getObject(downloadParameters).promise();
 }
 
-function copyObject(filePath: $TSFixMe, copyFilePath: $TSFixMe) {
+function copyObject(filePath: string, copyFilePath: string) {
   const parameters = {
     Bucket,
     CopySource: encodeURI(`${Bucket}/${copyFilePath}`),
@@ -57,7 +58,7 @@ function copyObject(filePath: $TSFixMe, copyFilePath: $TSFixMe) {
   return storage.copyObject(parameters).promise();
 }
 
-function deleteObject(fileName: $TSFixMe) {
+function deleteObject(fileName: string) {
   const parameters = {
     Bucket,
     Key: fileName,

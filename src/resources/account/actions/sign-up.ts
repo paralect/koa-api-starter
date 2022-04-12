@@ -4,6 +4,9 @@ import securityUtil from 'utils/security.util';
 import userService from 'resources/user/user.service';
 import emailService from 'services/email/email.service';
 import config from 'config';
+import { User } from 'resources/user';
+import { AppKoaContext, Next, AppRouter } from 'types';
+
 
 const schema = Joi.object({
   firstName: Joi.string()
@@ -43,7 +46,15 @@ const schema = Joi.object({
     }),
 });
 
-async function validator(ctx: $TSFixMe, next: $TSFixMe) {
+type ValidatedData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  user: User;
+};
+
+async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
   const { email } = ctx.validatedData;
 
   const isUserExists = await userService.exists({ email });
@@ -54,7 +65,7 @@ async function validator(ctx: $TSFixMe, next: $TSFixMe) {
   await next();
 }
 
-async function handler(ctx: $TSFixMe) {
+async function handler(ctx: AppKoaContext<ValidatedData>) {
   const {
     firstName,
     lastName,
@@ -83,6 +94,6 @@ async function handler(ctx: $TSFixMe) {
   ctx.body = config.isDev ? { signupToken } : {};
 }
 
-export default (router: $TSFixMe) => {
+export default (router: AppRouter) => {
   router.post('/sign-up', validate(schema), validator, handler);
 };

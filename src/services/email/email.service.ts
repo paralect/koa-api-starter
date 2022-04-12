@@ -11,14 +11,14 @@ const emailService = new EmailService({
   },
 });
 
-const sendSignUpWelcome = (to: $TSFixMe, dynamicTemplateData: $TSFixMe) => emailService.sendTemplate({
+const sendSignUpWelcome = (to: string, dynamicTemplateData: unknown) => emailService.sendTemplate({
   to,
   subject: 'Sign Up',
   template: 'signup-welcome.html',
   dynamicTemplateData,
 });
 
-const sendForgotPassword = (to: $TSFixMe, dynamicTemplateData: $TSFixMe) => emailService.sendSendgridTemplate({
+const sendForgotPassword = (to: string, dynamicTemplateData: unknown) => emailService.sendSendgridTemplate({
   to,
   subject: 'Welcome',
   templateId: 'your-template-id',

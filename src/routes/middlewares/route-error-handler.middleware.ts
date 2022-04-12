@@ -1,9 +1,10 @@
 import logger from 'logger';
+import { AppKoaContext, Next } from 'types';
 
-const routeErrorHandler = async (ctx: $TSFixMe, next: $TSFixMe) => {
+const routeErrorHandler = async (ctx: AppKoaContext, next: Next) => {
   try {
     await next();
-  } catch (error: $TSFixMe) {
+  } catch (error: any) { // TODO: figure out who throws and error and add types
     const clientError = error.errors;
     const serverError = { global: error.message };
 

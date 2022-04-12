@@ -1,4 +1,9 @@
-class Migration {
+export type MigrationDocument = {
+  _id: string;
+  version: number;
+};
+
+export class Migration {
   description?: string;
 
   version: number;
@@ -8,7 +13,7 @@ class Migration {
     this.description = description;
   }
 
-  migrate: $TSFixMe;
+  migrate?: () => Promise<void>;
 }
 
 export default Migration;

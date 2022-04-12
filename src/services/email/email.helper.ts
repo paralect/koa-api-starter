@@ -3,7 +3,7 @@ import handlebars from 'handlebars';
 import sendgrid from '@sendgrid/mail';
 import fs from 'fs/promises';
 
-const render = async (templatePath: $TSFixMe, templateParams: $TSFixMe) => {
+const render = async (templatePath: string, templateParams: unknown) => {
   const template = await fs.readFile(templatePath);
   const compiledHtml = handlebars.compile(template.toString());
 
@@ -11,17 +11,17 @@ const render = async (templatePath: $TSFixMe, templateParams: $TSFixMe) => {
 };
 
 class MailService {
-  apiKey: $TSFixMe;
+  apiKey: string;
 
-  from: $TSFixMe;
+  from: string;
 
-  templatesDir: $TSFixMe;
+  templatesDir: string;
 
   constructor({
     apiKey,
     templatesDir,
     from,
-  }: $TSFixMe) {
+  }: { apiKey: string, templatesDir: string, from: string }) {
     this.apiKey = apiKey;
     this.from = from;
     this.templatesDir = templatesDir;
@@ -34,7 +34,7 @@ class MailService {
     subject,
     template,
     dynamicTemplateData,
-  }: $TSFixMe) {
+  }: { to: string, subject: string, template: string, dynamicTemplateData: unknown }) {
     if (!this.apiKey) return null;
 
     const templatePath = path.join(this.templatesDir, template);
@@ -53,7 +53,7 @@ class MailService {
     subject,
     templateId,
     dynamicTemplateData,
-  }: $TSFixMe) {
+  }: { to: string, subject: string, templateId: string, dynamicTemplateData: { [key: string]: unknown; } }) {
     if (!this.apiKey) return null;
 
     return sendgrid.send({

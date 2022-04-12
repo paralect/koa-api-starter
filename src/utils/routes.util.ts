@@ -1,9 +1,9 @@
-import Router from '@koa/router';
+import { AppRouter, AppRouterMiddleware } from 'types';
 
-export type RegisterRouteFunc = (router: $TSFixMe) => void;
+export type RegisterRouteFunc = (router: AppRouter) => void;
 
-const getRoutes = (routeFunctions: RegisterRouteFunc[]): $TSFixMe => {
-  const router = new Router();
+const getRoutes = (routeFunctions: RegisterRouteFunc[]): AppRouterMiddleware => {
+  const router = new AppRouter();
   routeFunctions.forEach((func: RegisterRouteFunc) => {
     func(router);
   });

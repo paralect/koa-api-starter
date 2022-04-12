@@ -24,4 +24,4 @@ const schema = Joi.object({
     .allow(null),
 });
 
-export default (obj: $TSFixMe) => schema.validate(obj, { allowUnknown: false });
+export default schema;

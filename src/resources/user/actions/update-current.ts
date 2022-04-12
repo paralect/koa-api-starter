@@ -2,6 +2,7 @@ import Joi from 'joi';
 import validate from 'middlewares/validate.middleware';
 import userService from 'resources/user/user.service';
 import { securityUtil } from 'utils';
+import { Next, AppKoaContext, AppRouter } from 'types';
 
 const schema = Joi.object({
   password: Joi.string()
@@ -16,7 +17,11 @@ const schema = Joi.object({
     }),
 });
 
-async function validator(ctx: $TSFixMe, next: $TSFixMe) {
+type ValidatedData = {
+  password: string;
+};
+
+async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
   const { user } = ctx.state;
   const { password } = ctx.validatedData;
 
@@ -28,7 +33,7 @@ async function validator(ctx: $TSFixMe, next: $TSFixMe) {
   await next();
 }
 
-async function handler(ctx: $TSFixMe) {
+async function handler(ctx: AppKoaContext<ValidatedData>) {
   const { user } = ctx.state;
   const { password } = ctx.validatedData;
 
@@ -39,6 +44,6 @@ async function handler(ctx: $TSFixMe) {
   ctx.body = userService.getPublic(updatedUser);
 }
 
-export default (router: $TSFixMe) => {
+export default (router: AppRouter) => {
   router.post('/current', validate(schema), validator, handler);
 };

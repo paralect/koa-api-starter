@@ -1,7 +1,10 @@
-function formatError(joiError: $TSFixMe) {
-  const errors: $TSFixMe = {};
+import { Schema, ValidationError, ValidationErrorItem } from 'joi';
+import { AppKoaContext, Next, ValidationErrors } from 'types';
 
-  joiError.details.forEach((error: $TSFixMe) => {
+function formatError(joiError: ValidationError): ValidationErrors {
+  const errors: ValidationErrors = {};
+
+  joiError.details.forEach((error: ValidationErrorItem) => {
     const key = error.path.join('.');
     errors[key] = errors[key] || [];
     errors[key].push(error.message);
@@ -10,12 +13,13 @@ function formatError(joiError: $TSFixMe) {
   return errors;
 }
 
-function validate(schema: $TSFixMe) {
-  return async (ctx: $TSFixMe, next: $TSFixMe) => {
-    const { value, error } = await schema.validate(
+function validate(schema: Schema) {
+  return async (ctx: AppKoaContext, next: Next) => {
+    const { value, error } = schema.validate(
       {
         ...ctx.request.body,
         ...ctx.query,
+        ...ctx.params,
       },
       {
         abortEarly: false,

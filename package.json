@@ -39,7 +39,7 @@
     "aws-sdk": "2.1080.0",
     "bcryptjs": "2.4.3",
     "handlebars": "4.7.7",
-    "joi": "17.6.0",
+    "joi": "17.4.2",
     "koa": "2.13.4",
     "koa-bodyparser": "4.3.0",
     "koa-helmet": "6.1.0",

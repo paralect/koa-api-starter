@@ -1,10 +1,10 @@
 import db from 'db';
 import securityUtil from 'utils/security.util';
 import { DATABASE_DOCUMENTS, TOKEN_SECURITY_LENGTH } from 'app.constants';
-import validateSchema from './token.schema';
+import schema from './token.schema';
 import { Token, TokenType } from './token.types';
 
-const service = db.createService<Token>(DATABASE_DOCUMENTS.TOKENS, { validate: validateSchema });
+const service = db.createService<Token>(DATABASE_DOCUMENTS.TOKENS, { schema });
 
 const createToken = async (userId: string, type: TokenType) => {
   const value = await securityUtil.generateSecureToken(TOKEN_SECURITY_LENGTH);
@@ -16,7 +16,7 @@ const createToken = async (userId: string, type: TokenType) => {
 
 const createAuthTokens = async ({
   userId,
-}: $TSFixMe) => {
+}: { userId: string }) => {
   const accessTokenEntity = await createToken(userId, TokenType.ACCESS);
 
   return {
@@ -32,8 +32,8 @@ const findTokenByValue = async (token: string) => {
   };
 };
 
-const removeAuthTokens = async (accessToken: string, refreshToken: string) => {
-  return service.remove({ value: { $in: [accessToken, refreshToken] } });
+const removeAuthTokens = async (accessToken: string) => {
+  return service.remove({ value: { $in: [accessToken] } });
 };
 
 export default Object.assign(service, {

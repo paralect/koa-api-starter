@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import validate from 'middlewares/validate.middleware';
 import userService from 'resources/user/user.service';
+import { AppKoaContext, AppRouter } from 'types';
 
 const schema = Joi.object({
   page: Joi.number().default(1),
@@ -11,7 +12,16 @@ const schema = Joi.object({
   searchValue: Joi.string().allow(null, '').default(''),
 });
 
-async function handler(ctx: $TSFixMe) {
+type ValidatedData = {
+  page: number;
+  perPage: number;
+  sort: {
+    createdOn?: number;
+  };
+  searchValue: string;
+};
+
+async function handler(ctx: AppKoaContext<ValidatedData>) {
   const {
     perPage, page, sort, searchValue,
   } = ctx.validatedData;
@@ -41,6 +51,6 @@ async function handler(ctx: $TSFixMe) {
   };
 }
 
-export default (router: $TSFixMe) => {
+export default (router: AppRouter) => {
   router.get('/', validate(schema), handler);
 };
