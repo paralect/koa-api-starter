@@ -1,4 +1,4 @@
-import Migration from 'migrations/migration';
+import { Migration } from 'migrations/migration.types';
 import migrationService from 'migrations/migration.service';
 import userService from 'resources/user/user.service';
 
@@ -8,12 +8,15 @@ migration.migrate = async () => {
   const userIds = await userService.distinct('_id', {
     isEmailVerified: true,
   });
-  
-  await migrationService.promiseLimit(userIds, 50, (userId: string) => userService.update({ _id: userId },
+
+  const updateFn = (userId: string) => userService.update(
+    { _id: userId },
     () => ({
       isEmailVerified: false,
     }),
-  ));
+  );
+  
+  await migrationService.promiseLimit(userIds, 50, updateFn);
 };
 
 export default migration;

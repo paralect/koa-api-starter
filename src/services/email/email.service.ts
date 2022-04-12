@@ -18,7 +18,9 @@ const sendSignUpWelcome = (to: string, dynamicTemplateData: unknown) => emailSer
   dynamicTemplateData,
 });
 
-const sendForgotPassword = (to: string, dynamicTemplateData: unknown) => emailService.sendSendgridTemplate({
+const sendForgotPassword = (
+  to: string, dynamicTemplateData: { [key: string]: unknown; },
+) => emailService.sendSendgridTemplate({
   to,
   subject: 'Welcome',
   templateId: 'your-template-id',

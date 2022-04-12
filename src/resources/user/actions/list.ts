@@ -16,7 +16,7 @@ type ValidatedData = {
   page: number;
   perPage: number;
   sort: {
-    createdOn?: number;
+    createdOn: any; // TODO: expose SortDirection from node-mongo and cast here
   };
   searchValue: string;
 };

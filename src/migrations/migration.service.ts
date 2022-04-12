@@ -46,7 +46,7 @@ const setNewMigrationVersion = (version: number) => service.atomic.findOneAndUpd
   },
 }, { upsert: true });
 
-const promiseLimit = (documents: unknown[], limit: number, operator: (doc: unknown) => any): Promise<void> => {
+const promiseLimit = (documents: unknown[], limit: number, operator: (doc: any) => any): Promise<void> => {
   const chunks = _.chunk(documents, limit);
 
   return chunks.reduce((init: any, chunk) => {

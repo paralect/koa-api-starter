@@ -6,8 +6,10 @@ function formatError(joiError: ValidationError): ValidationErrors {
 
   joiError.details.forEach((error: ValidationErrorItem) => {
     const key = error.path.join('.');
-    errors[key] = errors[key] || [];
-    errors[key].push(error.message);
+    if (!errors[key]) {
+      errors[key] = [];
+    }
+    (errors[key] as string[]).push(error.message);
   });
 
   return errors;

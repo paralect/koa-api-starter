@@ -10,10 +10,11 @@ const render = async (templatePath: string, templateParams: unknown) => {
   return compiledHtml(templateParams);
 };
 
+type From = { email: string, name: string };
 class MailService {
   apiKey: string;
 
-  from: string;
+  from: From;
 
   templatesDir: string;
 
@@ -21,7 +22,7 @@ class MailService {
     apiKey,
     templatesDir,
     from,
-  }: { apiKey: string, templatesDir: string, from: string }) {
+  }: { apiKey: string, templatesDir: string, from: From }) {
     this.apiKey = apiKey;
     this.from = from;
     this.templatesDir = templatesDir;

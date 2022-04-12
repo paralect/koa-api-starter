@@ -36,6 +36,9 @@ const run = async (migrations: Migration[], curVersion: number) => {
       const startTime = new Date().getSeconds();
       await migrationLogService.startMigrationLog(migrationLogId, startTime, migration.version); //eslint-disable-line
       logger.info(`Migration #${migration.version} is running: ${migration.description}`);
+      if (!migration.migrate) {
+        throw new Error('migrate function is not defined for the migration');
+      }
       await migration.migrate(); //eslint-disable-line
 
       lastMigrationVersion = migration.version;
@@ -54,7 +57,9 @@ const run = async (migrations: Migration[], curVersion: number) => {
     if (migration) {
       logger.error(`Failed to update migration to version ${migration.version}`);
       logger.error(err);
-      await migrationLogService.failMigrationLog(migrationLogId, new Date(), err);
+      if (migrationLogId) {
+        await migrationLogService.failMigrationLog(migrationLogId, new Date().getSeconds(), err as Error);
+      }
     }
    
     throw err;

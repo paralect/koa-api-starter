@@ -20,6 +20,8 @@
     "build": "run-s build:**",
     "build:tcs": "tsc",
     "build:email": "npm run copy-assets && mjml ./src/assets/emails/*.mjml -o ./src/assets/emails/dist/",
+    "test": "run-s test:**",
+    "test:lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
     "dev": "nodemon --watch src -e ts,tsx --exec ts-node --project tsconfig.json src/app.ts",
     "start": "node dist/src/app.js",
     "migrate": "ts-node ./src/migrator.ts",
