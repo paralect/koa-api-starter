@@ -1,3 +1,5 @@
+# This repository is no longer maintained. Check [Ship](https://github.com/paralect/ship).
+
 # Koa.JS REST api starter 
 
 [![Stack](https://raw.githubusercontent.com/paralect/stack/master/stack-component-template/stack.png)](https://github.com/paralect/stack)
